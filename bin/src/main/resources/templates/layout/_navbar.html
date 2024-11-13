@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<body>
+	<nav class="navbar navbar-expand-lg px-3">
+      <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="IMG/logotrang.png"  height="65" alt="Logo">
+        </a>
+
+        <!-- Search Box -->
+        <div class="search-box me-auto">
+          <form action="#" class="d-flex position-relative">
+              <input class="form-control me-2" id="search" name="search" type="search" placeholder="Tìm kiếm theo tên sản phẩm..." aria-label="Search">
+              <button type="submit">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+          </form>
+        </div>
+
+
+        <!-- Navigation Links -->
+        <ul class="navbar-nav d-flex align-items-center">
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white d-flex align-items-center" href="#">
+                    <i class="fa-solid fa-phone-volume fa-2x me-2"></i>
+                    <span>
+                        Hotline<br>0773699825
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white d-flex align-items-center" href="#">
+                    <button class="btn btn-light me-2">
+                        <i class="fa-regular fa-user fa-2" style="color: black;"></i>
+                    </button>
+                    <span>
+                        Tài khoản<br><b>Đăng nhập</b>
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <a class="nav-link text-white d-flex align-items-center" href="#">
+                    <button class="btn btn-light me-2">
+                        <i class="fa-solid fa-cart-shopping fa-2" style="color: black;"></i>
+                    </button>
+                    <span>Giỏ hàng</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="d-lg-none">
+            <a for="chk1" id="menu" class="text-white">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        
+        <input type="checkbox" id="chk1" style="display:none;">
+      </div>
+    </nav>
+</body>
+</html>
