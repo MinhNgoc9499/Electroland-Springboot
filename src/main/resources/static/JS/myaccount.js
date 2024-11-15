@@ -17,7 +17,7 @@ function showContent(contentType) {
                     <form>
                         <div class="form-group">
                             <label for="name">Họ tên</label>
-                            <input type="text" class="form-control" id="name" value="Nguyễn Thị Minh Ngọc">
+                            <input type="text" class="form-control" id="name" th:text="*{hoTen}>
                         </div>
                         <div class="form-group">
                             <label for="phone">Số điện thoại</label>

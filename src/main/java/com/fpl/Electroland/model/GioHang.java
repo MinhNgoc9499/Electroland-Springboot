@@ -1,7 +1,5 @@
 package com.fpl.Electroland.model;
 
-import org.hibernate.annotations.ManyToAny;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,17 +16,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"idSP","idKH"}))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSP", "idKH" }))
 public class GioHang {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	int soLuong;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idSP")
 	SanPham sanPham;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "idKH")
 	KhachHang khachHang;

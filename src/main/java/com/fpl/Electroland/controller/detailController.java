@@ -11,7 +11,7 @@ import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.KhachHang;
 
 @Controller
-public class indexController {
+public class detailController {
 
 	@Autowired
 	LoaiKhachHangDAO dao;
@@ -24,9 +24,9 @@ public class indexController {
 		return author.getUserKhachHang();
 	}
 
-	@GetMapping("/index")
+	@GetMapping("/detail")
 	public String getIndexPage(Model model) {
-		return "index";
+		return "Detail";
 	}
 
 }
