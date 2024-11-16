@@ -67,11 +67,7 @@ public class LoginController {
 		if (isEmailExists(khachHangDK.getEmail())) {
 			model.addAttribute("error", "Email đã được đăng ký");
 			return "login";
-<<<<<<< HEAD
 		} else if (isSoDienThoaiExists(khachHangDK.getSdt())) {
-=======
-		} else if (isSoDienThoaiExists(khachHangDK.getStd())) {
->>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 			model.addAttribute("error", "Số điện thoại đã được đăng ký");
 			return "login";
 		} else {
@@ -113,11 +109,7 @@ public class LoginController {
 	}
 
 	public boolean isSoDienThoaiExists(String soDienThoai) {
-<<<<<<< HEAD
 		Optional<KhachHang> khachHang = getList().stream().filter(kh -> kh.getSdt().equals(soDienThoai)).findFirst();
-=======
-		Optional<KhachHang> khachHang = getList().stream().filter(kh -> kh.getStd().equals(soDienThoai)).findFirst();
->>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 		return khachHang.isPresent();
 	}
 

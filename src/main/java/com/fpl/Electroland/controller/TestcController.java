@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.fpl.Electroland.dao.LoaiSanPhamDAO;
 import com.fpl.Electroland.model.LoaiSanPham;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TestcController {

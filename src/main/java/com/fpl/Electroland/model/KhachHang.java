@@ -30,24 +30,10 @@ public class KhachHang {
 	String sdt;
 	Boolean gioiTinh;
 	String email, matKhau;
-<<<<<<< HEAD
 	String avaImg;
-=======
->>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 	Boolean trangThai;
 
 	@ManyToOne
 	@JoinColumn(name = "idLoaiKH")
 	private LoaiKhachHang loaiKhachHang;
-<<<<<<< HEAD
-=======
-
-	@Override
-	public String toString() {
-		return "KhachHang [id=" + id + ", hoTen=" + hoTen + ", ngaySinh=" + ngaySinh + ", std=" + std + ", gioiTinh="
-				+ gioiTinh + ", email=" + email + ", matKhau=" + matKhau + ", trangThai=" + trangThai
-				+ ", loaiKhachHang=" + loaiKhachHang + "]";
-	}
-
->>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 }
