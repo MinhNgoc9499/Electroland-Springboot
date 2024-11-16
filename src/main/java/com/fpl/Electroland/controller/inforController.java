@@ -1,5 +1,6 @@
 package com.fpl.Electroland.controller;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.fpl.Electroland.dao.KhachHangDAO;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
+>>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.KhachHang;
@@ -24,6 +33,7 @@ public class inforController {
 	LoaiKhachHangDAO dao;
 
 	@Autowired
+<<<<<<< HEAD
 	KhachHangDAO khDAO;
 
 	@Autowired
@@ -35,6 +45,10 @@ public class inforController {
 		return list;
 	}
 
+=======
+	Author author;
+
+>>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 	@ModelAttribute("user")
 	public KhachHang getUser() {
 		return author.getUserKhachHang();
@@ -42,11 +56,16 @@ public class inforController {
 
 	@GetMapping("/infor")
 	public String getIndexPage(Model model) {
+<<<<<<< HEAD
 		return "_user_infor";
+=======
+		return "myaccount";
+>>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 	}
 
 	@GetMapping("/order")
 	public String getOrder(Model model) {
+<<<<<<< HEAD
 		return "_user_order_history";
 	}
 
@@ -84,4 +103,9 @@ public class inforController {
 	public boolean isEmailExists(String email) {
 		return khDAO.findByEmail(email).isPresent();
 	}
+=======
+		return "order-history";
+	}
+
+>>>>>>> 9d5f547eac41afd5fc05cf6692cb71a3c3d2d19b
 }
