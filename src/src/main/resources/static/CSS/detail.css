@@ -1,0 +1,33 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body Styling */
+  body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+  }
+  .product-image {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: contain;
+  }
+  .product-info {
+    padding: 2rem;
+  }
+  .rating {
+    font-size: 1.2rem;
+  }
+  .rating i {
+    color: #ffc107;
+  }
+  .rating span {
+    color: #6c757d;
+  }

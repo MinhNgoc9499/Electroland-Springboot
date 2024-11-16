@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/layout/Layout_inforPage::dynamic(~{::body},~{::title})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Electro Land</title>
+</head>
+
+<body>
+    <div class="card p-4">
+        <div class="tab-container">
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('completed')">Hoàn thành</button>
+                <button class="tab" onclick="showTab('processing')">Đang xử lý</button>
+                <button class="tab" onclick="showTab('cancelled')">Đã hủy</button>
+            </div>
+        </div>
+        <div class="search-box1 mt-5">
+            <input type="text" placeholder="Tìm đơn hàng theo mã đơn hàng..." />
+            <button class="search-btn">Tìm kiếm</button>
+        </div>
+
+        <div class="tab-content" id="completed">
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày</th>
+                        <th>Trạng thái</th>
+                        <th>Giá</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#3456_768</td>
+                        <td>October 17, 2023</td>
+                        <td>Hoàn thành</td>
+                        <td>5.350.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#3456_768</td>
+                        <td>October 17, 2023</td>
+                        <td>Hoàn thành</td>
+                        <td>5.350.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#3456_768</td>
+                        <td>October 17, 2023</td>
+                        <td>Hoàn thành</td>
+                        <td>5.350.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-content" id="processing" style="display: none;">
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày</th>
+                        <th>Trạng thái</th>
+                        <th>Giá</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#1234_567</td>
+                        <td>October 18, 2023</td>
+                        <td>Đang xử lý</td>
+                        <td>2.150.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#1234_567</td>
+                        <td>October 18, 2023</td>
+                        <td>Đang xử lý</td>
+                        <td>2.150.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#1234_567</td>
+                        <td>October 18, 2023</td>
+                        <td>Đang xử lý</td>
+                        <td>2.150.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-content" id="cancelled" style="display: none;">
+            <table class="order-table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Ngày</th>
+                        <th>Trạng thái</th>
+                        <th>Giá</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#7890_123</td>
+                        <td>October 19, 2023</td>
+                        <td>Đã hủy</td>
+                        <td>1.000.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#7890_123</td>
+                        <td>October 19, 2023</td>
+                        <td>Đã hủy</td>
+                        <td>1.000.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#7890_123</td>
+                        <td>October 19, 2023</td>
+                        <td>Đã hủy</td>
+                        <td>1.000.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                    <tr>
+                        <td>#7890_123</td>
+                        <td>October 19, 2023</td>
+                        <td>Đã hủy</td>
+                        <td>1.000.000 đ</td>
+                        <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="JS/order-history.js"></script>
+</body>
+</html>

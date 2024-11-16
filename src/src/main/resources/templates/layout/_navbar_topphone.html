@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<body>
+	<div class="top-phone-nav" th:fragment="nav_topphone(title,list)">
+        <div class="card">
+            <div class="card-body">
+                <span class="card-title" th:text="${title}"></span>
+                <button th:each="item : ${list}" th:text="${item}"></button>
+                <button>Xem tất cả</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

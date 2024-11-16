@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/layout/Layout_inforPage::dynamic(~{::body},~{::title})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Electro Land</title>
+</head>
+
+<body>
+    <div class="card p-5">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="/IMG/iPhone-16-Pro-Series-Desert1.jpg" alt="iPhone 16 128GB" class="img-thumbnail m-3" style="width: 60px;">
+                            <div>
+                                <div>iPhone 16 128GB</div>
+                                <div>Chính hãng</div>
+                                <div>VNA</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>22.490.000 đ</td>
+                    <td>1</td>
+                    <td>22.490.000 đ</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img src="/IMG/iphone-15-pro-max-blue-thumbnew-600x600.jpg" alt="iPhone 15 128GB" class="img-thumbnail m-3" style="width: 60px;">
+                            <div>
+                                <div>iPhone 15 128GB</div>
+                                <div>Chính hãng</div>
+                                <div>VNA</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>18.490.000 đ</td>
+                    <td>1</td>
+                    <td>18.490.000 đ</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="card p-4">
+            <h5 class="card-title"><strong>Thông tin đơn hàng</strong></h5>
+            <hr>
+            <div class="row mt-3">
+                <div class="col-md-5">
+                    <p><strong>Chi tiết</strong></p>
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Tổng:</strong></p>
+                        <p>40.980.000 đ</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Giảm:</strong></p>
+                        <p>-409.800 đ</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Phí vận chuyển:</strong></p>
+                        <p>0.00 đ</p>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <p><strong>Thanh toán:</strong></p>
+                        <p>40.570.200 đ</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-7">
+                    <p><strong>Địa chỉ</strong></p>
+                    <p>Minh Ngọc <span>0899494520</span></p>
+                    <p>696/4 Âu Cơ, Phường 14, Tân Bình, TP Hồ Chí Minh</p>
+                        <p><strong>Phương thức thanh toán</strong></p>
+                        <p>Thẻ tín dụng</p>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!-- Nút Đặt Lại và Đánh Giá -->
+        <div class="d-flex justify-content-end mt-4">
+            <button type="button" class="btn btn-outline-primary">Đặt lại</button>
+            <button type="button" class="btn btn-outline-primary ml-4">Đánh giá</button>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="JS/order-history.js"></script>
+</body>
+</html>

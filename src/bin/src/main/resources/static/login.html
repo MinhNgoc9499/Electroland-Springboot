@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="CSS/login.css">
+    <link rel="shortcut icon" type="image/png" href="img/logo.png">
+</head>
+<body>
+    <div class="container" id="container">
+        <div class="form-container register-container">
+            <form th:action="@{/register}" th:object="${user}" method="post">
+                <h1 style="text-align: center;margin-top:40px;margin-bottom:20px;">ĐĂNG KÝ</h1>
+                <div class="row mt-4">
+                    <div class="col-md-6 left-side">
+                        <input type="text" th:field="*{hoTen}" placeholder="Họ tên" required>
+                        <input type="email" th:field="*{email}" placeholder="Email" required>
+                        <input type="password" th:field="*{password}" placeholder="Mật khẩu" required>
+                    </div>
+                    <div class="col-md-6 right-side">    
+                        <input type="text" th:field="*{phoneNumber}" placeholder="Số điện thoại" required>
+                        <input type="date" th:field="*{birthDate}" placeholder="Ngày sinh" required>
+                        <input type="password" th:field="*{confirmPassword}" placeholder="Xác nhận mật khẩu" required>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="checkbox mb-4">
+                        <input type="checkbox" th:field="*{termsAccepted}" style="margin-left: 10px;">
+                        <label style="font-size: 12px;">Tôi chấp nhận mọi điều khoản và chính sách của website</label>
+                    </div>
+                </div>
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-md-6 left-side">
+                        <button class="btn1 primary" type="submit">Đăng ký</button>
+                    </div>
+                    <div class="col-md-6 right-side">
+                        <button class="btn1 google">
+                            <img src="ICON/googleicon.png" alt="Google Icon" class="google-icon">
+                            Đăng ký với Google
+                        </button>
+                    </div>
+                </div>    
+            </form>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
+    <script src="JS/login.js"></script>
+</body>
+</html>

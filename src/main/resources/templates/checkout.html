@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Thanh Toán</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <link rel="stylesheet" href="CSS/order-history-detail.css">
+    <link rel="stylesheet" href="CSS/order-history.css">
+    <link rel="stylesheet" href="CSS/user-infor.css">
+    <link rel="stylesheet" href="CSS/user-address.css">
+    <link rel="stylesheet" href="css/checkout.css" />
+</head>
+
+<body>
+    <header th:replace="layout/_header :: body"> </header>
+    <div class="container my-5">
+        <div class="breadcrumb-links">
+            <h3>Giỏ hàng</h3>
+            <span>></span>
+            <a href="/giohang">
+                <h3>Thanh toán</h3>
+            </a>
+        </div>
+
+        <div class="row g-4">
+            <!-- Phần bên trái: Thông tin sản phẩm và khách hàng -->
+            <div class="col-lg-7">
+                <div class="checkout-section">
+                    <h4>Thông tin khách hàng</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label for="last-name" class="form-label">Họ tên</label>
+                            <input type="text" class="form-control" id="name">
+                            <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Số điện thoại</label>
+                            <input type="text" class="form-control" id="phone">
+                            <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email">
+                            <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                        </div>
+                    </form>
+
+                    <h4 class="mt-4">Thông tin giao hàng</h4>
+                    <div class="mb-3">
+                        <label for="country" class="form-label">Địa chỉ</label>
+                        <select class="form-select" id="country" required>
+                            <option value="Mặc định">696/4 Âu Cơ, Phường 14, Tân Bình, Thành phố Hồ Chí Minh
+                            </option>
+                            <option value="Địa chỉ 1">Địa chỉ 1</option>
+                            <option value="Địa chỉ 2">Địa chỉ 2</option>
+                            <option value="Địa chỉ 3">Địa chỉ 3</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="note" class="form-label">Ghi chú</label>
+                        <textarea class="form-control" id="note" rows="3"></textarea>
+                        <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                    </div>
+                    <h4 class="mt-4">Phương thức giao hàng</h4>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="shipping" id="standard" checked>
+                        <label class="form-check-label" for="standard">Standard (Miễn phí)</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="shipping" id="express">
+                        <label class="form-check-label" for="express">Express (50.000 đ)</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phần bên phải: Thông tin đơn hàng và thanh toán -->
+            <div class="col-lg-5">
+                <div class="checkout-summary">
+                    <h4>Sản phẩm trong đơn</h4>
+                    <div class="cart-item">
+                        <div class="product-name">Amazfit BIP S</div>
+                        <div>1</div>
+                        <div>990.000 đ</div>
+                    </div>
+                    <div class="cart-item">
+                        <div class="product-name">Tai nghe Sony</div>
+                        <div>1</div>
+                        <div>1.200.000 đ</div>
+                    </div>
+                    <div class="cart-item">
+                        <div class="product-name">Bàn phím cơ Razer</div>
+                        <div>1</div>
+                        <div>1.500.000 đ</div>
+                    </div>
+
+                    <h4 class="mt-4">Thông tin đơn hàng</h4>
+                    <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between">
+                            <span><strong>Tổng tiền</strong></span>
+                            <span>3.690.000 đ</span>
+                        </li>
+                        <li class="d-flex justify-content-between hot-deal">
+                            <span>Khuyến mãi</span>
+                            <span>-500.000 đ</span>
+                        </li>
+                        <li class="d-flex justify-content-between hot-deal">
+                            <span>Phí vận chuyển</span>
+                            <span>Miễn phí</span>
+                        </li>
+                    </ul>
+                    <div class="d-flex justify-content-between mt-3">
+                        <span><strong>Cần thanh toán</strong></span>
+                        <span class="total-price">3.190.000 đ</span>
+                    </div>
+                    <div class="container my-5">
+                        <div class="checkout-section">
+                            <h4>Phương thức thanh toán</h4>
+                            <div class="row">
+                                <div class="payment-methods col-md-12">
+                                    <div class="payment-method selected" onclick="selectPaymentMethod(this)">
+                                        <img src="./IMG/cash.png" alt="COD Icon">
+                                        <p>Thanh toán khi nhận hàng</p>
+                                    </div>
+                                    <div class="payment-method" onclick="selectPaymentMethod(this)">
+                                        <img src="./IMG/banking.png" alt="ATM Icon">
+                                        <p>Chuyển khoản ngân hàng</p>
+                                    </div>
+                                    <div class="payment-method " onclick="selectPaymentMethod(this)">
+                                        <img src="./IMG/Logo-MoMo-Circle.webp" alt="MoMo Icon">
+                                        <p>Ví MoMo</p>
+                                    </div>
+                                    <div class="payment-method " onclick="selectPaymentMethod(this)">
+                                        <img src="./IMG/palopay.png" alt="ZaloPay Icon">
+                                        <p>Ví ZaloPay</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-checkout" data-bs-toggle="modal"
+                                data-bs-target="#paymentModal">
+                                Thanh toán
+                            </button>
+                            <!-- Modal Thanh toán -->
+                            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <!-- Cảnh báo -->
+                                        <div class="alert alert-warning" role="alert">
+                                            Quý khách vui lòng không tắt trình duyệt cho đến khi nhận được kết quả giao
+                                            dịch trên website. Xin cảm ơn!
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <!-- Phần bên trái: Thông tin đơn hàng -->
+                                            <div class="order-info-section">
+                                                <h5>Thông tin giao dịch</h5>
+                                                <div class="info-item">
+                                                    <p>Đơn vị thụ hưởng: <span>ELECTROLAND - Hệ thống bán lẻ thiết bị
+                                                            điện tử</span></p>
+                                                </div>
+                                                <div class="info-item">
+                                                    <p>Số tiền thanh toán: <span>57.990.000 VND</span></p>
+                                                </div>
+                                                <div class="info-item">
+                                                    <p>Nội dung thanh toán: <span>Thanh toán cho thiết bị điện tử, mã
+                                                            đơn hàng #168686008935</span></p>
+                                                </div>
+                                                <div class="info-item">
+                                                    <p>Ngân hàng: <span>ViettinBank - Ngân hàng TMCP Công thương Việt
+                                                            Nam</span></p>
+                                                </div>
+                                                <div class="info-item">
+                                                    <p>Mã thanh toán: <span>168686008935</span></p>
+                                                </div>
+                                                <div class="info-item">
+                                                    <p>Nhà cung cấp: <span>CÔNG TY CỔ PHẦN BÁN LẺ KỸ THUẬT SỐ
+                                                            ELECTROLAND</span></p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Phần bên phải: Mã QR -->
+                                            <div class="qr-code-section">
+                                                <h5>Quét mã qua ứng dụng Ngân hàng/ Ví điện tử</h5>
+                                                <img src="https://api.qrserver.com/v1/create-qr-code/?data=ThanhToan123456789&size=200x200"
+                                                    alt="QR code">
+                                                <p>Scan to Pay</p>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+                                                    aria-label="Close">Hủy thanh toán</button>
+
+                                                <!-- Đồng hồ đếm ngược -->
+                                                <div class="timer" id="timer">5:00</div>
+
+                                                <!-- Thông báo thành công -->
+                                                <div class="success-message" id="successMessage">Giao dịch thành công!
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <script src="js/checkout.js"></script>
+
+</body>
+
+</html>

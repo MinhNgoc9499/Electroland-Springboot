@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/layout/Layout_Admin::dynamic(~{::body},~{::title})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm chi tiết</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/productDetailADM.css"> <!-- Đường dẫn tới file CSS -->
+</head>
+<body>
+    <div class="col-10">
+        <h1 class="mb-3">Sản phẩm</h1>
+        <div class="row">
+            <div class="col-10">
+                <div class="input-group mb-3">
+                    <!-- Biểu tượng tìm kiếm -->
+                    <span class="input-group-text" style="background-color: #ffffff;">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <!-- Thanh tìm kiếm -->
+                    <input type="text" class="form-control custom-search-input" placeholder="Tìm mã sản phẩm, tên sản phẩm">
+                    <!-- Biểu tượng dấu cộng -->
+                    <span class="input-group-text" style="background-color: #ffffff;">
+                        <i class="fa-solid fa-plus"></i>
+                    </span>
+                </div>
+            </div>
+            <div class="col-2 d-flex flex-column">
+                <button class="btn btn-success">In báo cáo</button>
+            </div>
+        </div>
+        <div class="col-12">
+                <div class="invoice-details p-3 border rounded mt-4" style="background-color: #ffffff;">
+                    <form>
+                        <div class="text-center mb-5">
+                            <h3>Chi tiết sản phẩm</h3>
+                        </div>
+                        <div class="row mb-3 mb-4 align-items-center">
+                            <div class="col-sm-2">
+                                <label for="maSanPham" class="form-label">Mã sản phẩm</label>
+                            </div>
+                            <div class="col-sm-10 input-form">
+                                <input type="text" class="form-control mb-1" id="maSanPham" placeholder="1006004">
+                                <span id="maSanPhamError" class="text-danger error">Vui lòng nhập mã sản phẩm.</span>
+                            </div>
+                        
+                        </div>
+                        
+                        <div class="row mb-3 mb-4 align-items-center">
+                            <div class="col-sm-2">
+                                <label for="tenSanPham" class="form-label">Tên sản phẩm</label>
+                            </div>
+                            <div class="col-sm-10 input-form">
+                                <input type="text" class="form-control mb-1" id="tenSanPham" placeholder="Marshall Acton 3">
+                                <p id="tenSanPhamError" class="text-danger error" >Tên sản phẩm không được để trống.</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3 mb-4 align-items-center">
+                            <div class="col-sm-2">
+                                <label for="maPhanLoai" class="form-label">Mã phân loại</label>
+                            </div>
+                            <div class="col-sm-4 input-form">
+                                <input type="text" class="form-control mb-1" id="maPhanLoai" placeholder="loa">
+                                <span id="maPhanLoaiError" class="text-danger error" >Mã phân loại không hợp lệ.</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3 mb-4">
+                            <!-- Cặp 1 -->
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-4">
+                                        <label for="giaNiemYet" class="form-label">Giá niêm yết</label>
+                                    </div>
+                                    <div class="col-sm-8 input-form">
+                                        <input type="number" class="form-control mb-1" id="giaNiemYet" placeholder="7,990,000 vnd">
+                                        <span id="giaNiemYetError" class="text-danger error">Vui lòng nhập giá tiền</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Cặp 2 -->
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-4" style="margin-top:7px;">
+                                        <label for="soLuong" class="form-label">Số lượng</label>
+                                    </div>
+                                    <div class="col-sm-8 input-form">
+                                        <input type="number" class="form-control mb-1" id="soLuong" placeholder="3">
+                                        <span id="soLuongError" class="text-danger error">Số lượng phải lớn hơn 0.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3 mb-4">
+                            <!-- Cặp 1 -->
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-4">
+                                        <label class="form-label">Màu sắc</label>
+                                    </div>
+                                    <div class="col-sm-8 input-form">
+                                        <select class="form-select mb-1" id="colorSelect" name="colorSelect">
+                                            <option value="green" style="background-color: green;">Xanh lá</option>
+                                            <option value="yellow" style="background-color: yellow;">Vàng</option>
+                                            <option value="black" style="background-color: black; color: white;">Đen</option>
+                                            <option value="white" style="background-color: white;">Trắng</option>
+                                        </select>
+                                        <span id="colorSelectError" class="text-danger error">Vui lòng chọn màu sắc.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+
+                            <!-- Cặp 2 -->
+                            <div class="col-sm-6">
+                                <div class="row align-items-center">
+                                    <div class="col-sm-4">
+                                        <label for="dungLuong" class="form-label mb-1">Dung lượng</label>
+                                    </div>
+                                    <div class="col-sm-8 input-form">
+                                        <div class="radio-inline">
+                                            <input type="radio" id="64GB" name="dungLuong" value="16GB">
+                                            <label for="64GB">64GB</label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="128GB" name="dungLuong" value="128GB">
+                                            <label for="128GB">128GB</label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="256GB" name="dungLuong" value="256GB">
+                                            <label for="256GB">256GB</label>
+                                        </div>
+                                        <div class="radio-inline">
+                                            <input type="radio" id="512GB" name="dungLuong" value="512GB">
+                                            <label for="512GB">512GB</label>
+                                        </div>
+                                        <span id="dungLuongError" class="text-danger error">Vui lòng chọn dung lượng.</span>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3 mb-4 align-items-center">
+                            <div class="col-sm-2">
+                                <label for="fileUpload" class="form-label mb-1">Chọn file</label>
+                            </div>
+                            <div class="col-sm-10 input-form">
+                                <input type="file" class="form-control" id="fileUpload" name="fileUpload">
+                                <span id="fileUploadError" class="text-danger error">Vui lòng chọn một file hợp lệ.</span>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="text-end mt-5">
+                        <button id="saveBtn" class="btn custom1-btn">Lưu</button>
+                        <button id="deleteBtn" class="btn custom1-btn">Xóa</button>
+                        <button id="editBtn" class="btn custom1-btn">Sửa</button>
+                        <button id="newBtn" class="btn custom1-btn">Mới</button>
+                    </div>
+                </div>
+        </div>
+    </div>
+</body>
+<script src="https://kit.fontawesome.com/6d391eb7f8.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tH+1f08ocSTXzovvHehExYgg3Tb5ZpH1wO17/yFMyZ2iqKctbTn7d9c6" crossorigin="anonymous"></script>
+</html>

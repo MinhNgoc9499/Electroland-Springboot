@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tài khoản của tôi</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <link rel="stylesheet" href="CSS/user-infor.css">
+</head>
+
+<body>
+    <div class="container mt-5" th:object="${user}">
+        <h2 class="mb-4 ml-5" style="font-weight: bold; color: #333; text-align: left;">Tài khoản của tôi</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <div class="card p-4 ml-5">
+                    <div class="position-relative d-inline-block">
+                        <img src="./IMG/avatar.jpg" class="rounded-circle img-fluid profile-img" alt="Profile Picture">
+                    </div>
+                    <h4 class="card-title" th:text="*{hoTen}">Minh Ngọc</h4>
+                    <div class="list-group text-left">
+                        <a class="list-group-item list-group-item-action" href="/infor">
+                            <i class="fas fa-user"></i> Thông tin tài khoản
+                        </a>
+                        <a class="list-group-item list-group-item-action active" href="/order">
+                            <i class="fas fa-shopping-cart"></i> Lịch sử mua sắm
+                        </a>
+                        <a class="list-group-item list-group-item-action" href="/addre">
+                            <i class="fas fa-map-marker-alt"></i> Địa chỉ
+                        </a>
+                    </div>
+                    <a href="#" class="btn btn-danger"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Họ tên</label>
+                            <input type="text" class="form-control" id="name" th:field="*{hoTen}">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Số điện thoại</label>
+                            <input type="text" class="form-control" id="phone" th:field="*{std}">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" th:field="*{email}">
+                        </div>
+                        <div class="form-group ">
+                            <label>Giới tính</label>
+                            <span class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="male" value="true"
+                                    th:checked="*{gioiTinh == true}" style="margin-left: 15px;">
+                                <label class="form-check-label" for="male" style="margin-bottom: -3px;">Nam</label>
+                            </span>
+                            <span class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gender" id="female" value="false"
+                                    th:checked="*{gioiTinh == false}" style="margin-left: 15px;">
+                                <label class="form-check-label" for="female" style="margin-bottom: -3px;">Nữ</label>
+                            </span>
+                        </div>
+                        <!-- <div class="form-group">
+                            <label class="mb-3">Ngày sinh</label>
+                            <div class="form-row">
+                                <div class="d-flex justify-content-between">
+                                    <div class="dropdown mr-4">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dayDropdown"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Ngày
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dayDropdown" id="dayDropdownMenu">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown mr-4">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            id="monthDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Tháng
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="monthDropdown"
+                                            id="monthDropdownMenu">
+
+                                        </div>
+                                    </div>
+
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button"
+                                            id="yearDropdown" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Năm
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="yearDropdown" id="yearDropdownMenu">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="form-group">
+                            <label for="phone">Ngày sinh</label>
+                            <input type="date" th:field="*{ngaySinh}" placeholder="Ngày sinh (MM/DD/YY)" name="ngaySinh" class="form-control" required />
+                        </div>
+                    
+                        <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- jQuery, Popper.js, and Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script src="JS/user-infor.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>

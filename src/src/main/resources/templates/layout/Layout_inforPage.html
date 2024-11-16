@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:fragment="dynamic(view,title)">
+
+<head>
+<meta charset="UTF-8">
+<title th:replace=${title}></title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+<link rel="stylesheet" href="CSS/order-history-detail.css">
+<link rel="stylesheet" href="CSS/order-history.css">
+<link rel="stylesheet" href="CSS/user-infor.css">
+<link rel="stylesheet" href="CSS/user-address.css">
+<style> #fileInput { opacity: 0;
+position: absolute; z-index: -10 } </style>
+</head>
+
+<body class="">
+	<header th:replace="layout/_header :: body"> </header>
+
+	<div class="bottom-navbar">
+		<div class="container">
+			<a href="#"><i class="fa fa-ticket"></i> Săn Voucher</a> <a href="#"><i
+				class="fa fa-newspaper"></i> Tin công nghệ</a> <a href="#"><i
+				class="fa fa-credit-card"></i> Hướng dẫn thanh toán</a> <a href="#"><i
+				class="fa fa-info-circle"></i> Hướng dẫn trả góp</a> <a href="#"><i
+				class="fa fa-wrench"></i> Tra cứu bảo hành</a>
+		</div>
+	</div>
+	<div class="container mt-5" th:object="${user}">
+		<div class="row">
+			<div class="col-md-4 text-center">
+				<div class="card p-4 ml-5">
+					<form action="/infor">
+						<input type="file" id="fileInput"
+							class="position-relative d-inline-block" hidden />
+						<img id="profileImg" th:src="@{'./IMG/' + *{avaImg}}"
+							class="rounded-circle img-fluid profile-img"
+							alt="Profile Picture">
+					</form>
+					<script>
+						// JavaScript để gắn sự kiện nhấp chuột vào thẻ img 
+						document.getElementById('profileImg').addEventListener(
+								'click',
+								function() {
+									document.getElementById('fileInput')
+											.click();
+								}); // JavaScript để xử lý sự kiện chọn tệp 
+						document.getElementById('fileInput').addEventListener(
+								'change', function(event) {
+									// Bạn có thể xử lý tệp được chọn ở đây 
+									const file = event.target.files[0];
+									console.log(file);
+								});
+					</script>
+					<h4 class="card-title" th:text="*{hoTen}"></h4>
+					<div class="list-group text-left">
+						<a class="list-group-item list-group-item-action" href="/infor">
+							<i class="fas fa-user"></i> Thông tin tài khoản
+						</a> <a class="list-group-item list-group-item-action" href="/order">
+							<i class="fas fa-shopping-cart"></i> Lịch sử mua sắm
+						</a> <a class="list-group-item list-group-item-action" href="/addre">
+							<i class="fas fa-map-marker-alt"></i> Địa chỉ
+						</a>
+					</div>
+					<a href="/dangxuat" class="btn btn-danger"><i
+						class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<main th:insert=${view}></main>
+			</div>
+			<script src="https://kit.fontawesome.com/b6b15d6477.js"
+				crossorigin="anonymous"></script>
+			<script src="JS/index.js"></script>
+</body>
+
+</html>
