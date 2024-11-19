@@ -64,7 +64,7 @@ function removeactive() {
 }
 
 function countdownTimer() {
-    const countDownDate = new Date("Nov 15, 2024 18:00:00").getTime();
+    const countDownDate = new Date("Nov 18, 2024 18:00:00").getTime();
 
     const timer = setInterval(function() {
         const now = new Date().getTime();
