@@ -1,5 +1,6 @@
 package com.fpl.Electroland.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fpl.Electroland.dao.LoaiSanPhamDAO;
 import com.fpl.Electroland.model.LoaiSanPham;
+import com.fpl.Electroland.model.NhaCungCap;
+import com.fpl.Electroland.model.SanPham;
+
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -25,6 +29,20 @@ public class TestcController {
 		return items;
 	}
 
+	SanPham sanPhamMau = new SanPham(1, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
+			22490000.0,
+			22990000.0, true,
+			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
+
+	@ModelAttribute(name = "List6")
+	public List<SanPham> getSPTest() {
+		ArrayList<SanPham> list = new ArrayList<>();
+		for (int i = 0; i < 6; i++) {
+			list.add(sanPhamMau);
+		}
+		return list;
+	}
+
 	@ModelAttribute("listCategory")
 	public List<LoaiSanPham> getListCategory() {
 		return loaiSanPhamDAO.findAll();
@@ -32,7 +50,7 @@ public class TestcController {
 
 	@RequestMapping("/testlayout")
 	public String test(Model model) {
-		return "layout/test";
+		return "Layout_Index_Test";
 	}
 
 	@GetMapping("/userAdd")

@@ -155,12 +155,10 @@ body{
 }
 
 .menu-bar {
-    margin-top: 30px;
     padding: 5px;
     background: #fff;
     border-radius: 10px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    position: relative;
 }
 
 .menu-bar .row{
@@ -305,11 +303,6 @@ body{
     list-style: none;
 }
 
-.slider{
-    margin-top: 10px;
-    padding: 20px 20px;
-    height: 350px;
-}
 
 .slider-content{
     display: flex;
@@ -376,19 +369,13 @@ body{
     font-weight: bold;
 }
 
-.slider-content-right{
-    width: 35%;
+.slider-content-right {
     display: flex;
     flex-wrap: wrap;
-    padding: 0 30px;
-    justify-content: space-around;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
-.slider-content-right li{
-    width: 100%;
-    text-align: center;
-    margin-bottom: 10px;
-}
 
 .slider-content-left-top-btn{
     position: absolute;
@@ -419,17 +406,11 @@ body{
 }
 
 .register {
-    background: linear-gradient(45deg, #00717B, #00A8CC); /* Nền chuyển màu */
+    background: linear-gradient(45deg, #00717B, #00A8CC);
     border-radius: 5px;
-    padding: 20px; /* Tăng khoảng cách để tạo cảm giác như banner */
+    padding: 10px;
     color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     text-align: center;
-    margin-left: 15px;
-    margin-right: 15px;
 }
 
 .register-link {
@@ -479,36 +460,40 @@ body{
 }
 
 
-.flashsale-body{
-    position: absolute;
+.flashsale-body {
+    position: relative;
     width: 100%;
     top: 70px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .flashsale-body .backgroundflashsale{
     width: 100%;
 }
 
-.flashsale-body .product-item{
+.flashsale-body .product-item {
     display: flex;
-    justify-content: center;
-    align-items: center; 
+    align-items: center;
     position: absolute;
-    top: 51%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 66vw;
 }
 
-.flashsale-body .card {
-    width: 20%;
-    height: 300px;
-    transform: scale(0.9);
-    transform-origin: center;
-    position: relative;
+.products{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 66vw;
 }
+.full-screen-div {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+}
+
 
 .flashsale-body .badge {
     position: absolute;
@@ -535,7 +520,7 @@ body{
 }
 
 .flashsale-body .card-body img{
-    width: 170px;
+    width: -webkit-fill-available;
 }
 
 .flashsale-body .card-body p{
@@ -570,7 +555,6 @@ body{
     color: #ffffff;
     background-color: #00717B;
     padding: 3px 7px;
-    margin-left: 5%;
     border-radius: 5px;
     border: none;
 }

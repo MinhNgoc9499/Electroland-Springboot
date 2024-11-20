@@ -1,0 +1,58 @@
+<div class="flashsale-container full-screen-div " th:fragment="flashsale" th:object="${SPTEST}">
+	<div class="flashsale-title">
+		<h3>
+			<img src="ICON/thundericon.png" alt="icon"> GIỜ VÀNG DEAL SỐC
+		</h3>
+		<div class="timer">
+			<p class="timer-title">
+				<b>Nhanh lên nào!</b><br> sự kiện sắp kết thúc
+			</p>
+			<div class="time-box">
+				<span id="hours">00</span>
+				<p>Giờ</p>
+			</div>
+			<div class="time-box">
+				<span id="minutes">00</span>
+				<p>Phút</p>
+			</div>
+			<div class="time-box">
+				<span id="seconds">00</span>
+				<p>Giây</p>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="flashsale-body">
+		<img src="IMG/backgroundflashsale.png" class="backgroundflashsale">
+
+		<div class="products">
+			<div class="row g-3 ">
+				<div class="col-2" th:each="item : ${List6}" th:object="${item}">
+					<div class="card">
+						<div class="badge">
+							<img src="ICON/badge.png"> <span>Giảm 20%</span>
+						</div>
+						<div class="card-body">
+							<img th:src="@{'IMG/' + *{hinhDaiDien}}">
+							<p class="product-name" name="name" th:text="*{tenSP}">iPhone 16 8GB 256GB |
+								Chính hãng VN/A</p>
+							<div class="product-price">
+								<span class="current-price"
+									th:text="*{#numbers.formatDecimal(giaBan, 0,0) + 'đ'}">22.490.000đ</span><span
+									class="listed-price"
+									th:text="*{#numbers.formatDecimal(giaGiam, 0,0) + 'đ'}">22.990.000đ</span>
+							</div>
+							<div class="star">
+								<i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
+									class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
+									class="fa-solid fa-star checked"></i>
+								<button class="detail">Chi tiết</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
