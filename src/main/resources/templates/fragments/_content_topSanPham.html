@@ -1,0 +1,8 @@
+<div class="row g-3" th:fragment="content_topSanPham(list)">
+	<div class=" col-2 position-relative" th:each="item : ${list}">
+		<div th:replace="~{/fragments/_card_product_template :: card_product_template(product=${item})}">
+		</div>
+	</div>
+	
+</div>
+

@@ -1,0 +1,4 @@
+<div th:fragment="topSanPham(title,nav,content)">
+	<div th:replace="~{/fragments/_nav_topSanPham::nav_topSanPham(title=${title},nav=${nav})}"></div>
+	<div th:replace="~{/fragments/_content_topSanPham::content_topSanPham(list=${content})}"></div>
+</div>

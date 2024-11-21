@@ -3,6 +3,7 @@ package com.fpl.Electroland.controller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,13 @@ public class TestcController {
 
 	@ModelAttribute("nav_topPhone")
 	public List<String> getNav_topPhone() {
-		List<String> items = Arrays.asList("Iphone", "Samsung", "Xiaomi", "Oppo", "Asus");
+		List<String> items = Arrays.asList("IPHONE", "SAMSUNG", "XIAOMI", "OPPO", "ASUS", "Xem tất cả");
+		return items;
+	}
+
+	@ModelAttribute("nav_topLaptop")
+	public List<String> getNav_topLaptop() {
+		List<String> items = Arrays.asList("MAC", "HP", "DELL", "ASUS", "ACER", "Xem tất cả");
 		return items;
 	}
 
@@ -33,6 +40,8 @@ public class TestcController {
 			22490000.0,
 			22990000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
+
+	LoaiSanPham loaiSanPhamMau = new LoaiSanPham(1, "Điện thoại", "caseiphone.jpg");
 
 	@ModelAttribute(name = "List6")
 	public List<SanPham> getSPTest() {
@@ -43,9 +52,31 @@ public class TestcController {
 		return list;
 	}
 
-	@ModelAttribute("listCategory")
-	public List<LoaiSanPham> getListCategory() {
-		return loaiSanPhamDAO.findAll();
+	@ModelAttribute(name = "List12")
+	public List<SanPham> getSPTest18() {
+		ArrayList<SanPham> list = new ArrayList<>();
+		for (int i = 0; i < 12; i++) {
+			list.add(sanPhamMau);
+		}
+		return list;
+	}
+
+	@ModelAttribute(name = "List20")
+	public List<SanPham> getSPTest20() {
+		ArrayList<SanPham> list = new ArrayList<>();
+		for (int i = 0; i < 20; i++) {
+			list.add(sanPhamMau);
+		}
+		return list;
+	}
+
+	@ModelAttribute(name = "listCategory")
+	public List<LoaiSanPham> getListCategori() {
+		ArrayList<LoaiSanPham> list = new ArrayList<>();
+		for (int i = 0; i < 20; i++) {
+			list.add(loaiSanPhamMau);
+		}
+		return list;
 	}
 
 	@RequestMapping("/testlayout")
