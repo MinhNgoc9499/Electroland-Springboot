@@ -756,13 +756,13 @@ footer {
 }
 
 .product-template .current-price {
-    font-size: 17px;
+    font-size: 16px;
     font-weight: bold;
     color: #ff0000;
 }
 
 .product-template .listed-price {
-    font-size: 12px;
+    font-size: 11px;
     text-decoration: line-through;
     margin-left: 5px;
 }

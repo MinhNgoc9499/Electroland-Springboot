@@ -49,7 +49,7 @@ public class LogoutController {
 
 	@GetMapping("/dangxuat")
 	public String dangxuat(Model model) {
-		author.setUserKhachHang(new KhachHang());
+		author.setUserKhachHang(null);
 		return "redirect:/index";
 	}
 }

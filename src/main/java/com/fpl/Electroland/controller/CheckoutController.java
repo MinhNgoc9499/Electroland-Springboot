@@ -30,11 +30,6 @@ public class CheckoutController {
 		return list;
 	}
 
-	@ModelAttribute("user")
-	public KhachHang getUser() {
-		return author.getUserKhachHang();
-	}
-
 	@GetMapping("/thanhtoan")
 	public String showRegistrationForm(Model model) {
 		return "checkout";

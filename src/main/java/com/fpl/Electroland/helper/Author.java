@@ -9,7 +9,7 @@ import com.fpl.Electroland.model.KhachHang;
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Author {
-	private KhachHang userKhachHang = new KhachHang();
+	private KhachHang userKhachHang = null;
 
 	public KhachHang getUserKhachHang() {
 		return userKhachHang;

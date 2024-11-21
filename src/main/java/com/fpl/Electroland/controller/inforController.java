@@ -35,11 +35,6 @@ public class inforController {
 		return list;
 	}
 
-	@ModelAttribute("user")
-	public KhachHang getUser() {
-		return author.getUserKhachHang();
-	}
-
 	@GetMapping("/infor")
 	public String getIndexPage(Model model) {
 		return "_user_infor";

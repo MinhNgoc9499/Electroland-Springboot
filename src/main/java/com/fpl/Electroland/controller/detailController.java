@@ -19,11 +19,6 @@ public class detailController {
 	@Autowired
 	Author author;
 
-	@ModelAttribute("user")
-	public KhachHang getUser() {
-		return author.getUserKhachHang();
-	}
-
 	@GetMapping("/detail")
 	public String getIndexPage(Model model) {
 		return "Detail";

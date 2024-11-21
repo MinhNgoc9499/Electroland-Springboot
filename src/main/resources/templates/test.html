@@ -1,70 +1,28 @@
-<!-- Form Nhập Mật Khẩu Mới -->
-<div id="new-password" class="new-password" style="display: none;">
-    <h2>Đặt lại mật khẩu</h2>
-    <p>Nhập mật khẩu mới bên dưới để tiếp tục.</p>
-    <label for="new-password-input">Mật khẩu mới</label>
-    <div class="input-group mb-3">
-        <input type="password" id="new-password-input" class="form-control" placeholder="Nhập mật khẩu mới">
-        <button class="btn btn-outline-secondary" type="button" id="toggle-password" onclick="togglePasswordVisibility()">
-            <i class="fas fa-eye" id="eye-icon"></i>
-        </button>
-    </div>
-    <p id="length-requirement" style="color: #555;">* Độ dài mật khẩu phải từ 8-20 ký tự.</p>
-    <p id="character-requirement" style="color: #555;">* Mật khẩu phải chứa chữ cái, số và ký tự đặc biệt.</p>
-    <p id="allowed-characters" style="color: #555;">* Ký tự cho phép: ~.!@#$%^&*</p>
-    <div class="buttons">
-        <button class="btn-cancel" onclick="goBackToOtp()">Quay lại</button>
-        <button class="btn-confirm" onclick="confirmNewPassword()">Đặt lại</button>
-    </div>
-</div>
-
-<script>
-    // Toggle Password Visibility
-    function togglePasswordVisibility() {
-        const newPasswordInput = document.getElementById('new-password-input');
-        const eyeIcon = document.getElementById('eye-icon');
-        
-        if (newPasswordInput.type === 'password') {
-            newPasswordInput.type = 'text';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            newPasswordInput.type = 'password';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xoay Theo Trục Y</title>
+  <style>
+    .rotate-y {
+      width: 200px;
+      height: 200px;
+      background-color: #3498db;
+      text-align: center;
+      line-height: 200px;
+      color: white;
+      font-size: 20px;
+      perspective: 500px; /* Thiết lập chiều sâu cho hiệu ứng 3D */
+      transition: transform 1s ease-in-out;
     }
 
-    // Confirm New Password
-    function confirmNewPassword() {
-        const newPassword = document.getElementById('new-password-input').value;
-        const lengthRequirement = document.getElementById('length-requirement');
-        const characterRequirement = document.getElementById('character-requirement');
-        const allowedCharacters = document.getElementById('allowed-characters');
-
-        // Regex patterns for validation
-        const lengthPattern = /^.{8,20}$/; // Length between 8-20 characters
-        const characterPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~.!@#$%^&*])/; // Must contain letters, digits, and special characters
-
-        // Validate password length
-        if (lengthPattern.test(newPassword)) {
-            lengthRequirement.style.color = 'green';
-        } else {
-            lengthRequirement.style.color = 'red';
-        }
-
-        // Validate password content
-        if (characterPattern.test(newPassword)) {
-            characterRequirement.style.color = 'green';
-        } else {
-            characterRequirement.style.color = 'red';
-        }
-
-        // Final validation and feedback
-        if (lengthPattern.test(newPassword) && characterPattern.test(newPassword)) {
-            alert("Mật khẩu mới đã được đặt lại thành công!");
-        } else {
-            alert("Vui lòng đảm bảo mật khẩu đáp ứng tất cả các yêu cầu.");
-        }
+    .rotate-y:hover {
+      transform: rotateY(180deg); /* Xoay theo trục Y 180 độ khi hover */
     }
-</script>
+  </style>
+</head>
+<body>
+  <div class="rotate-y">Xoay theo Y</div>
+</body>
+</html>

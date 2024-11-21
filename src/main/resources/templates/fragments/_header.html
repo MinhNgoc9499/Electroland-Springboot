@@ -26,7 +26,7 @@
                     </span>
                 </a>
             </li>
-            <div th:if="${user != null and !#strings.isEmpty(user.hoTen)}">
+            <div th:if="${user != null and user.hoTen != ''}">
                 <a class="nav-link text-white d-flex align-items-center" href="/infor">
                     <button class="btn btn-light me-2">
                         <i class="fa-regular fa-user fa-2" style="color: black;"></i>

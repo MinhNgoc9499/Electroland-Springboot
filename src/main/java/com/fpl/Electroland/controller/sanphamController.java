@@ -21,10 +21,6 @@ public class sanphamController {
 	Author author;
 
 	@Scope("session")
-	@ModelAttribute("user")
-	public KhachHang getUser() {
-		return author.getUserKhachHang();
-	}
 
 	@GetMapping("/sanpham")
 	public String getIndexPage(Model model) {
