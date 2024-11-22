@@ -20,14 +20,7 @@ public class sanphamController {
 	@Autowired
 	Author author;
 
-	@Scope("session")
-<<<<<<< HEAD
-	@ModelAttribute("user")
-	public KhachHang getUser() {
-		return author.getUserKhachHang();
-	}
-=======
->>>>>>> 6441d502985b778ca713d515861a617c3765003a
+
 
 	@GetMapping("/sanpham")
 	public String getIndexPage(Model model) {
