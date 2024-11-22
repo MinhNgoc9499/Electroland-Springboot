@@ -1,6 +1,5 @@
 package com.fpl.Electroland.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,15 +15,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PhanQuyen {
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		int id;
-		
-		@ManyToOne
-		@JoinColumn(name = "idNV")
-		NhanVien nhanVien;
-		
-		@ManyToOne
-		@JoinColumn(name = "idQuyen")
-		Quyen quyen;
+
+	// Khóa chính với giá trị tự động tăng
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
+
+	// Liên kết với bảng nhân viên, nullable = false
+	@ManyToOne
+	@JoinColumn(name = "idNV", nullable = false)
+	NhanVien nhanVien;
+
+	// Liên kết với bảng quyền, nullable = false
+	@ManyToOne
+	@JoinColumn(name = "idQuyen", nullable = false)
+	Quyen quyen;
 }

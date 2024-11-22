@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,12 +16,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HinhSp {
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		int id;
-		String link;
-		
-		@ManyToOne
-		@JoinColumn(name = "idSP")
-		SanPham sanPham;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
+
+	// Định nghĩa cột là varchar(225)
+	@Column(columnDefinition = "varchar(225)", nullable = false)
+	String link;
+
+	// Mối quan hệ với bảng sản phẩm
+	@ManyToOne
+	@JoinColumn(name = "idSP", nullable = false)
+	SanPham sanPham;
 }

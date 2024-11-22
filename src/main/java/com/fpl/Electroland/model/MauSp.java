@@ -1,12 +1,13 @@
 package com.fpl.Electroland.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,16 +16,21 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSP", "idMau" }))
 public class MauSp {
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		int id;
-		
-		@ManyToOne
-		@JoinColumn(name = "idSP")
-		SanPham sanPham;
-		
-		@ManyToOne
-		@JoinColumn(name = "idMau")
-		Mau mau;
+
+	// Khóa chính với giá trị tự động tăng
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int id;
+
+	// Quan hệ Many-to-One với SanPham, mỗi sản phẩm có thể có nhiều màu
+	@ManyToOne
+	@JoinColumn(name = "idSP", nullable = false) // Liên kết với cột idSP trong bảng SanPham
+	SanPham sanPham;
+
+	// Quan hệ Many-to-One với Mau, mỗi màu có thể thuộc nhiều sản phẩm
+	@ManyToOne
+	@JoinColumn(name = "idMau", nullable = false) // Liên kết với cột idMau trong bảng Mau
+	Mau mau;
 }
