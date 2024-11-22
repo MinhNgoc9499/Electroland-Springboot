@@ -83,31 +83,22 @@
             <div class="col-lg-5">
                 <div class="checkout-summary">
                     <h4>Sản phẩm trong đơn</h4>
-                    <div class="cart-item">
-                        <div class="product-name">Amazfit BIP S</div>
-                        <div>1</div>
-                        <div>990.000 đ</div>
+                    <div class="cart-item" th:each="item : ${ListSelected}">
+                        <div class="product-name"><span th:text="${item.sanPham.tenSP}"></span></div>
+                        <div><span th:text="${item.soLuong}"></span></div>
+                        <div><span th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong, 0, 'POINT', 0, 'COMMA')}"></span></div>
                     </div>
-                    <div class="cart-item">
-                        <div class="product-name">Tai nghe Sony</div>
-                        <div>1</div>
-                        <div>1.200.000 đ</div>
-                    </div>
-                    <div class="cart-item">
-                        <div class="product-name">Bàn phím cơ Razer</div>
-                        <div>1</div>
-                        <div>1.500.000 đ</div>
-                    </div>
+                    
 
                     <h4 class="mt-4">Thông tin đơn hàng</h4>
                     <ul class="list-unstyled">
                         <li class="d-flex justify-content-between">
                             <span><strong>Tổng tiền</strong></span>
-                            <span>3.690.000 đ</span>
+                            <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}"></span>
                         </li>
                         <li class="d-flex justify-content-between hot-deal">
                             <span>Khuyến mãi</span>
-                            <span>-500.000 đ</span>
+                            <span th:text="${Discount}"></span>
                         </li>
                         <li class="d-flex justify-content-between hot-deal">
                             <span>Phí vận chuyển</span>
