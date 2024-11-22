@@ -1,3 +1,4 @@
+document.getElementById('completed').style.display = 'block';
 // Hiển thị tab "Hoàn thành" mặc định
 function showTab(tabId) {
     // Ẩn tất cả các tab nội dung
@@ -5,7 +6,6 @@ function showTab(tabId) {
     tabContents.forEach(tabContent => {
         tabContent.style.display = 'none';
     });
-    document.getElementById('completed').style.display = 'block';
     // Hiển thị tab được chọn
     document.getElementById(tabId).style.display = 'block';
 

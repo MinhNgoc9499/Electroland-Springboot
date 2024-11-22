@@ -112,5 +112,5 @@ function confirmNewPassword() {
 
 function goBackToHome() {
     // Logic to go back to home or landing page
-    window.location.href = 'index.html';
+    window.location.href = 'index';
 }
