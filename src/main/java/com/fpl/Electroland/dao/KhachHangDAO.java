@@ -11,6 +11,4 @@ public interface KhachHangDAO extends JpaRepository<KhachHang, Integer> {
 
 	Optional<KhachHang> findByEmail(String email);
 
-	Optional<KhachHang> findBySdt(String sdt);
-
 }

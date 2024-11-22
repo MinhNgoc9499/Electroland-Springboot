@@ -20,7 +20,7 @@ public class sanphamController {
 	@Autowired
 	Author author;
 
-	@Scope("session")
+
 
 	@GetMapping("/sanpham")
 	public String getIndexPage(Model model) {

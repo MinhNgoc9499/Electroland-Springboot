@@ -22,17 +22,24 @@ public class inforController {
 
 	@Autowired
 	LoaiKhachHangDAO dao;
-
+	
 	@Autowired
 	KhachHangDAO khDAO;
-
+	
 	@Autowired
 	Author author;
-
+	
 	public List<KhachHang> getList() {
 		List<KhachHang> list = new ArrayList<KhachHang>();
 		list = khDAO.findAll();
 		return list;
+	}
+	
+	
+	
+	@ModelAttribute("user")
+	public KhachHang getUser() {
+		return author.getUserKhachHang();
 	}
 
 	@GetMapping("/infor")
@@ -54,23 +61,24 @@ public class inforController {
 	public String getOderDetail(Model model) {
 		return "_user_order_history_detail";
 	}
-
+	
+	
 	@PostMapping("/infor")
 	public String updateInfor(@ModelAttribute("user") KhachHang user, BindingResult result, Model model) {
 		Optional<KhachHang> userLogin = khDAO.findById(author.getUserKhachHang().getId());
-		if (!user.getSdt().equals(userLogin.get().getSdt()) && isSoDienThoaiExists(user.getSdt())) {
+		if(!user.getSdt().equals(userLogin.get().getSdt()) && isSoDienThoaiExists(user.getSdt())) {
 			model.addAttribute("error", "Số điện thoại không hợp lệ");
 			return "_user_infor";
-		} else if (!user.getEmail().equals(userLogin.get().getEmail()) && isEmailExists(user.getEmail())) {
+		}else if(!user.getEmail().equals(userLogin.get().getEmail()) && isEmailExists(user.getEmail())) {
 			model.addAttribute("error", "Email không hợp lệ");
 			return "_user_infor";
-		} else {
+		}else {
 			khDAO.save(user);
 		}
-
+		
 		return "_user_infor";
 	}
-
+	
 	public boolean isSoDienThoaiExists(String soDienThoai) {
 		Optional<KhachHang> khachHang = getList().stream().filter(kh -> kh.getSdt().equals(soDienThoai)).findFirst();
 		return khachHang.isPresent();

@@ -18,7 +18,7 @@ public class detailController {
 
 	@Autowired
 	Author author;
-
+	
 	@GetMapping("/detail")
 	public String getIndexPage(Model model) {
 		return "Detail";

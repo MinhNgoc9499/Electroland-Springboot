@@ -24,7 +24,7 @@ public class KhachHang {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
-	String hoTen = "";
+	String hoTen;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	Date ngaySinh;
 	String sdt;
