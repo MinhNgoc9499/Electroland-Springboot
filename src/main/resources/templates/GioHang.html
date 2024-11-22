@@ -10,7 +10,11 @@
     <link rel="stylesheet" href="CSS/index.css">
 </head>
 <body>
+<<<<<<< HEAD
     <header th:replace="layout/_header :: body"> </header>
+=======
+    <header th:replace="~{/fragments/_header :: header}"> </header>
+>>>>>>> 6441d502985b778ca713d515861a617c3765003a
     <!-- cart-container -->
     <div class="cart-container">
         <div class="cart-header">
@@ -171,7 +175,7 @@
                     <span class="amount">0đ</span>
                 </div>
                 <div>
-                    <button class="checkout-btn">Mua Hàng</button>
+                    <a class="checkout-btn" href="/thanhtoan">Mua Hàng</a>
                 </div>
             </div>
     </div>

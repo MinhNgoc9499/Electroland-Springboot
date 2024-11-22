@@ -16,6 +16,7 @@ public class gioHangController {
 	@Autowired
 	LoaiKhachHangDAO dao;
 
+<<<<<<< HEAD
 	@Autowired
 	Author author;
 
@@ -24,6 +25,8 @@ public class gioHangController {
 		return author.getUserKhachHang();
 	}
 
+=======
+>>>>>>> 6441d502985b778ca713d515861a617c3765003a
 	@GetMapping("/giohang")
 	public String getIndexPage(Model model) {
 		return "GioHang";

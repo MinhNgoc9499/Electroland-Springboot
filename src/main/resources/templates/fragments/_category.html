@@ -1,0 +1,14 @@
+<div class="product-category mt-4" th:fragment="Category(title,list)" >
+	<div class="card">
+		<div class="card-header" th:text="${title}"></div>
+		<div class="card-body">
+			<div class="row">
+				<div class="product-category-item" th:each="item,i : ${list}" th:if="${i.index < 20 }">
+					<a href="#"> <img th:src="@{'IMG/'+ ${item.hinh}}">
+						<p th:text="${item.tenLoaiSP}"></p>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

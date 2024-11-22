@@ -1,0 +1,9 @@
+
+	<div class="top-phone-nav" th:fragment="nav_topSanPham(title,nav)">
+        <div class="card">
+            <div class="card-body">
+                <span class="card-title" th:text="${title}"></span>
+                <button th:each="item : ${nav}" th:text="${item}"></button>
+            </div>
+        </div>
+    </div>
