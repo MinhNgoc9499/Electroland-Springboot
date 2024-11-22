@@ -1,12 +1,6 @@
 package com.fpl.Electroland.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,18 +10,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ChiTietDh {
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		int id;
-		int soLuong;
-		Double giaBan;
-		
-		@ManyToOne
-		@JoinColumn(name = "idSP")
-		SanPham sanPham;
-		
-		@ManyToOne
-		@JoinColumn(name = "idDH")
-		DonHang donHang;
-		
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id; // Primary Key
+
+	@Column(nullable = false) // Đảm bảo cột này không null
+	private int soLuong;
+
+	@Column(nullable = false) // Đảm bảo cột này không null
+	private Double giaBan;
+
+	@ManyToOne
+	@JoinColumn(name = "idSP", nullable = false) // Khóa ngoại liên kết với SanPham
+	private SanPham sanPham;
+
+	@ManyToOne
+	@JoinColumn(name = "idDH", nullable = false) // Khóa ngoại liên kết với DonHang
+	private DonHang donHang;
 }

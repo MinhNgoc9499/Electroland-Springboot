@@ -1,5 +1,6 @@
 package com.fpl.Electroland.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,16 +19,22 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSP", "idKH" }))
 public class GioHang {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
+
+	// Số lượng sản phẩm
+	@Column(nullable = false)
 	int soLuong;
 
+	// Mối quan hệ với sản phẩm
 	@ManyToOne
-	@JoinColumn(name = "idSP")
+	@JoinColumn(name = "idSP", nullable = false)
 	SanPham sanPham;
 
+	// Mối quan hệ với khách hàng
 	@ManyToOne
-	@JoinColumn(name = "idKH")
+	@JoinColumn(name = "idKH", nullable = false)
 	KhachHang khachHang;
 }
