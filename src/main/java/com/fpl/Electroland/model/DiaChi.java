@@ -18,13 +18,13 @@ public class DiaChi {
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Đảm bảo cột này không null và sử dụng NVARCHAR(225)
 	private String chiTiet;
 
-	@Column(nullable = false, columnDefinition = "VARCHAR(50)") // Đảm bảo cột này không null và sử dụng NVARCHAR(225)
+	@Column(nullable = true, columnDefinition = "VARCHAR(50)") // Đảm bảo cột này không null và sử dụng NVARCHAR(225)
 	private String toaDo;
 
-	@Column(nullable = false) // Đảm bảo cột này không null
+	@Column(nullable = true) // Đảm bảo cột này không null
 	private Double khoangCach;
 
-	@Column(nullable = false) // Đảm bảo cột này không null
+	@Column(nullable = true) // Đảm bảo cột này không null
 	private boolean macDinh;
 
 	@ManyToOne

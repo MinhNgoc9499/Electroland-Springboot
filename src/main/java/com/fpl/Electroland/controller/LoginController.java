@@ -1,6 +1,7 @@
 package com.fpl.Electroland.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,7 +64,8 @@ public class LoginController {
 	}
 
 	@PostMapping("/dangky")
-	public String dangKy(@Valid @ModelAttribute("khachHang") KhachHang khachHangDK, BindingResult result, Model model) {
+	public String dangKy(@Valid @ModelAttribute("khachHang") KhachHang khachHangDK, BindingResult result, Model model,
+			@RequestParam("ngaySinh") String ns) {
 		if (isEmailExists(khachHangDK.getEmail())) {
 			model.addAttribute("error", "Email đã được đăng ký");
 			return "login";
@@ -71,7 +73,6 @@ public class LoginController {
 			model.addAttribute("error", "Số điện thoại đã được đăng ký");
 			return "login";
 		} else {
-			System.out.println(khachHangDK.toString());
 			author.setUserKhachHang(khachHangDK);
 			khDAO.save(khachHangDK);
 			return "redirect:/index";

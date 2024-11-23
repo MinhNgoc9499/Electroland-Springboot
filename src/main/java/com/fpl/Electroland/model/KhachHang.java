@@ -36,7 +36,7 @@ public class KhachHang {
 	// Sử dụng @Temporal cho trường ngày sinh
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "dd-MM-yyyy")
+	@DateTimeFormat(pattern = "yyyy-mm-dd")
 	Date ngaySinh;
 
 	// Định nghĩa cột sdt là varchar(15)
@@ -62,6 +62,6 @@ public class KhachHang {
 
 	// Mối quan hệ với bảng LoaiKhachHang
 	@ManyToOne
-	@JoinColumn(name = "idLoaiKH", nullable = false)
+	@JoinColumn(name = "idLoaiKH", nullable = true)
 	private LoaiKhachHang loaiKhachHang;
 }
