@@ -85,6 +85,7 @@ public class LoginController {
 			@RequestParam(value = "ghiNhoDN", required = false) String rememberMe, HttpServletResponse rep) {
 		Optional<KhachHang> kiemTraDangNhap = khDAO.findByEmailAndMatKhau(khachHangDN.getEmail(),
 				khachHangDN.getMatKhau());
+		System.out.println(khachHangDN.toString());
 		if (kiemTraDangNhap.isPresent()) {
 			author.setUserKhachHang(kiemTraDangNhap.get());
 			System.out.println(kiemTraDangNhap.toString());
