@@ -1,312 +1,69 @@
 <!DOCTYPE html>
-<html xmlns="http://www.thymeleaf.org"
-	th:replace="~{/layout/layout::dynamic(~{::body},~{::title})}">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Electro Land</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thông báo thành công</title>
+    <style>
+        /* Toast notification style */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Animation for showing and hiding the toast */
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                bottom: 0;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="top-phone-nav container">
-        <div class="card">
-            <div class="card-body">
-                <span class="card-title">LAPTOP BÁN CHẠY</span>
-                <button>Mac</button>
-                <button>HP</button>
-                <button>Dell</button>
-                <button>Asus</button>
-                <button>Acer</button>
-                <button>Xem tất cả</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="top-phone container">
-        <div class="row">
-            <div class="product-item">
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="product-item">
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="badge">
-                        <img src="ICON/badge.png">
-                        <span>Giảm 20%</span>
-                    </div>
-                    <div class="card-body">
-                        <img src="IMG/macbook_pro_14.webp">
-                        <p class="product-name" name="name">
-                            iPhone 16 8GB 256GB | Chính hãng VN/A
-                        </p>
-                        <div class="product-price">
-                            <span class="current-price">22.490.000đ</span><span class="listed-price">22.990.000đ</span>
-                        </div>
-                        <div class="star">
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <i class="fa-solid fa-star checked"></i>
-                            <button class="detail">Chi tiết</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-    <script src="JS/index.js"></script>
+    <!-- Toast notification -->
+    <div id="toast" class="toast">Thành công!</div>
+
+    <button onclick="showToast()">Hiển thị Thông Báo Thành Công</button>
+
+    <script>
+        function showToast() {
+            var toast = document.getElementById("toast");
+            toast.className = "toast show";  // Hiển thị toast
+            setTimeout(function() { toast.className = toast.className.replace("show", ""); }, 3000); // Ẩn toast sau 3 giây
+        }
+    </script>
+
 </body>
 </html>
