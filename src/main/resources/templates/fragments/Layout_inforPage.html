@@ -22,7 +22,7 @@
 </head>
 
 <body class="">
-	<header th:replace="layout/_header :: body"> </header>
+	<header th:replace="~{fragments/_header :: header}"> </header>
 
 	<div class="bottom-navbar">
 		<div class="container">
@@ -60,9 +60,9 @@
 					<div class="list-group text-left">
 						<a class="list-group-item list-group-item-action" href="/infor">
 							<i class="fas fa-user"></i> Thông tin tài khoản
-						</a> <a class="list-group-item list-group-item-action" href="/order">
+						</a> <a class="list-group-item list-group-item-action" href="order_history">
 							<i class="fas fa-shopping-cart"></i> Lịch sử mua sắm
-						</a> <a class="list-group-item list-group-item-action" href="/addre">
+						</a> <a class="list-group-item list-group-item-action" href="/user_address">
 							<i class="fas fa-map-marker-alt"></i> Địa chỉ
 						</a>
 					</div>

@@ -47,17 +47,17 @@ public class inforController {
 		return "_user_infor";
 	}
 
-	@GetMapping("/order")
+	@GetMapping("/order_history")
 	public String getOrder(Model model) {
 		return "_user_order_history";
 	}
 
-	@GetMapping("/addre")
+	@GetMapping("/user_address")
 	public String getAddress(Model model) {
 		return "_user_address";
 	}
 
-	@GetMapping("/oder_detail")
+	@GetMapping("/order_history_detail")
 	public String getOderDetail(Model model) {
 		return "_user_order_history_detail";
 	}
