@@ -15,10 +15,58 @@
     <link rel="stylesheet" href="CSS/user-infor.css">
     <link rel="stylesheet" href="CSS/user-address.css">
     <link rel="stylesheet" href="css/checkout.css" />
+    <style>
+        /* Toast notification style */
+        .toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            border-radius: 2px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            font-size: 17px;
+        }
+
+        .toast.show {
+            visibility: visible;
+            animation: fadein 0.5s, fadeout 0.5s 2.5s;
+        }
+
+        /* Animation for showing and hiding the toast */
+        @keyframes fadein {
+            from {
+                bottom: 0;
+                opacity: 0;
+            }
+
+            to {
+                bottom: 30px;
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeout {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                bottom: 0;
+            }
+        }
+    </style>
 </head>
 
+
 <body>
-    <header th:replace="~{fragments/_header :: body}"> </header>
+    <header th:replace="~{fragments/_header :: header}"> </header>
     <div class="container my-5">
         <div class="breadcrumb-links">
             <h3>Giỏ hàng</h3>
@@ -37,7 +85,7 @@
                         <div class="mb-3">
                             <label for="last-name" class="form-label">Họ tên</label>
                             <input type="text" class="form-control" id="name">
-                            <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                            <span th:field="*{name}" class="text-danger error">Vui lòng nhập đúng thông tin</span>
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Số điện thoại</label>
@@ -86,28 +134,34 @@
                     <div class="cart-item" th:each="item : ${ListSelected}">
                         <div class="product-name"><span th:text="${item.sanPham.tenSP}"></span></div>
                         <div><span th:text="${item.soLuong}"></span></div>
-                        <div><span th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong, 0, 'POINT', 0, 'COMMA')}"></span></div>
+                        <div><span
+                                th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
+                        </div>
                     </div>
-                    
+
 
                     <h4 class="mt-4">Thông tin đơn hàng</h4>
                     <ul class="list-unstyled">
                         <li class="d-flex justify-content-between">
                             <span><strong>Tổng tiền</strong></span>
-                            <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}"></span>
+                            <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
                         </li>
                         <li class="d-flex justify-content-between hot-deal">
                             <span>Khuyến mãi</span>
-                            <span th:text="${Discount}"></span>
+                            <span
+                                th:text="${#numbers.formatDecimal(TotalDiscount, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
                         </li>
                         <li class="d-flex justify-content-between hot-deal">
                             <span>Phí vận chuyển</span>
-                            <span>Miễn phí</span>
+                            <span th:if="${VanChuyen == null} ">Miễn phí</span>
+                            <span th:if="${VanChuyen > 0}" th:text="${VanChuyen}"></span>
                         </li>
                     </ul>
                     <div class="d-flex justify-content-between mt-3">
                         <span><strong>Cần thanh toán</strong></span>
-                        <span class="total-price">3.190.000 đ</span>
+                        <span class="total-price"
+                            th:text="${#numbers.formatDecimal(TotalMoney-TotalDiscount, 0, 'POINT', 0, 'COMMA')}+' vnđ'">3.190.000
+                            đ</span>
                     </div>
                     <div class="container my-5">
                         <div class="checkout-section">
@@ -133,7 +187,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn-checkout" data-bs-toggle="modal"
-                                data-bs-target="#paymentModal">
+                                data-bs-target="#paymentModal" onclick="btntt()">
                                 Thanh toán
                             </button>
                             <!-- Modal Thanh toán -->
@@ -156,18 +210,18 @@
                                                             điện tử</span></p>
                                                 </div>
                                                 <div class="info-item">
-                                                    <p>Số tiền thanh toán: <span>57.990.000 VND</span></p>
+                                                    <p>Số tiền thanh toán: <span id="PayMoney"
+                                                            th:text="${#numbers.formatDecimal(TotalMoney-TotalDiscount, 0, 'POINT', 0, 'COMMA')} +' vnđ'"></span>
+                                                    </p>
                                                 </div>
                                                 <div class="info-item">
-                                                    <p>Nội dung thanh toán: <span>Thanh toán cho thiết bị điện tử, mã
-                                                            đơn hàng #168686008935</span></p>
+                                                    <p>Nội dung thanh toán: <span id="Paycontent">[[${key}]]</span></p>
                                                 </div>
                                                 <div class="info-item">
-                                                    <p>Ngân hàng: <span>ViettinBank - Ngân hàng TMCP Công thương Việt
-                                                            Nam</span></p>
+                                                    <p>Ngân hàng: <span>MB -Ngân hàng Quân Đội MB Bank</span></p>
                                                 </div>
                                                 <div class="info-item">
-                                                    <p>Mã thanh toán: <span>168686008935</span></p>
+                                                    <p>Mã thanh toán: <span>[[${key}]]</span></p>
                                                 </div>
                                                 <div class="info-item">
                                                     <p>Nhà cung cấp: <span>CÔNG TY CỔ PHẦN BÁN LẺ KỸ THUẬT SỐ
@@ -179,7 +233,7 @@
                                             <div class="qr-code-section">
                                                 <h5>Quét mã qua ứng dụng Ngân hàng/ Ví điện tử</h5>
                                                 <img src="https://api.qrserver.com/v1/create-qr-code/?data=ThanhToan123456789&size=200x200"
-                                                    alt="QR code">
+                                                    id="PayCode" alt="QR code">
                                                 <p>Scan to Pay</p>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
                                                     aria-label="Close">Hủy thanh toán</button>
@@ -188,7 +242,7 @@
                                                 <div class="timer" id="timer">5:00</div>
 
                                                 <!-- Thông báo thành công -->
-                                                <div class="success-message" id="successMessage">Giao dịch thành công!
+                                                <div  class="toast success-message" id="successMessage">Thành công!</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,6 +261,46 @@
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
     <script src="js/checkout.js"></script>
+    <script>
+        var toast = document.getElementById("successMessage");
+        var sotien = Number("[[${TotalMoney-TotalDiscount}]]");
+        var noidung = document.getElementById('Paycontent');
+        var img = document.getElementById('PayCode');
+
+        function btntt() {
+            img.src = 'https://qr.sepay.vn/img?acc=0865854002&bank=MB&amount=' + sotien + '&des=' + noidung.innerText;
+            let i = 0;
+            // Tạo bản sao của console.error để phục hồi sau này
+            const originalConsoleError = console.error;
+            let currentDate = new Date();
+
+            let timesubmit = currentDate.getFullYear().toString() + "-" + (currentDate.getMonth() + 1).toString() + "-" + currentDate.getDate().toString() + " " + currentDate.getHours().toString() + ":" + currentDate.getMinutes().toString() + ":" + currentDate.getSeconds().toString();
+            let myInterval = setInterval(async () => {
+                try {
+                    const response = await fetch("http://localhost:8080/checktttc?sotien=" + sotien + "&noidung=" + noidung.innerText + "&timesubmit=" + timesubmit);
+                    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
+                    if (data == true) {
+                        clearInterval(myInterval);  // Dừng Interval khi thanh toán thành công
+                        toast.className = "toast show";  // Hiển thị toast
+                        setTimeout(function () { window.location.href = "http://localhost:8080/oder_detail"; }, 5000);
+                    } else {
+                        i++;
+                    }
+                } catch (error) {
+                    // Bỏ qua lỗi mà không log ra console
+                } finally {
+                    // Khôi phục lại console.error sau khi fetch hoàn thành
+                    console.error = originalConsoleError;
+                }
+
+                // Dừng gọi API nếu vượt quá số lần thử cho phép (sau 5 phút)
+                if (i > 59) {
+                    clearInterval(myInterval);
+                    alert("Thanh toán không thành công. Vui lòng thử lại sau.");
+                }
+            }, 5000);
+        }
+    </script>
 
 </body>
 

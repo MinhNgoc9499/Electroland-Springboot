@@ -2,6 +2,7 @@ package com.fpl.Electroland.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,6 @@ import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.GioHang;
 import com.fpl.Electroland.model.KhachHang;
 import com.fpl.Electroland.model.LoaiSanPham;
-import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.NhaCungCap;
 import com.fpl.Electroland.model.SanPham;
 
@@ -43,16 +43,16 @@ public class CheckoutController {
 	ChiTietDhDAO ctdhDAO;
 
 	SanPham sanPhamMau1 = new SanPham(1, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			22490000.0,
-			22990000.0, true,
+			10000.0,
+			10000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
 	SanPham sanPhamMau2 = new SanPham(2, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			22490000.0,
-			22990000.0, true,
+			1000.0,
+			1000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
 	SanPham sanPhamMau3 = new SanPham(3, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			22490000.0,
-			22990000.0, true,
+			1000.0,
+			1000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
 
 	GioHang gioHangMau1 = new GioHang(1, 1, sanPhamMau1, new KhachHang());
@@ -86,13 +86,15 @@ public class CheckoutController {
 		return total;
 	}
 
-	@ModelAttribute("Discount")
-	public MaGiamDh getMaGiamDh() {
-		return new MaGiamDh(1, 100000.0, 0.0, 100000.0, 500000.0, "Giảm 100.000 đơn trên 500.000");
+	@ModelAttribute("TotalDiscount")
+	public Double getMaGiamDh() {
+		return 10000.0;
 	}
 
 	@GetMapping("/thanhtoan")
 	public String showRegistrationForm(Model model) {
+		UUID uuid = UUID.randomUUID();
+		model.addAttribute("key", uuid.toString().replaceAll("-", ""));
 		return "checkout";
 	}
 }
