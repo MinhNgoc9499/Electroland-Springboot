@@ -1,7 +1,7 @@
 <header class="navbar navbar-expand-lg px-3" th:fragment="header">
     <div class="container">
         <!-- Logo -->
-        <a class="navbar-brand" th:href="${@url.getPath('index_page')}">
+        <a class="navbar-brand" th:href="@{/index}">
             <img th:src="@{/IMG/logotrang.png}" height="150" alt="Logo">
         </a>
 
@@ -36,7 +36,7 @@
                 </a>
             </div>
             <div th:if="${user == null}">
-                <a class="nav-link text-white d-flex align-items-center" th:href="${@url.getPath('login_page')}">
+                <a class="nav-link text-white d-flex align-items-center" th:href="@{/dangky}">
                     <button class="btn btn-light me-2">
                         <i class="fa-regular fa-user fa-2" style="color: black;"></i>
                     </button>
@@ -44,7 +44,7 @@
                 </a>
             </div>
             <li class="nav-item mx-2">
-                <a class="nav-link text-white d-flex align-items-center" th:href="${@url.getPath('cart_page')}">
+                <a class="nav-link text-white d-flex align-items-center" th:href="@{/giohang}">
                     <button class="btn btn-light me-2">
                         <i class="fa-solid fa-cart-shopping fa-2" style="color: black;"></i>
                     </button>
