@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="CSS/user-infor.css">
     <link rel="stylesheet" href="CSS/user-address.css">
     <link rel="stylesheet" href="css/checkout.css" />
+    <link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
     <style>
         /* Toast notification style */
         .toast {
@@ -169,19 +170,19 @@
                             <div class="row">
                                 <div class="payment-methods col-md-12">
                                     <div class="payment-method selected" onclick="selectPaymentMethod(this)">
-                                        <img src="./IMG/cash.png" alt="COD Icon">
+                                        <img th:src="@{/IMG/cash.png}" alt="COD Icon">
                                         <p>Thanh toán khi nhận hàng</p>
                                     </div>
                                     <div class="payment-method" onclick="selectPaymentMethod(this)">
-                                        <img src="./IMG/banking.png" alt="ATM Icon">
+                                        <img th:src="@{/IMG/banking.png}" alt="ATM Icon">
                                         <p>Chuyển khoản ngân hàng</p>
                                     </div>
                                     <div class="payment-method " onclick="selectPaymentMethod(this)">
-                                        <img src="./IMG/Logo-MoMo-Circle.webp" alt="MoMo Icon">
+                                        <img th:src="@{/IMG/Logo-MoMo-Circle.webp}" alt="MoMo Icon">
                                         <p>Ví MoMo</p>
                                     </div>
                                     <div class="payment-method " onclick="selectPaymentMethod(this)">
-                                        <img src="./IMG/palopay.png" alt="ZaloPay Icon">
+                                        <img th:src="@{./IMG/palopay.png}" alt="ZaloPay Icon">
                                         <p>Ví ZaloPay</p>
                                     </div>
                                 </div>
@@ -260,7 +261,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-    <script src="js/checkout.js"></script>
+    <script th:src="@{js/checkout.js}"></script>
     <script>
         var toast = document.getElementById("successMessage");
         var sotien = Number("[[${TotalMoney-TotalDiscount}]]");
