@@ -1,7 +1,7 @@
 <div class="flashsale-container full-screen-div d-xl-block d-none" th:fragment="flashsale" th:object="${SPTEST}">
 	<div class="flashsale-title">
 		<h3>
-			<img src="ICON/thundericon.png" alt="icon"> GIỜ VÀNG DEAL SỐC
+			<img th:src ="@{/ICON/thundericon.png}" alt="icon"> GIỜ VÀNG DEAL SỐC
 		</h3>
 		<div class="timer">
 			<p class="timer-title">
@@ -23,7 +23,7 @@
 	</div>
 
 	<div class="flashsale-body">
-		<img src="IMG/backgroundflashsale.png" class="backgroundflashsale">
+		<img th:src ="@{/IMG/backgroundflashsale.png}" class="backgroundflashsale">
 
 		<div class="products">
 			<div class="row g-3 ">

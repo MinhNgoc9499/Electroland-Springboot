@@ -38,7 +38,7 @@
 				<div class="card p-4 ml-5">
 					<form action="/infor">
 						<input type="file" id="fileInput" class="position-relative d-inline-block" hidden />
-						<img id="profileImg" th:src="@{'./IMG/' + *{avaImg}}"
+						<img id="profileImg" th:src="@{'/IMG/' + *{avaImg}}"
 							class="rounded-circle img-fluid profile-img" alt="Profile Picture">
 					</form>
 					<script>
@@ -73,7 +73,7 @@
 				<main th:insert=${view}></main>
 			</div>
 			<script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-			<script src="JS/index.js"></script>
+			<script th:src="@{JS/index.js}"></script>
 </body>
 
 </html>
