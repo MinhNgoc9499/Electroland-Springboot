@@ -5,13 +5,8 @@ import com.fpl.Electroland.dao.CloudinaryService;
 import com.fpl.Electroland.dao.DonHangDAO;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.NumberFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -77,12 +72,18 @@ public class inforController {
 	}
 
 	 @GetMapping("/order_detail")
-    public String getOrderDetail(@RequestParam("id") int orderId, Model model) {
+    public String getOrderDetail(@ModelAttribute("user") KhachHang user, @RequestParam("id") int orderId, Model model) {
+		KhachHang UserInfor = author.getUserKhachHang();
         // Lấy thông tin đơn hàng
 		DonHang donHang = donhangDAO.findById(orderId);
 		if (donHang == null) {
     	throw new RuntimeException("Đơn hàng không tồn tại");
-}
+		}if (donHang.getMaGiamDh() == null) {
+			model.addAttribute("discount", "Không có giảm giá");
+		} else {
+			model.addAttribute("discount", donHang.getMaGiamDh().getGiamGiaVND());
+		}
+
 
         // Lấy danh sách chi tiết đơn hàng
         List<ChiTietDh> chiTietDonHang = chiTietDhDAO.findByDonHangId(orderId);
@@ -93,6 +94,7 @@ public class inforController {
                 .sum();
 
         // Truyền thông tin vào model
+		model.addAttribute("UserInfor", UserInfor);
         model.addAttribute("donHang", donHang);
         model.addAttribute("chiTietDonHang", chiTietDonHang);
         model.addAttribute("tongGiaTri", tongGiaTri);
