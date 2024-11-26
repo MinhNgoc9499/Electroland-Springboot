@@ -27,10 +27,6 @@ public class MaGiamKh {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
-	// Đảm bảo loaiKM có kiểu nvarchar(225) và nullable = true
-	@Column(columnDefinition = "nvarchar(225)", nullable = true)
-	String loaiKM;
-
 	// Đảm bảo ngày hết hạn có kiểu Date và sử dụng @Temporal để xác định định dạng
 	@Temporal(TemporalType.DATE) // Chỉ lưu ngày, không lưu thời gian
 	@DateTimeFormat(pattern = "dd-MM-yyyy")

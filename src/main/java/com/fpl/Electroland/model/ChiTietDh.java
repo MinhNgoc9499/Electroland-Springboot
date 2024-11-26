@@ -25,6 +25,13 @@ public class ChiTietDh {
 	@JoinColumn(name = "idSP", nullable = false) // Khóa ngoại liên kết với SanPham
 	private SanPham sanPham;
 
+	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
+	String moTa;
+
+	@ManyToMany
+	@JoinColumn(name = "maGiamSP")
+	private MaGiamSp maGiamSp;
+
 	@ManyToOne
 	@JoinColumn(name = "idDH", nullable = false) // Khóa ngoại liên kết với DonHang
 	private DonHang donHang;

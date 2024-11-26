@@ -16,12 +16,18 @@ public class DanhGia {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id; // Primary Key
 
-	@Column(nullable = false) // Đảm bảo cột này không null
+	@Column(nullable = true)
 	private int diem;
+
+	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
+	private String noiDung;
 
 	@Temporal(TemporalType.TIMESTAMP) // Sử dụng TIMESTAMP để lưu cả ngày và giờ
 	@Column(nullable = false) // Đảm bảo cột này không null
 	private Date ngayTao = new Date(); // Ngày tạo với giá trị mặc định là ngày giờ hiện tại
+
+	@Column(nullable = true, columnDefinition = "VARCHAR(225)") // Đảm bảo cột này không null
+	private String img;
 
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại liên kết với KhachHang
