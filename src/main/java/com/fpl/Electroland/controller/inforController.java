@@ -1,13 +1,24 @@
 package com.fpl.Electroland.controller;
 
+import com.fpl.Electroland.dao.ChiTietDhDAO;
+import com.fpl.Electroland.dao.CloudinaryService;
+import com.fpl.Electroland.dao.DonHangDAO;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +26,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.helper.Author;
+import com.fpl.Electroland.model.ChiTietDh;
+import com.fpl.Electroland.model.DonHang;
 import com.fpl.Electroland.model.KhachHang;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @Controller
 public class inforController {
@@ -29,11 +45,21 @@ public class inforController {
 	@Autowired
 	Author author;
 
+	/**
+	 * Service class to handle file uploads to Cloudinary.
+	 */
+	@Autowired
+	private CloudinaryService cloudinaryService;
+
 	public List<KhachHang> getList() {
 		List<KhachHang> list = new ArrayList<KhachHang>();
 		list = khDAO.findAll();
 		return list;
 	}
+    @Autowired
+	private ChiTietDhDAO chiTietDhDAO;
+	@Autowired
+	private DonHangDAO donhangDAO;
 
 	@ModelAttribute("user")
 	public KhachHang getUser() {
@@ -45,23 +71,58 @@ public class inforController {
 		return "_user_infor";
 	}
 
-	@GetMapping("/order_history")
-	public String getOrder(Model model) {
-		return "_user_order_history";
-	}
-
 	@GetMapping("/user_address")
 	public String getAddress(Model model) {
 		return "_user_address";
 	}
 
-	@GetMapping("/order_detail")
-	public String getOderDetail(Model model) {
+	 @GetMapping("/order_detail")
+    public String getOrderDetail(@RequestParam("id") int orderId, Model model) {
+        // Lấy thông tin đơn hàng
+		DonHang donHang = donhangDAO.findById(orderId);
+		if (donHang == null) {
+    	throw new RuntimeException("Đơn hàng không tồn tại");
+}
+
+        // Lấy danh sách chi tiết đơn hàng
+        List<ChiTietDh> chiTietDonHang = chiTietDhDAO.findByDonHangId(orderId);
+
+        // Tính tổng giá trị đơn hàng
+        double tongGiaTri = chiTietDonHang.stream()
+                .mapToDouble(ct -> ct.getGiaBan() * ct.getSoLuong())
+                .sum();
+
+        // Truyền thông tin vào model
+        model.addAttribute("donHang", donHang);
+        model.addAttribute("chiTietDonHang", chiTietDonHang);
+        model.addAttribute("tongGiaTri", tongGiaTri);
+
 		return "_user_order_history_detail";
-	}
+    }
+    @GetMapping("/order_history")
+public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model model) {
+    int userId = author.getUserKhachHang().getId();
+
+    // Lấy đơn hàng hoàn thành
+    List<Object[]> completedOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 1);
+
+    // Lấy đơn hàng đang xử lý
+    List<Object[]> processingOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 2);
+
+    // Lấy đơn hàng đã hủy
+    List<Object[]> cancelledOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 0);
+    // Thêm vào model để hiển thị
+    model.addAttribute("completedOrders", completedOrders);
+    model.addAttribute("processingOrders", processingOrders);
+    model.addAttribute("cancelledOrders", cancelledOrders);
+
+    return "_user_order_history";
+}
+
 
 	@PostMapping("/infor")
-	public String updateInfor(@ModelAttribute("user") KhachHang user, BindingResult result, Model model) {
+	public String updateInfor(@ModelAttribute("user") KhachHang user, Model model, @RequestParam("file") MultipartFile file)
+        throws IOException {
 		Optional<KhachHang> userLogin = khDAO.findById(author.getUserKhachHang().getId());
 		if (!user.getSdt().equals(userLogin.get().getSdt()) && isSoDienThoaiExists(user.getSdt())) {
 			model.addAttribute("error", "Số điện thoại không hợp lệ");
@@ -70,6 +131,8 @@ public class inforController {
 			model.addAttribute("error", "Email không hợp lệ");
 			return "_user_infor";
 		} else {
+			String url = cloudinaryService.uploadMultipleFile(file);
+			user.setAvaImg(url);
 			khDAO.save(user);
 		}
 
@@ -84,4 +147,5 @@ public class inforController {
 	public boolean isEmailExists(String email) {
 		return khDAO.findByEmail(email).isPresent();
 	}
+
 }

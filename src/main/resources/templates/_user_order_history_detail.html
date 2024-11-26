@@ -18,36 +18,28 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src="/IMG/iPhone-16-Pro-Series-Desert1.jpg" alt="iPhone 16 128GB" class="img-thumbnail m-3" style="width: 60px;">
-                            <div>
-                                <div>iPhone 16 128GB</div>
-                                <div>Chính hãng</div>
-                                <div>VNA</div>
-                            </div>
+                <!-- Lặp qua danh sách chi tiết đơn hàng -->
+              <tr th:each="chiTiet : ${chiTietDonHang}">
+                <td>
+                    <div class="d-flex align-items-center">
+                        <!-- Hiển thị hình ảnh sản phẩm -->
+                        <img th:src="@{{image}(image=${chiTiet.sanPham.hinhDaiDien})}" 
+                             alt="Hình sản phẩm" 
+                             class="img-thumbnail m-3" style="width: 60px;">
+                        <div>
+                            <!-- Hiển thị tên và mô tả sản phẩm -->
+                            <div th:text="${chiTiet.sanPham.tenSP}"></div>
+                            <div>Chính hãng</div>
+                            <div>VNA</div>
                         </div>
-                    </td>
-                    <td>22.490.000 đ</td>
-                    <td>1</td>
-                    <td>22.490.000 đ</td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <img src="/IMG/iphone-15-pro-max-blue-thumbnew-600x600.jpg" alt="iPhone 15 128GB" class="img-thumbnail m-3" style="width: 60px;">
-                            <div>
-                                <div>iPhone 15 128GB</div>
-                                <div>Chính hãng</div>
-                                <div>VNA</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>18.490.000 đ</td>
-                    <td>1</td>
-                    <td>18.490.000 đ</td>
-                </tr>
+                    </div>
+                </td>
+                <!-- Hiển thị giá bán -->
+                <td th:text="${#numbers.formatDecimal(chiTiet.giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}"></td> 
+                <!-- Hiển thị số lượng -->
+                <td th:text="${chiTiet.soLuong}"></td>
+                <!-- Hiển thị tổng giá trị cho sản phẩm -->
+                <td th:text="${#numbers.formatDecimal(chiTiet.giaBan * chiTiet.soLuong, 0, 'POINT', 0, 'COMMA') + 'đ'}"></td> <!-- order[3]: tongGiaTri -->
             </tbody>
         </table>
         
@@ -59,7 +51,7 @@
                     <p><strong>Chi tiết</strong></p>
                     <div class="d-flex justify-content-between">
                         <p><strong>Tổng:</strong></p>
-                        <p>40.980.000 đ</p>
+                        <p th:text="${#numbers.formatDecimal(tongGiaTri, 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
                     </div>
                     <div class="d-flex justify-content-between">
                         <p><strong>Giảm:</strong></p>

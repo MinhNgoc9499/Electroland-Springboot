@@ -1,9 +1,10 @@
 package com.fpl.Electroland.helper;
 
+
 import java.text.DecimalFormat;
 
-public class FormatUtils {
 
+public class FormatUtils {
     // Method để format double thành String với định dạng #.###
     public static String formatDouble(Double value) {
         if (value == null) {
@@ -14,7 +15,7 @@ public class FormatUtils {
     }
 
     public static void main(String[] args) {
-        // Test
+        // Test~
         Double number1 = 123434556789.0;
         Double number2 = 123.0;
         Double number3 = null;

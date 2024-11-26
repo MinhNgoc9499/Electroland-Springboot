@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Electro Land</title>
+    <title>Electroland</title>
 </head>
 
 <body>
@@ -24,6 +24,7 @@
             <table class="order-table">
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Mã đơn hàng</th>
                         <th>Ngày</th>
                         <th>Trạng thái</th>
@@ -32,7 +33,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr th:each="order, stat : ${completedOrders}">
+                        <td th:text="${stat.index + 1}"></td>
+                        <td th:text="'#' + ${order[0]}"></td> <!-- order[0]: donHangId -->
+                        <td th:text="${#dates.format(order[1], 'dd-MM-yyyy')}"></td> <!-- order[1]: ngayDatHang -->
+                        <td>Hoàn thành</td>
+                        <td th:text="${#numbers.formatDecimal(order[3], 0, 'POINT', 0, 'COMMA') + 'đ'}"></td> <!-- order[3]: tongGiaTri -->
+                        <td>
+                            <a th:href="@{/order_detail(id=${order[0]})}" class="details-link">Chi tiết</a>
+                        </td>
+                        
+                    </tr>
+                    <!-- <tr>
                         <td>#3456_768</td>
                         <td>October 17, 2023</td>
                         <td>Hoàn thành</td>
@@ -52,7 +64,7 @@
                         <td>Hoàn thành</td>
                         <td>5.350.000 đ</td>
                         <td><a href="/order_detail" class="details-link">Chi tiết</a></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -61,6 +73,7 @@
             <table class="order-table">
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Mã đơn hàng</th>
                         <th>Ngày</th>
                         <th>Trạng thái</th>
@@ -69,7 +82,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr th:each="order, stat : ${processingOrders}">
+                        <td th:text="${stat.index + 1}"></td>
+                        <td th:text="'#' + ${order[0]}"></td> <!-- order[0]: donHangId -->
+                        <td th:text="${#dates.format(order[1], 'dd-MM-yyyy')}"></td> <!-- order[1]: ngayDatHang -->
+                        <td>Đang xử lý</td>
+                        <td th:text="${#numbers.formatDecimal(order[3], 0, 'POINT', 0, 'COMMA') + 'đ'}"></td> <!-- order[3]: tongGiaTri -->
+                        <td>
+                            <a th:href="@{/order_detail(id=${order[0]})}" class="details-link">Chi tiết</a>
+                        </td>
+                        
+                    </tr>
+                    <!-- <tr>
                         <td>#1234_567</td>
                         <td>October 18, 2023</td>
                         <td>Đang xử lý</td>
@@ -89,7 +113,7 @@
                         <td>Đang xử lý</td>
                         <td>2.150.000 đ</td>
                         <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -97,6 +121,7 @@
             <table class="order-table">
                 <thead>
                     <tr>
+                        <th>STT</th>
                         <th>Mã đơn hàng</th>
                         <th>Ngày</th>
                         <th>Trạng thái</th>
@@ -105,7 +130,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr th:each="order, stat : ${cancelledOrders}">
+                        <td th:text="${stat.index + 1}"></td>
+                        <td th:text="'#' + ${order[0]}"></td> <!-- order[0]: donHangId -->
+                        <td th:text="${#dates.format(order[1], 'dd-MM-yyyy')}"></td> <!-- order[1]: ngayDatHang -->
+                        <td>Đã hủy</td>
+                        <td th:text="${#numbers.formatDecimal(order[3], 0, 'POINT', 0, 'COMMA') + 'đ'}"></td> <!-- order[3]: tongGiaTri -->
+                        <td>
+                            <a th:href="@{/order_detail(id=${order[0]})}" class="details-link">Chi tiết</a>
+                        </td>
+                        
+                    </tr>                   
+                    <!-- <tr>
                         <td>#7890_123</td>
                         <td>October 19, 2023</td>
                         <td>Đã hủy</td>
@@ -132,7 +168,7 @@
                         <td>Đã hủy</td>
                         <td>1.000.000 đ</td>
                         <td><a href="/oder_detail" class="details-link">Chi tiết</a></td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -142,4 +178,5 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="JS/order-history.js"></script>
 </body>
+
 </html>
