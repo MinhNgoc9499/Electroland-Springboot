@@ -18,6 +18,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <!-- Lặp qua danh sách chi tiết đơn hàng -->
               <tr th:each="chiTiet : ${chiTietDonHang}">
                 <td>
@@ -31,6 +32,30 @@
                             <div th:text="${chiTiet.sanPham.tenSP}"></div>
                             <div>Chính hãng</div>
                             <div>VNA</div>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img th:src="@{/IMG/iPhone-16-Pro-Series-Desert1.jpg}" alt="iPhone 16 128GB" class="img-thumbnail m-3" style="width: 60px;">
+                            <div>
+                                <div>iPhone 16 128GB</div>
+                                <div>Chính hãng</div>
+                                <div>VNA</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>22.490.000 đ</td>
+                    <td>1</td>
+                    <td>22.490.000 đ</td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img th:src="@{/IMG/iphone-15-pro-max-blue-thumbnew-600x600.jpg}" alt="iPhone 15 128GB" class="img-thumbnail m-3" style="width: 60px;">
+                            <div>
+                                <div>iPhone 15 128GB</div>
+                                <div>Chính hãng</div>
+                                <div>VNA</div>
+                            </div>
                         </div>
                     </div>
                 </td>
@@ -87,6 +112,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="JS/order-history.js"></script>
+    <script th:src="@{JS/order-history.js}"></script>
 </body>
 </html>

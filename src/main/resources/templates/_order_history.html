@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="CSS/user-infor.css">
     <link rel="stylesheet" href="CSS/user-address.css">
 </head>
-    <link rel="shortcut icon" type="image/png" href="IMG/logoxanh.png">
+    <link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
 </head>
 <body th:object="${user}">
     <header th:replace="layout/_header :: body"> </header>
@@ -37,9 +37,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="JS/user-address.js"></script>
-    <script src="JS/myaccount.js"></script>
-    <script src="JS/user-infor.js"></script>
+    <script th:src="@{JS/user-address.js}"></script>
+    <script th:src="@{JS/myaccount.js}"></script>
+    <script th:src="@{JS/user-infor.js}"></script>
 
 </body>
 

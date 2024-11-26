@@ -720,6 +720,9 @@ footer {
     }
 }
 
+.product-template{
+    cursor:pointer
+}
 
 .product-template .badge {
     position: absolute;
@@ -759,7 +762,11 @@ footer {
 }
 
 .product-template .star i {
-    font-size: 13px;
+    font-size: 15px;
+}
+.product-template a {
+    font-size: 16px;
+    text-decoration: none;
 }
 
 .product-template .checked {

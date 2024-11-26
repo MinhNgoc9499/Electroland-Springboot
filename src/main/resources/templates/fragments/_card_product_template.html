@@ -1,9 +1,9 @@
-<div class="card product-template" th:fragment="card_product_template(product)" th:object="${product}">
+<div class="card product-template" th:fragment="card_product_template(product)" th:object="${product}" th:data-id="*{id}">
     <div class="badge">
         <div class="discount-label">Giảm 20%</div>
     </div>
     <div class="card-body">
-        <img th:src="@{'IMG/' + *{hinhDaiDien}}">
+        <img th:src="@{'/IMG/' + *{hinhDaiDien}}">
         <p class="product-name" name="name" th:text="*{tenSP}">iPhone 16 8GB 256GB |
             Chính hãng VN/A</p>
         <div class="product-price">
@@ -16,7 +16,7 @@
             <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
                 class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
                 class="fa-solid fa-star checked"></i>
-            <button class="detail">Chi tiết</button>
+            <a th:href="@{'/giohang?id=' + *{id}}" class="detail">Thêm</a>
         </div>
     </div>
 </div>
