@@ -64,8 +64,12 @@ public class DonHang {
 	@ManyToOne
 	@JoinColumn(name = "maGiamDH", nullable = true) // Khóa ngoại với MaGiamDh
 	private MaGiamDh maGiamDh;
+
 	@OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<ChiTietDh> chiTietDhs;
+
+	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại với KhachHang
 	private KhachHang khachHang;
+
 }
