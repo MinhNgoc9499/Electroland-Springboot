@@ -28,7 +28,7 @@ public class ChiTietDh {
 	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
 	String moTa;
 
-	@ManyToMany
+	@ManyToOne
 	@JoinColumn(name = "maGiamSP")
 	private MaGiamSp maGiamSp;
 
