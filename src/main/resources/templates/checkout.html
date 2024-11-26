@@ -77,7 +77,7 @@
             </a>
         </div>
 
-        <div class="row g-4">
+        <div class="row g-4" th:object="${donHang}">
             <!-- Phần bên trái: Thông tin sản phẩm và khách hàng -->
             <div class="col-lg-7">
                 <div class="checkout-section">
@@ -85,46 +85,35 @@
                     <form>
                         <div class="mb-3">
                             <label for="last-name" class="form-label">Họ tên</label>
-                            <input type="text" class="form-control" id="name">
-                            <span th:field="*{name}" class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                            <input type="text" class="form-control" id="nguoiNhan" th:field="*{nguoiNhan}">
+                            <!-- <span th:field="*{name}" class="text-danger error">Vui lòng nhập đúng thông tin</span> -->
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" id="phone">
-                            <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                            <input type="text" class="form-control" id="sdt" th:field="*{sdt}">
+                            <!-- <span class="text-danger error">Vui lòng nhập đúng thông tin</span> -->
+                        </div>
+                        <h4 class="mt-4">Thông tin giao hàng</h4>
+                        <div class="mb-3">
+                            <label for="country" class="form-label">Địa chỉ</label>
+                            <select class="form-select" id="country" required th:field="*{diaChi}">
+                                <option value="Mặc định">696/4 Âu Cơ, Phường 14, Tân Bình, Thành phố Hồ Chí Minh
+                                </option>
+                                <option value="Địa chỉ 1">Địa chỉ 1</option>
+                                <option value="Địa chỉ 2">Địa chỉ 2</option>
+                                <option value="Địa chỉ 3">Địa chỉ 3</option>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email">
-                            <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
+                            <label for="note" class="form-label">Ghi chú</label>
+                            <textarea class="form-control" id="note" rows="3" th:field="*{ghiChu}"></textarea>
+                            <!-- <span class="text-danger error">Vui lòng nhập đúng thông tin</span> -->
                         </div>
-                    </form>
-
-                    <h4 class="mt-4">Thông tin giao hàng</h4>
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Địa chỉ</label>
-                        <select class="form-select" id="country" required>
-                            <option value="Mặc định">696/4 Âu Cơ, Phường 14, Tân Bình, Thành phố Hồ Chí Minh
-                            </option>
-                            <option value="Địa chỉ 1">Địa chỉ 1</option>
-                            <option value="Địa chỉ 2">Địa chỉ 2</option>
-                            <option value="Địa chỉ 3">Địa chỉ 3</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="note" class="form-label">Ghi chú</label>
-                        <textarea class="form-control" id="note" rows="3"></textarea>
-                        <span class="text-danger error">Vui lòng nhập đúng thông tin</span>
-                    </div>
-                    <h4 class="mt-4">Phương thức giao hàng</h4>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" name="shipping" id="standard" checked>
-                        <label class="form-check-label" for="standard">Standard (Miễn phí)</label>
-                    </div>
-                    <div class="form-check">
-                        <input type="radio" class="form-check-input" name="shipping" id="express">
-                        <label class="form-check-label" for="express">Express (50.000 đ)</label>
-                    </div>
+                        <h4 class="mt-4">Phương thức giao hàng</h4>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" name="shipping" id="standard" checked>
+                            <label class="form-check-label" for="standard">Standard (Miễn phí)</label>
+                        </div>
                 </div>
             </div>
 
@@ -169,24 +158,34 @@
                             <h4>Phương thức thanh toán</h4>
                             <div class="row">
                                 <div class="payment-methods col-md-12">
-                                    <div class="payment-method selected" onclick="selectPaymentMethod(this)">
+                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt1"
+                                        value="Thanh toán khi nhận hàng" hidden>
+                                    <label for="ptt1" class="payment-method" onclick="selectPaymentMethod(this)">
                                         <img th:src="@{/IMG/cash.png}" alt="COD Icon">
                                         <p>Thanh toán khi nhận hàng</p>
-                                    </div>
-                                    <div class="payment-method" onclick="selectPaymentMethod(this)">
+                                    </label>
+
+                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt2"
+                                        value="Chuyển khoản ngân hàng" hidden>
+                                    <label for="ptt2" class="payment-method" onclick="selectPaymentMethod(this)">
                                         <img th:src="@{/IMG/banking.png}" alt="ATM Icon">
                                         <p>Chuyển khoản ngân hàng</p>
-                                    </div>
-                                    <div class="payment-method " onclick="selectPaymentMethod(this)">
+                                    </label>
+
+                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt3" value="Ví MoMo" hidden>
+                                    <label for="ptt3" class="payment-method" onclick="selectPaymentMethod(this)">
                                         <img th:src="@{/IMG/Logo-MoMo-Circle.webp}" alt="MoMo Icon">
                                         <p>Ví MoMo</p>
-                                    </div>
-                                    <div class="payment-method " onclick="selectPaymentMethod(this)">
-                                        <img th:src="@{./IMG/palopay.png}" alt="ZaloPay Icon">
+                                    </label>
+
+                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt4" value="Ví ZaloPay" hidden>
+                                    <label for="ptt4" class="payment-method" onclick="selectPaymentMethod(this)">
+                                        <img th:src="@{/IMG/palopay.png}" alt="ZaloPay Icon">
                                         <p>Ví ZaloPay</p>
-                                    </div>
+                                    </label>
                                 </div>
                             </div>
+                            <h3 id="selected-method"></h3>
                             <button type="button" class="btn-checkout" data-bs-toggle="modal"
                                 data-bs-target="#paymentModal" onclick="btntt()">
                                 Thanh toán
@@ -243,8 +242,7 @@
                                                 <div class="timer" id="timer">5:00</div>
 
                                                 <!-- Thông báo thành công -->
-                                                <div  class="toast success-message" id="successMessage">Thành công!</div>
-                                                </div>
+                                                <div class="toast success-message" id="successMessage">Thành công!</div>
                                             </div>
                                         </div>
                                     </div>
@@ -252,10 +250,11 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
+    </div>
     </div>
     <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
@@ -302,7 +301,15 @@
             }, 5000);
         }
     </script>
+    <script>
+        document.querySelectorAll('input[name="phuongThucTT"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const selectedValue = this.value;
+                document.getElementById('selected-method').textContent = selectedValue;
+            });
+        });
 
+    </script>
 </body>
 
 </html>
