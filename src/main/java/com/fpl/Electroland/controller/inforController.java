@@ -2,6 +2,7 @@ package com.fpl.Electroland.controller;
 
 import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.CloudinaryService;
+import com.fpl.Electroland.dao.DiaChiDAO;
 import com.fpl.Electroland.dao.DonHangDAO;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.ChiTietDh;
+import com.fpl.Electroland.model.DiaChi;
 import com.fpl.Electroland.model.DonHang;
 import com.fpl.Electroland.model.KhachHang;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +57,8 @@ public class inforController {
 	private ChiTietDhDAO chiTietDhDAO;
 	@Autowired
 	private DonHangDAO donhangDAO;
-
+    @Autowired
+	private DiaChiDAO diachiDAO;
 	@ModelAttribute("user")
 	public KhachHang getUser() {
 		return author.getUserKhachHang();
@@ -70,7 +73,19 @@ public class inforController {
 	public String getAddress(Model model) {
 		return "_user_address";
 	}
+ @GetMapping("/list_addresses")
+    public String getListDiaChi(@ModelAttribute("user") KhachHang user,  
+                                 Model model) {
+		int userId = author.getUserKhachHang().getId();
+        // Lấy danh sách địa chỉ của khách hàng
+        List<DiaChi> diaChiList = diachiDAO.findByKhachHangId(userId);
 
+        // Thêm thông tin vào model để truyền cho view
+        model.addAttribute("diaChiList", diaChiList);
+        model.addAttribute("user", user);
+
+        return "user_addresses"; // Trả về view để hiển thị
+    }
 	 @GetMapping("/order_detail")
     public String getOrderDetail(@ModelAttribute("user") KhachHang user, @RequestParam("id") int orderId, Model model) {
 		KhachHang UserInfor = author.getUserKhachHang();

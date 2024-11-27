@@ -15,6 +15,22 @@
             </button>
         </div>
         <div class="address-list" id="addressList">
+            <div th:each="diaChi : ${diaChiList}" class="address-card">
+                <div class="form-check">
+                    <input class="form-check-input delete-checkbox" type="checkbox" th:value="${diaChi.id}">
+                </div>
+                <h6 class="address-type" th:text="${diaChi.type}">Văn Phòng</h6>
+                <p class="address-name" th:text="${diaChi.name}">Nguyễn Thị Minh Ngọc</p>
+                <p class="address-phone" th:text="${diaChi.phone}">089 234 567 890</p>
+                <p class="address-detail" th:text="${diaChi.detail}">696/4 Âu Cơ, Phường 14, Quận Tân Bình, Thành Phố Hồ Chí Minh</p>
+                <a href="#" class="edit-btn" data-bs-toggle="modal" data-bs-target="#updateModal"
+                   th:onclick="'fillModal(' + ${diaChi.id} + ')'" >
+                    <i class="bi bi-pencil"></i> Sửa
+                </a>
+            </div>
+        </div>
+        
+        <!-- <div class="address-list" id="addressList">
             <div class="address-card">
                 <div class="form-check">
                     <input class="form-check-input delete-checkbox" type="checkbox">
@@ -67,7 +83,7 @@
                     <i class="bi bi-pencil"></i> Sửa
                 </a>
             </div>
-        </div>
+        </div> -->
         <div class="btn-delete-container d-flex">
             <button class="delete-btn" onclick="deleteSelectedCards()">
                 <i class="bi bi-trash"></i> Xóa

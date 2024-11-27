@@ -24,4 +24,7 @@ public class DiaChi {
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại liên kết với KhachHang
 	private KhachHang khachHang;
+	
+	@Column(nullable = true, columnDefinition = "NVARCHAR(100)") // Thêm cột loaiDiaChi kiểu String
+    private String loaiDiaChi;
 }
