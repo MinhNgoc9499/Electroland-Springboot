@@ -40,4 +40,5 @@ public class GioHang {
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false)
 	KhachHang khachHang;
+	boolean checked;
 }
