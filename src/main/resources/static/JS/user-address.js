@@ -55,19 +55,10 @@ async function fillModal(editBtn) {
     const addressPhone = card.querySelector('.address-phone').innerText.trim();
     const addressDetailText = card.querySelector('.address-detail').innerText.trim();
 
-    // Tách địa chỉ dựa trên dấu phẩy và chuẩn hóa các chuỗi
-    const addressDetailArray = addressDetailText.split(',').map(part => part.trim());
-
-    // Phân tích thông tin chi tiết địa chỉ
-    const addressDetail = addressDetailArray[0] || '';
-    const ward = addressDetailArray[1] || '';
-    const district = addressDetailArray[2] || '';
-    const city = addressDetailArray[3] || '';
-
-    // Điền thông tin vào các trường trong modal
+   
     document.getElementById('name').value = addressName;
     document.getElementById('phone').value = addressPhone;
-    document.getElementById('addressDetail').value = addressDetail;
+    document.getElementById('addressDetail').value = addressDetailText;
 
     // Kiểm tra xem card có class "active" không để đặt checkbox "Đặt làm địa chỉ mặc định"
     const defaultAddressCheckbox = document.getElementById('defaultAddress');
@@ -182,9 +173,6 @@ function clearModal() {
     // Làm trống các trường trong modal khi nhấn vào "Thêm địa chỉ mới"
     document.getElementById('name').value = '';
     document.getElementById('phone').value = '';
-    document.getElementById('city').value = '';
-    document.getElementById('district').length = 1;
-    document.getElementById('ward').length = 1;
     document.getElementById('addressDetail').value = '';
     document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
 }
