@@ -20,7 +20,7 @@ import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.HinhSp;
 import com.fpl.Electroland.model.MauSp;
 import com.fpl.Electroland.model.SanPham;
-import com.fpl.Electroland.model.ThuocTinh;
+
 
 @Controller
 public class detailController {
@@ -55,7 +55,7 @@ public class detailController {
 		Optional<SanPham> sp = spDAO.findById(id);
 		if(sp.isPresent()){
 			List<HinhSp> listHinh = hinhDAO.findBySanPham(sp.get());
-			List<MauSp> listColor = mauDAO.findBySanPham(sp.get());
+			List<String> listColor = mauDAO.findTenMauBySanPham(sp.get());
 			model.addAttribute("product",sp.get());
 			model.addAttribute("pictures", listHinh);
 			model.addAttribute("colors", listColor);

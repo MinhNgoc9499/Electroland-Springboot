@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"idSP", "idKH"}))
+
 public class GioHang {
 
 	@Id
@@ -40,4 +40,6 @@ public class GioHang {
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false)
 	KhachHang khachHang;
+
+	Boolean checked;
 }
