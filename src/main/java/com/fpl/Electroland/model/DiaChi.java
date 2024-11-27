@@ -27,4 +27,11 @@ public class DiaChi {
 	
 	@Column(nullable = true, columnDefinition = "NVARCHAR(100)") // Thêm cột loaiDiaChi kiểu String
     private String loaiDiaChi;
+	
+	@Column(nullable = true, columnDefinition = "NVARCHAR(100)") // Thêm cột hoTen kiểu String
+	private String hoTenNN;  // viết tắt của 'hoTenNguoiNhan'
+	
+	@Column(nullable = true, columnDefinition = "NVARCHAR(100)") // Thêm cột sdt kiểu String
+	private String sdtNN;  // viết tắt của 'sdtNguoiNhan'
+	
 }

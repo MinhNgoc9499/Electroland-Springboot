@@ -1,5 +1,6 @@
 package com.fpl.Electroland.controller;
 
+
 import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.CloudinaryService;
 import com.fpl.Electroland.dao.DiaChiDAO;
@@ -7,20 +8,26 @@ import com.fpl.Electroland.dao.DonHangDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
+import com.fpl.Electroland.dto.DeleteRequest;
+import com.fpl.Electroland.dto.DiaChiDto;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.ChiTietDh;
 import com.fpl.Electroland.model.DiaChi;
@@ -69,11 +76,7 @@ public class inforController {
 		return "_user_infor";
 	}
 
-	@GetMapping("/user_address")
-	public String getAddress(Model model) {
-		return "_user_address";
-	}
- @GetMapping("/list_addresses")
+ 	@GetMapping("/user_address")
     public String getListDiaChi(@ModelAttribute("user") KhachHang user,  
                                  Model model) {
 		int userId = author.getUserKhachHang().getId();
@@ -84,8 +87,56 @@ public class inforController {
         model.addAttribute("diaChiList", diaChiList);
         model.addAttribute("user", user);
 
-        return "user_addresses"; // Trả về view để hiển thị
+        return "_user_address"; // Trả về view để hiển thị
     }
+	@PostMapping("/user_address/update")
+public ResponseEntity<DiaChi> updateAddress(@ModelAttribute("user") KhachHang user, @RequestBody DiaChiDto diaChiDto) {
+	if (diaChiDto.getId() == 0) {
+		 // Tạo mới đối tượng DiaChi từ DTO
+		 DiaChi diaChi = new DiaChi();
+		 diaChi.setChiTiet(diaChiDto.getChiTiet());
+		 diaChi.setLoaiDiaChi(diaChiDto.getLoaiDiaChi());
+		 diaChi.setMacDinh(diaChiDto.isMacDinh());
+
+		 diaChi.setHoTenNN(diaChiDto.getHoTen());
+		 diaChi.setSdtNN(diaChiDto.getSdt());
+		 // Thêm các thuộc tính khác của KhachHang nếu cần
+		 diaChi.setKhachHang(user);
+ 
+		 // Lưu địa chỉ vào database
+		 diachiDAO.save(diaChi);
+ 
+		 return ResponseEntity.ok(diaChi);  
+	}else{
+        // Kiểm tra xem địa chỉ có tồn tại không
+        Optional<DiaChi> diaChiUpdate = diachiDAO.findById(diaChiDto.getId());
+            DiaChi existingDiaChi = diaChiUpdate.get();
+            existingDiaChi.setChiTiet(diaChiDto.getChiTiet());
+            existingDiaChi.setLoaiDiaChi(diaChiDto.getLoaiDiaChi());
+            existingDiaChi.setMacDinh(diaChiDto.isMacDinh());
+
+            // Cập nhật thông tin khách hàng
+			existingDiaChi.setHoTenNN(diaChiDto.getHoTen());
+			existingDiaChi.setSdtNN(diaChiDto.getSdt());
+            
+            // Lưu địa chỉ và khách hàng (nếu thông tin khách hàng thay đổi)
+            diachiDAO.save(existingDiaChi);
+            
+            return ResponseEntity.ok(existingDiaChi); // Trả về địa chỉ đã được cập nhật
+	}
+}
+
+@DeleteMapping("/user_address/delete")
+public ResponseEntity<String> deleteSelectedAddresses(@RequestBody DeleteRequest deleteRequest) {
+	try {
+		// Gọi service để xóa các địa chỉ theo danh sách ID
+		diachiDAO.deleteByIdIn(deleteRequest.getIds());
+		return ResponseEntity.ok("Đã xóa thành công các địa chỉ.");
+	} catch (Exception e) {
+		return ResponseEntity.status(500).body("Lỗi xảy ra khi xóa: " + e.getMessage());
+	}
+}
+
 	 @GetMapping("/order_detail")
     public String getOrderDetail(@ModelAttribute("user") KhachHang user, @RequestParam("id") int orderId, Model model) {
 		KhachHang UserInfor = author.getUserKhachHang();
@@ -148,8 +199,10 @@ public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model mo
 			model.addAttribute("error", "Email không hợp lệ");
 			return "_user_infor";
 		} else {
-			String url = cloudinaryService.uploadMultipleFile(file);
-			user.setAvaImg(url);
+			if (!file.isEmpty()) {
+				String url = cloudinaryService.uploadMultipleFile(file);
+				user.setAvaImg(url);
+			}
 			khDAO.save(user);
 		}
 
