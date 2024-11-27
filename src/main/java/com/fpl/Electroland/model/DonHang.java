@@ -54,7 +54,7 @@ public class DonHang {
 	private Date ngayGH; // Ngày giao hàng
 
 	@Column(nullable = false) // Trạng thái không được null
-	private int trangThai;
+	private boolean trangThai;
 
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại với KhachHang
