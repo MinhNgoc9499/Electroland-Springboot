@@ -36,26 +36,9 @@
 		<div class="row">
 			<div class="col-md-4 text-center">
 				<div class="card p-4 ml-5">
-					<form action="/infor">
-						<input type="file" id="fileInput" class="position-relative d-inline-block" hidden />
-						<img id="profileImg" th:src="@{'./IMG/' + *{avaImg}}"
-							class="rounded-circle img-fluid profile-img" alt="Profile Picture">
-					</form>
-					<script>
-						// JavaScript để gắn sự kiện nhấp chuột vào thẻ img 
-						document.getElementById('profileImg').addEventListener(
-							'click',
-							function () {
-								document.getElementById('fileInput')
-									.click();
-							}); // JavaScript để xử lý sự kiện chọn tệp 
-						document.getElementById('fileInput').addEventListener(
-							'change', function (event) {
-								// Bạn có thể xử lý tệp được chọn ở đây 
-								const file = event.target.files[0];
-								console.log(file);
-							});
-					</script>
+					<div class="row justify-content-center mb-2">
+						<img id="profileImg" th:src="@{*{avaImg}}" alt="Profile Picture">
+					</div>
 					<h4 class="card-title" th:text="*{hoTen}"></h4>
 					<div class="list-group text-left">
 						<a class="list-group-item list-group-item-action" href="/infor">
@@ -73,7 +56,28 @@
 				<main th:insert=${view}></main>
 			</div>
 			<script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-			<script src="JS/index.js"></script>
+			<script th:src="@{JS/index.js}"></script>
 </body>
+<script>
+	// Gắn sự kiện click vào ảnh để chọn tệp
+	document.getElementById('profileImg').addEventListener('click', function () {
+		document.getElementById('fileInput').click();
+	});
 
+	// Xử lý sự kiện khi người dùng chọn tệp
+	document.getElementById('fileInput').addEventListener('change', function (event) {
+		const file = event.target.files[0];
+		if (file) {
+			const reader = new FileReader();
+
+			// Khi đọc xong file, thay đổi src của hình ảnh
+			reader.onload = function (e) {
+				document.getElementById('profileImg').src = e.target.result;
+			};
+
+			// Đọc file dưới dạng URL để hiển thị
+			reader.readAsDataURL(file);
+		}
+	});
+</script>
 </html>

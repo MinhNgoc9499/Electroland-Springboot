@@ -74,6 +74,7 @@ public class LoginController {
 			return "login";
 		} else {
 			author.setUserKhachHang(khachHangDK);
+			khachHangDK.setAvaImg("https://res.cloudinary.com/dbc1auqsg/image/upload/v1732552242/t8u38kcueayahhci69uq.png");
 			khDAO.save(khachHangDK);
 			return "redirect:/index";
 		}

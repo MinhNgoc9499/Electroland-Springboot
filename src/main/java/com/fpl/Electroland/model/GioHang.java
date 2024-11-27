@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSP", "idKH" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"idSP", "idKH"}))
 public class GioHang {
 
 	@Id
@@ -32,6 +32,9 @@ public class GioHang {
 	@ManyToOne
 	@JoinColumn(name = "idSP", nullable = false)
 	SanPham sanPham;
+
+	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
+	String moTa;
 
 	// Mối quan hệ với khách hàng
 	@ManyToOne

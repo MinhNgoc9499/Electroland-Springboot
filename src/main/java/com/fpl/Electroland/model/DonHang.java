@@ -1,18 +1,22 @@
 package com.fpl.Electroland.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -41,26 +45,30 @@ public class DonHang {
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Sử dụng NVARCHAR(225)
 	private String phuongThucTT;
 
+	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Sử dụng NVARCHAR(225)
+	private String ghiChu;
+
 	@Temporal(TemporalType.TIMESTAMP) // Lưu cả ngày và giờ
-	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm") // Định dạng ngày tháng năm giờ:phút
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm") // Định dạng ngày tháng năm giờ:phút (dành cho JSON)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") // Định dạng ngày tháng năm giờ:phút
 	@Column(nullable = false)
 	private Date ngayDH = new Date(); // Ngày đơn hàng
 
 	@Temporal(TemporalType.TIMESTAMP) // Lưu cả ngày và giờ
-	@DateTimeFormat(pattern = "dd-MM-yyyy HH:mm") // Định dạng ngày tháng năm giờ:phút
-	@JsonFormat(pattern = "dd-MM-yyyy HH:mm") // Định dạng ngày tháng năm giờ:phút (dành cho JSON)
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm") // Định dạng ngày tháng năm giờ:phút
 	@Column(nullable = true)
 	private Date ngayGH; // Ngày giao hàng
 
 	@Column(nullable = false) // Trạng thái không được null
-	private boolean trangThai;
+	private int trangThai = 2;
 
+	@ManyToOne
+	@JoinColumn(name = "maGiamDH", nullable = true) // Khóa ngoại với MaGiamDh
+	private MaGiamDh maGiamDh;
+
+	@OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ChiTietDh> chiTietDhs;
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại với KhachHang
 	private KhachHang khachHang;
 
-	@ManyToOne
-	@JoinColumn(name = "idMGKH", nullable = true) // Khóa ngoại với MaGiamKh, có thể null
-	private MaGiamKh maGiamKh;
 }

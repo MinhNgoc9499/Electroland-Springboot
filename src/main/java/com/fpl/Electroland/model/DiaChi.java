@@ -18,12 +18,6 @@ public class DiaChi {
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Đảm bảo cột này không null và sử dụng NVARCHAR(225)
 	private String chiTiet;
 
-	@Column(nullable = true, columnDefinition = "VARCHAR(50)") // Đảm bảo cột này không null và sử dụng NVARCHAR(225)
-	private String toaDo;
-
-	@Column(nullable = true) // Đảm bảo cột này không null
-	private Double khoangCach;
-
 	@Column(nullable = true) // Đảm bảo cột này không null
 	private boolean macDinh;
 

@@ -42,14 +42,14 @@
                     </div>
                     <div class="col-md-6 right-side">
                         <button class="btn1 google">
-                            <img src="ICON/googleicon.png" alt="Google Icon" class="google-icon"> Đăng ký với Google
+                            <img th:src="@{/ICON/googleicon.png}" alt="Google Icon" class="google-icon"> Đăng ký với Google
                         </button>
                     </div>
                 </div>
             </form>
         </div>
         <div class="form-container login-container">
-            <form action="/dangnhap" th:object="${khachHangDN}" method="post" >
+            <form th:action="@{/dangnhap}" th:object="${khachHangDN}" method="post" >
                 <h1 style="text-align: center; margin-bottom: 20px;">ĐĂNG NHẬP</h1>
                 <input th:field="*{email}" type="text" placeholder="Nhập email" name="emailDN" style="margin-right: 10px;" required>
                 <input type="password" th:value="*{matKhau}" name="matKhau" placeholder="Nhập mật khẩu" style="margin-right: 10px;" required >
@@ -83,6 +83,6 @@
         </div>
     </div>
     <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-    <script src="JS/login.js"></script>
+    <script th:src="@{/JS/login.js}"></script>
 </body>
 </html>

@@ -7,19 +7,25 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
 import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.DonHangDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.dao.SanPhamDAO;
 import com.fpl.Electroland.helper.Author;
+import com.fpl.Electroland.model.DonHang;
 import com.fpl.Electroland.model.GioHang;
 import com.fpl.Electroland.model.KhachHang;
 import com.fpl.Electroland.model.LoaiSanPham;
 import com.fpl.Electroland.model.NhaCungCap;
 import com.fpl.Electroland.model.SanPham;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class CheckoutController {
@@ -55,9 +61,9 @@ public class CheckoutController {
 			1000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
 
-	GioHang gioHangMau1 = new GioHang(1, 1, sanPhamMau1, new KhachHang());
-	GioHang gioHangMau2 = new GioHang(2, 3, sanPhamMau2, new KhachHang());
-	GioHang gioHangMau3 = new GioHang(3, 2, sanPhamMau3, new KhachHang());
+	GioHang gioHangMau1 = new GioHang(1, 1, sanPhamMau1, "", new KhachHang());
+	GioHang gioHangMau2 = new GioHang(2, 3, sanPhamMau2, "", new KhachHang());
+	GioHang gioHangMau3 = new GioHang(3, 2, sanPhamMau3, "", new KhachHang());
 
 	// @ModelAttribute("ListSelected")
 	// public List<SanPham> getList(@RequestParam("id") Integer[] listsp) {
@@ -67,6 +73,11 @@ public class CheckoutController {
 	// }
 	// return list;
 	// }
+
+	@ModelAttribute("donHang")
+	public DonHang getDonHang() {
+		return new DonHang();
+	};
 
 	@ModelAttribute("ListSelected")
 	public List<GioHang> getList() {
@@ -96,5 +107,10 @@ public class CheckoutController {
 		UUID uuid = UUID.randomUUID();
 		model.addAttribute("key", uuid.toString().replaceAll("-", ""));
 		return "checkout";
+	}
+
+	@PostMapping("/thanhtoan")
+	public String Payment(@Valid @ModelAttribute("DonHang") DonHang donhang, BindingResult rs, Model model) {
+		return "redirect:/order_detail?id=" + donhang.getId();
 	}
 }

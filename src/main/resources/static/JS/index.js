@@ -1,12 +1,12 @@
 let index = 0;
 const imgNumber = document.querySelectorAll('.slider-content-left-top img');
 const imgNumberLi = document.querySelectorAll('.slider-content-left-bottom li');
-let autoSlide; 
+let autoSlide;
 
 document.addEventListener('DOMContentLoaded', () => {
     const leftbtn = document.querySelector('.fa-solid.fa-arrow-left');
     const rightbtn = document.querySelector('.fa-solid.fa-arrow-right');
-    
+
     function startAutoSlide() {
         autoSlide = setInterval(() => {
             index = (index + 1) % imgNumber.length;
@@ -19,25 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function pauseAutoSlide() {
-        stopAutoSlide();  
-        setTimeout(startAutoSlide, 5000); 
+        stopAutoSlide();
+        setTimeout(startAutoSlide, 5000);
     }
 
-    rightbtn.addEventListener('click', function() {
-        index = (index + 1) % imgNumber.length; 
+    rightbtn.addEventListener('click', function () {
+        index = (index + 1) % imgNumber.length;
         changeImage();
         pauseAutoSlide();
     });
 
-    leftbtn.addEventListener('click', function() {
-        index = (index - 1 + imgNumber.length) % imgNumber.length; 
+    leftbtn.addEventListener('click', function () {
+        index = (index - 1 + imgNumber.length) % imgNumber.length;
         changeImage();
         pauseAutoSlide();
     });
 
-    imgNumberLi.forEach(function(image, liIndex) {
-        image.addEventListener('click', function() {
-            if (liIndex < imgNumber.length) { 
+    imgNumberLi.forEach(function (image, liIndex) {
+        image.addEventListener('click', function () {
+            if (liIndex < imgNumber.length) {
                 index = liIndex;
                 changeImage();
                 pauseAutoSlide();
@@ -66,7 +66,7 @@ function removeactive() {
 function countdownTimer() {
     const countDownDate = new Date("Nov 18, 2024 18:00:00").getTime();
 
-    const timer = setInterval(function() {
+    const timer = setInterval(function () {
         const now = new Date().getTime();
         const distance = countDownDate - now;
 
@@ -89,3 +89,19 @@ function countdownTimer() {
 }
 
 window.onload = countdownTimer;
+document.addEventListener("DOMContentLoaded", function () {
+    // Tìm tất cả các thẻ sản phẩm
+    let cards = document.querySelectorAll('.product-template');
+
+    // Gắn sự kiện nhấp chuột cho từng thẻ sản phẩm
+    cards.forEach(function (card) {
+        card.addEventListener('click', function () {
+            // Lấy ID sản phẩm từ thẻ (giả sử bạn đã có thuộc tính data-id trong thẻ)
+            var productId = card.getAttribute('data-id');
+
+            // Chuyển hướng đến trang chi tiết sản phẩm
+            window.location.href = '/detail?id=' + productId;
+        });
+    });
+});
+

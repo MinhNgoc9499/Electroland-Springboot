@@ -4,7 +4,7 @@
 		<div class="card-body">
 			<div class="row">
 				<div class="product-category-item" th:each="item,i : ${list}" th:if="${i.index < 20 }">
-					<a href="#"> <img th:src="@{'IMG/'+ ${item.hinh}}">
+					<a href="#"> <img th:src="@{'/IMG/'+ ${item.hinh}}">
 						<p th:text="${item.tenLoaiSP}"></p>
 					</a>
 				</div>
