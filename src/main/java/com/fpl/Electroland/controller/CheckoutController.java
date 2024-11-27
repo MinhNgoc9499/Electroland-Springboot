@@ -60,10 +60,9 @@ public class CheckoutController {
 			1000.0,
 			1000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
-
-	// GioHang gioHangMau1 = new GioHang(1, 1, sanPhamMau1, "", new KhachHang());
-	// GioHang gioHangMau2 = new GioHang(2, 3, sanPhamMau2, "", new KhachHang());
-	// GioHang gioHangMau3 = new GioHang(3, 2, sanPhamMau3, "", new KhachHang());
+			GioHang gioHangMau1 = new GioHang(1, 1, sanPhamMau1, null, new KhachHang(),true);
+			GioHang gioHangMau2 = new GioHang(2, 3, sanPhamMau2, null, new KhachHang(),true);
+			GioHang gioHangMau3 = new GioHang(3, 2, sanPhamMau3, null, new KhachHang(),true);
 
 	// @ModelAttribute("ListSelected")
 	// public List<SanPham> getList(@RequestParam("id") Integer[] listsp) {
