@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSP", "idKH", "moTa" }))
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"idSP", "idKH"}))
 public class GioHang {
 
 	@Id
