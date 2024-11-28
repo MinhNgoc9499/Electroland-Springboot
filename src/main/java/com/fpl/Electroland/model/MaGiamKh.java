@@ -48,4 +48,6 @@ public class MaGiamKh {
 	@ManyToOne
 	@JoinColumn(name = "idMGSP", nullable = true) // nullable = true
 	MaGiamSp maGiamSp;
+	@Column(nullable = true) // nullable = true
+	Boolean checked;
 }

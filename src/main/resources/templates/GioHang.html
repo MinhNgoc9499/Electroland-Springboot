@@ -20,7 +20,7 @@
          <!-- Checkbox chọn tất cả -->
     <div style="font-weight: 700;">
     <!-- Checkbox "Chọn tất cả" -->
-    <input type="checkbox" id="select-all" onclick="toggleSelectAll()"> Sản Phẩm
+    <input type="checkbox" id="select-all" onclick="toggleSelectAll(this)"> Sản Phẩm
     </div>
             <div>Đơn Giá</div>
             <div>Số Lượng</div>
@@ -31,14 +31,13 @@
      <!--end cart-container -->
     <!-- cart-containerItem -->
       <!-- Product 1 -->
-    <div class="cart-containerItem" th:each="item : ${ListSelected}">
+    <div class="cart-containerItem" th:each="item : ${List}">
         <!-- Duyệt qua danh sách giỏ hàng -->
         <div class="cart-item">
          <!-- Checkbox cho từng sản phẩm -->
-         <input type="checkbox" class="select-item" data-idsp="${item.sanPham.id}" data-idkh="${item.khachhang.id}" onclick="checkSelected()"> 
-            
+         <input type="checkbox" class="select-item" th:checked="${item.checked}" th:data-id="${item.id}" onclick="addItem(this)">            
             <!-- Hình ảnh sản phẩm -->
-            <img th:src="@{/images/{image}(image=${item.sanPham.hinhDaiDien})}" alt="Product Image">
+            <img src="" alt="Product Image">
             
             <!-- Thông tin sản phẩm -->
             <div class="product-info">
@@ -61,7 +60,7 @@
             
             <!-- Xóa sản phẩm -->
             <p class="remove">
-                <a href="#" onclick="removeItem(this)"><i class="fa-regular fa-trash-can"></i></a>
+                <a href="#" onclick="removeItem(this)" th:data-id="${item.id}"><i class="fa-regular fa-trash-can"></i></a>
             </p>
         </div>
         <hr>
@@ -94,38 +93,23 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-4 voucher-item text-center mb-3">
-                        <img src="img/logoxanh.png" alt="Voucher 1" class="img-fluid">
-                        <p>Giảm 10% cho đơn hàng trên 500k</p>
-                        <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
-                    </div>
-                    <div class="col-md-4 voucher-item text-center mb-3">
-                        <img src="img/logoxanh.png" alt="Voucher 2" class="img-fluid">
-                        <p>Giảm 20% cho sản phẩm thứ hai</p>
-                        <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
-                    </div>
-                    <div class="col-md-4 voucher-item text-center mb-3">
-                        <img src="img/logoxanh.png" alt="Voucher 3" class="img-fluid">
-                        <p>Miễn phí vận chuyển cho đơn hàng trên 1 triệu</p>
-                        <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
+                   <!-- Lặp qua danh sách voucherList -->
+                    <div class="col-md-4 voucher-item text-center mb-3" th:each="voucher : ${Voucher}">
+                       <!-- Debug dữ liệu -->
+                       <img src="img/logoxanh.png" alt="Voucher 4" class="img-fluid">
+                    <div th:text="${voucher.maGiamDh.moTa}">Dữ liệu không tồn tại</div>
+                    <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 voucher-item text-center mb-3">
+                    
+                    <div class="col-md-4 voucher-item text-center mb-3" th:each="voucher : ${Voucher}">
+                        <!-- Debug dữ liệu -->
                         <img src="img/logoxanh.png" alt="Voucher 4" class="img-fluid">
-                        <p>Giảm giá 30% cho các sản phẩm điện tử</p>
-                        <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
-                    </div>
-                    <div class="col-md-4 voucher-item text-center mb-3">
-                        <img src="img/logoxanh.png" alt="Voucher 5" class="img-fluid">
-                        <p>Giảm 50% cho sản phẩm cuối cùng trong giỏ hàng</p>
-                        <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
-                    </div>
-                    <div class="col-md-4 voucher-item text-center mb-3">
-                        <img src="img/logoxanh.png" alt="Voucher 6" class="img-fluid">
-                        <p>Giảm giá 15% cho các sản phẩm thời trang</p>
-                        <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
-                    </div>
+                     <div th:text="${voucher.MaGiamSp.giaTri}">Dữ liệu không tồn tại</div>
+                     <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
+                     </div>
+                   
                 </div>
             </div>
         </div>
@@ -147,7 +131,7 @@
                 </div>
                 <div class="d-flex justify-content-between totalall">
                     <span>Tổng cộng</span>
-                    <span class="amount" name="tongTien">0đ</span>
+                    <span class="amount" name="tongTien"> <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span></span>
                 </div>
                 <div style="margin-top: 30px;">
                     <a class="checkout-btn" href="/checkout">Mua Hàng</a>

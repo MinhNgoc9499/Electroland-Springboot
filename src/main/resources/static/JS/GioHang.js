@@ -67,9 +67,6 @@ function toggleSelectAll() {
     document.querySelectorAll(".select-item").forEach(item => {
         item.checked = selectAll;
         // Lấy thông tin sản phẩm và khách hàng từ các thuộc tính
-        const sanPham = item.getAttribute("data-idsp");
-        const khachhang = item.getAttribute("data-idkh"); // ID khách hàng nếu có
-        updateProductSelection(sanPham, khachhang, selectAll); // Cập nhật trạng thái trên server
     });
     updateTotalAmount();
 }
@@ -110,63 +107,19 @@ function deselectAll() {
 }
 
 
+
 // Xóa sản phẩm cá nhân
 function removeItem(link) {
-    const productItem = link.closest('.cart-containerItem');
-    if (productItem) {
-        const sanPham = productItem.querySelector(".select-item").getAttribute("data-idsp");
-        const khachhang = productItem.querySelector(".select-item").getAttribute("data-idkh");
-        removeItemFromDB(sanPham, khachhang); // Xóa sản phẩm khỏi DB
-        productItem.remove(); // Xóa sản phẩm khỏi UI
-        updateTotalAmount();
-    }
+    let id = link.getAttribute("data-id")
+    console.log(id)
+    let a = fetch("http://localhost:8080/rest/giohang/" + id)
+  }
+  // Xóa sản phẩm cá nhân
+function addItem(link) {
+  let checked = link.getAttribute("data-id")
+  console.log(checked)
+  let a = fetch("http://localhost:8080/rest/giohang/update" + checked)
 }
-// Kiểm tra tham số trước khi gọi hàm
-if (sanPham && khachhang) {
-    updateProductSelection(sanPham, khachhang, selectAll);
-} else {
-    console.error('Tham số sanPham hoặc khachhang không hợp lệ:', sanPham, khachhang);
-}
-function updateProductSelection(sanPham, khachhang, ischecked) {
-    const encodedSanPham = encodeURIComponent(sanPham);
-    const encodedKhachhang = encodeURIComponent(khachhang);
-    fetch(`/update-product-selection?idSP=${encodedSanPham}&checked=${ischecked}&idKH=${encodedKhachhang}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data); // Hiển thị thông báo kết quả
-    })
-    .catch(error => console.error('Lỗi:', error));
-}
-
-function updateAllProductSelection(khachhang, ischecked) {
-    const encodedKhachhang = encodeURIComponent(khachhang);
-    fetch(`/update-all-products-selection?checked=${ischecked}&idKH=${encodedKhachhang}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data); // Hiển thị thông báo kết quả
-    })
-    .catch(error => console.error('Lỗi:', error));
-}
-
-function removeItemFromDB(sanPham, khachhang) {
-    const encodedSanPham = encodeURIComponent(sanPham);
-    const encodedKhachhang = encodeURIComponent(khachhang);
-    fetch(`/remove-product-from-cart?idSP=${encodedSanPham}&idKH=${encodedKhachhang}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log("Sản phẩm đã được xóa khỏi giỏ hàng trong DB.");
-    })
-    .catch(error => console.error('Lỗi khi xóa sản phẩm khỏi giỏ hàng:', error));
-}
-
-
-
 
 
 
