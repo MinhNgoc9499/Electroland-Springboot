@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fpl.Electroland.dao.HinhSpDAO;
@@ -20,7 +19,6 @@ import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.HinhSp;
 import com.fpl.Electroland.model.MauSp;
 import com.fpl.Electroland.model.SanPham;
-import com.fpl.Electroland.model.ThuocTinh;
 
 @Controller
 public class detailController {
@@ -43,20 +41,16 @@ public class detailController {
 	@Autowired
 	ThuocTinhSpDAO ttSPDAO;
 
-	
 	@Autowired
 	Author author;
 
-
-	
-	
 	@GetMapping("/detail")
 	public String getIndexPage(@RequestParam("id") int id, Model model) {
 		Optional<SanPham> sp = spDAO.findById(id);
-		if(sp.isPresent()){
+		if (sp.isPresent()) {
 			List<HinhSp> listHinh = hinhDAO.findBySanPham(sp.get());
 			List<MauSp> listColor = mauDAO.findBySanPham(sp.get());
-			model.addAttribute("product",sp.get());
+			model.addAttribute("product", sp.get());
 			model.addAttribute("pictures", listHinh);
 			model.addAttribute("colors", listColor);
 		}
