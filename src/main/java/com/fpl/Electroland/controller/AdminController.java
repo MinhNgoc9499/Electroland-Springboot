@@ -2,37 +2,40 @@ package com.fpl.Electroland.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
-	@GetMapping("/adminIndex")
-	public String adminIndex() {
-		return "dashboard";
-	}
 
-	@GetMapping("/adminProduct")
-	public String adminProduct() {
-		return "productADM";
-	}
+    @GetMapping("/index")
+    public String adminIndex() {
+        return "dashboard";
+    }
 
-	@GetMapping("/adminProductDetail")
-	public String adminProductDetail() {
-		return "productDetailADM";
-	}
+    @GetMapping("/product")
+    public String adminProduct() {
+        return "productADM";
+    }
 
-	@GetMapping("/adminOrderList")
-	public String adminOrderList() {
-		return "OrderList";
-	}
+    @GetMapping("/product-detail")
+    public String adminProductDetail() {
+        return "productDetailADM";
+    }
 
-	@GetMapping("/adimEmployes")
-	public String adimEmployes() {
-		return "employessADM";
-	}
+    @GetMapping("/order")
+    public String adminOrderList() {
+        return "OrderList";
+    }
 
-	@GetMapping("/adminEmployessDetail	")
-	public String adimEmployesDetail() {
-		return "EmployessDetailADM";
-	}
+    @GetMapping("/employes")
+    public String adimEmployes() {
+        return "employessADM";
+    }
+
+    @GetMapping("/EmployessDetail	")
+    public String adimEmployesDetail() {
+        return "EmployessDetailADM";
+    }
 
 }
