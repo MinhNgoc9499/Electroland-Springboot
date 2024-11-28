@@ -37,6 +37,10 @@ public class MaGiamKh {
 	@Column(nullable = true) // nullable = true
 	Boolean trangThai;
 
+	// Đảm bảo trạng thái có kiểu Boolean và nullable = true
+	@Column(nullable = true) // nullable = true
+	Boolean selected;
+
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // nullable = false
 	KhachHang khachHang;
