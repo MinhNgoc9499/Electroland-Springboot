@@ -1,6 +1,5 @@
 package com.fpl.Electroland.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,17 +12,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.fpl.Electroland.dao.ChiTietDhDAO;
+import com.fpl.Electroland.dao.DiaChiDAO;
 import com.fpl.Electroland.dao.DonHangDAO;
+import com.fpl.Electroland.dao.GioHangDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
-import com.fpl.Electroland.dao.LoaiKhachHangDAO;
-import com.fpl.Electroland.dao.SanPhamDAO;
+import com.fpl.Electroland.dao.MaGiamKhDAO;
 import com.fpl.Electroland.helper.Author;
+import com.fpl.Electroland.model.ChiTietDh;
+import com.fpl.Electroland.model.DiaChi;
 import com.fpl.Electroland.model.DonHang;
 import com.fpl.Electroland.model.GioHang;
-import com.fpl.Electroland.model.KhachHang;
-import com.fpl.Electroland.model.LoaiSanPham;
-import com.fpl.Electroland.model.NhaCungCap;
-import com.fpl.Electroland.model.SanPham;
+import com.fpl.Electroland.model.MaGiamDh;
+import com.fpl.Electroland.model.MaGiamKh;
 
 import jakarta.validation.Valid;
 
@@ -31,61 +31,47 @@ import jakarta.validation.Valid;
 public class CheckoutController {
 
 	@Autowired
-	LoaiKhachHangDAO dao;
+	KhachHangDAO khachHangDAO;
 
 	@Autowired
-	KhachHangDAO khDAO;
+	DonHangDAO donHangDAO;
+
+	@Autowired
+	ChiTietDhDAO chiTietDhDAO;
+
+	@Autowired
+	GioHangDAO gioHangDAO;
 
 	@Autowired
 	Author author;
 
 	@Autowired
-	SanPhamDAO spDAO;
+	MaGiamKhDAO maGiamKhDAO;
 
 	@Autowired
-	DonHangDAO dhDAO;
-
-	@Autowired
-	ChiTietDhDAO ctdhDAO;
-
-	SanPham sanPhamMau1 = new SanPham(1, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			10000.0,
-			10000.0, true,
-			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
-	SanPham sanPhamMau2 = new SanPham(2, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			1000.0,
-			1000.0, true,
-			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
-	SanPham sanPhamMau3 = new SanPham(3, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			1000.0,
-			1000.0, true,
-			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
-
-	GioHang gioHangMau1 = new GioHang(1, 1, sanPhamMau1, "", new KhachHang());
-	GioHang gioHangMau2 = new GioHang(2, 3, sanPhamMau2, "", new KhachHang());
-	GioHang gioHangMau3 = new GioHang(3, 2, sanPhamMau3, "", new KhachHang());
-
-	// @ModelAttribute("ListSelected")
-	// public List<SanPham> getList(@RequestParam("id") Integer[] listsp) {
-	// ArrayList<SanPham> list = new ArrayList<>();
-	// for (Integer id : listsp) {
-	// list.add(spDAO.findById(id).get());
-	// }
-	// return list;
-	// }
+	DiaChiDAO diaChiDAO;
 
 	@ModelAttribute("donHang")
 	public DonHang getDonHang() {
-		return new DonHang();
+		DiaChi diaChi = diaChiDAO.findByKhachHangAndMacDinhTrue(author.getUserKhachHang());
+		if (diaChi == null)
+			diaChi = new DiaChi();
+		DonHang dh = new DonHang();
+		dh.setKhachHang(author.getUserKhachHang());
+		dh.setDiaChi(diaChi.getChiTiet());
+		dh.setNguoiNhan(diaChi.getHoTenNN());
+		dh.setSdt(diaChi.getSdtNN());
+		return dh;
 	};
+
+	@ModelAttribute("listDC")
+	public List<DiaChi> getDC() {
+		return diaChiDAO.findByKhachHang(author.getUserKhachHang());
+	}
 
 	@ModelAttribute("ListSelected")
 	public List<GioHang> getList() {
-		ArrayList<GioHang> list = new ArrayList<>();
-		list.add(gioHangMau1);
-		list.add(gioHangMau2);
-		list.add(gioHangMau3);
-		return list;
+		return gioHangDAO.findAllByKhachHangAndChecked(author.getUserKhachHang(), true);
 	}
 
 	@ModelAttribute("TotalMoney")
@@ -98,19 +84,69 @@ public class CheckoutController {
 	}
 
 	@ModelAttribute("TotalDiscount")
-	public Double getMaGiamDh() {
-		return 10000.0;
+	public Double getTotalDiscount() {
+		Double TotalMoney = gettotal();
+		Double TotalDiscount = 0.0;
+		List<MaGiamKh> list = getListMaGiamKH();
+		for (MaGiamKh maGiamKh : list) {
+			if (maGiamKh.getMaGiamDh() != null) {
+				TotalDiscount += getDiscountDH(maGiamKh.getMaGiamDh(), TotalMoney);
+			} else
+				TotalDiscount += maGiamKh.getMaGiamSp().getGiaTri();
+		}
+		;
+		return TotalDiscount;
 	}
 
 	@GetMapping("/thanhtoan")
 	public String showRegistrationForm(Model model) {
 		UUID uuid = UUID.randomUUID();
 		model.addAttribute("key", uuid.toString().replaceAll("-", ""));
+
 		return "checkout";
 	}
 
 	@PostMapping("/thanhtoan")
-	public String Payment(@Valid @ModelAttribute("DonHang") DonHang donhang, BindingResult rs, Model model) {
+	public String Payment(@Valid @ModelAttribute("donHang") DonHang donhang, BindingResult rs, Model model) {
+		if (donhang.getDiaChi() == null)
+			rs.rejectValue("diaChi", "error.donHang", "Vui lòng chọn địa chỉ");
+		System.out.println(donhang.getPhuongThucTT());
+		if (donhang.getPhuongThucTT().equals(""))
+			rs.rejectValue("phuongThucTT", "error.donHang", "Vui lòng chọn phương thức thanh toán");
+		if (rs.hasErrors()) {
+			return "checkout";
+		}
+		donhang.setMaGiamDh(maGiamKhDAO.getMGDHSelected(author.getUserKhachHang()));
+		DonHang dh = donHangDAO.save(donhang);
+		List<GioHang> listGH = getList();
+		for (GioHang gioHang : listGH) {
+			ChiTietDh CTDH = new ChiTietDh();
+			CTDH.setDonHang(dh);
+			CTDH.setGiaBan(gioHang.getSanPham().getGiaGiam() != null ? gioHang.getSanPham().getGiaGiam()
+					: gioHang.getSanPham().getGiaBan());
+			CTDH.setSoLuong(gioHang.getSoLuong());
+			CTDH.setMoTa(gioHang.getMoTa());
+			CTDH.setSanPham(gioHang.getSanPham());
+			CTDH.setMaGiamSp(maGiamKhDAO.getMGSPSelected(author.getUserKhachHang(), gioHang.getSanPham()));
+			chiTietDhDAO.save(CTDH);
+		}
+		gioHangDAO.deleteByKhachHangAndCheckedTrue(author.getUserKhachHang());
+		maGiamKhDAO.deleteByKhachHangAndSelectedTrue(author.getUserKhachHang());
 		return "redirect:/order_detail?id=" + donhang.getId();
+	}
+
+	public List<MaGiamKh> getListMaGiamKH() {
+		return maGiamKhDAO.findByKhachHangAndSelected(author.getUserKhachHang(), true);
+	}
+
+	public Double getDiscountDH(MaGiamDh maGiamDh, Double totalMoney) {
+		if (maGiamDh.getGiamGiaVND() != null)
+			return maGiamDh.getGiamGiaVND();
+		else {
+			if (maGiamDh.getPhanTramGG() * totalMoney > maGiamDh.getMaxGG()) {
+				return maGiamDh.getMaxGG();
+			} else
+				return maGiamDh.getPhanTramGG() * totalMoney;
+		}
 	}
 }

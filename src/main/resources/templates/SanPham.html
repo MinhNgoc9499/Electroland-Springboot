@@ -16,9 +16,8 @@
     <link rel="stylesheet" href="CSS/index.css">
   </head>
   <body>
-    <header th:replace="layout/_header :: body"> </header>
-    <header th:replace="layout/_navbar :: body"> </header>
-
+    <header th:insert="~{/fragments/_header::header}" class="full-screen-div"></header>
+    <nav th:replace="~{/fragments/_navbar::navbar}"></nav>
     <div class="container">
     <!-- Section Packages Start -->
       <section class="row">
@@ -1034,12 +1033,8 @@
       </section>
       <!-- Section Packages End -->
     </div>
-
-
-
-
     
-    
+	<div th:insert="~{/fragments/_footer::footer}" class="mt-4 full-screen-div"></div>
     <script src="https://kit.fontawesome.com/6d391eb7f8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>

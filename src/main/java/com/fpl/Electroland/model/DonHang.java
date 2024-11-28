@@ -13,6 +13,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,14 +31,16 @@ public class DonHang {
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Sử dụng NVARCHAR(225)
 	private String diaChi;
 
+	@NotEmpty(message = "Vui lòng nhập thông tin người nhận")
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Sử dụng NVARCHAR(225)
 	private String nguoiNhan;
 
+	@NotEmpty(message = "Vui lòng nhập số điện thoại người nhận")
 	@Column(nullable = false, columnDefinition = "VARCHAR(15)") // Sử dụng VARCHAR(15)
 	private String sdt;
 
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Sử dụng NVARCHAR(225)
-	private String phuongThucTT;
+	private String phuongThucTT = "";
 
 	@Column(nullable = false, columnDefinition = "NVARCHAR(225)") // Sử dụng NVARCHAR(225)
 	private String ghiChu;
