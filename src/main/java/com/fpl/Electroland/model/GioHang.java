@@ -8,17 +8,16 @@
 	import jakarta.persistence.JoinColumn;
 	import jakarta.persistence.ManyToOne;
 	import jakarta.persistence.Table;
-	import jakarta.persistence.UniqueConstraint;
 	import lombok.AllArgsConstructor;
 	import lombok.Data;
 	import lombok.NoArgsConstructor;
 
-	@Entity
-	@Data
-	@AllArgsConstructor
-	@NoArgsConstructor
-	@Table(uniqueConstraints = @UniqueConstraint(columnNames = { "idSP", "idKH", "moTa" }))
-	public class GioHang {
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Table()
+public class GioHang {
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
