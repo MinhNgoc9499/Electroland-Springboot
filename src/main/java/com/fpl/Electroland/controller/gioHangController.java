@@ -75,12 +75,6 @@ public class gioHangController {
 	public MaGiamDh getMaGiamDh() {
 		return new MaGiamDh(1, 100000.0, 0.0, 100000.0, 500000.0, "Giảm 100.000 đơn trên 500.000");
 	}
-	// @ModelAttribute("Discout1")
-	// public Double getDiscount(){
-	// 	if(){
-
-	// 	}
-	// }
 
 
 	@GetMapping("/giohang")
