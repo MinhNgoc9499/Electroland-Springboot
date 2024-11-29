@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 @DynamicUpdate
 @Table
 public class GioHang {
