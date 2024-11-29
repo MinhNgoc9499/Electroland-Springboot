@@ -11,18 +11,26 @@
 <body>
     <div class="container" id="container">
         <div class="form-container register-container">
-            <form action="/dangky" class="form-signup" th:object="${khachHang}" method="post">
+            <form action="/dangky" class="form-signup" th:object="${khachHang}" method="post" novalidate>
                 <h1 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">ĐĂNG KÝ</h1>
                 <div class="row mt-4">
                     <div class="col-md-6 left-side">
-                        <input th:field="*{hoTen}" type="text" placeholder="Họ tên" name="hoTen" required />
-                        <input th:field="*{email}" type="email" placeholder="Email" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
-                        <input th:value="*{matKhau}" type="password" placeholder="Mật khẩu" name="matKhau" required>
+                        <input th:field="*{hoTen}" type="text" placeholder="Họ tên" name="hoTen" class="input-field" 
+                       th:classappend="${#fields.hasErrors('hoTen')} ? ' input-invalid' : ''" />
+                        <input th:field="*{email}" type="email" placeholder="Email" name="email" class="input-field"
+                       th:classappend="${#fields.hasErrors('email')} ? ' input-invalid' : ''">
+                        <input th:value="*{matKhau}" type="password" placeholder="Mật khẩu" name="matKhau" class="input-field"
+                       th:classappend="${#fields.hasErrors('matKhau')} ? ' input-invalid' : ''">
                     </div>
                     <div class="col-md-6 right-side">
-                        <input type="text" th:field="*{sdt}" placeholder="Số điện thoại" name="sdt" required />
-                        <input type="date" th:field="*{ngaySinh}" placeholder="Ngày sinh (MM-dd-yyyy)" name="ngaySinh" required />
-                        <input type="password" name="xacNhanMK" placeholder="Xác nhận mật khẩu" required />
+                        <input type="text" th:field="*{sdt}" placeholder="Số điện thoại" name="sdt" class="input-field"
+                       th:classappend="${#fields.hasErrors('sdt')} ? ' input-invalid' : ''" />
+                        <input th:field="*{ngaySinh}" type="date" placeholder="Ngày sinh (MM-dd-yyyy)" name="ngaySinh" class="input-field"
+                       th:classappend="${#fields.hasErrors('ngaySinh')} ? ' input-invalid' : ''" />
+                        
+                       <input th:value="*{matKhau}" type="password" placeholder="Xác nhận mật khẩu" name="xacNhanMK" class="input-field"
+                       th:classappend="${#fields.hasErrors('matKhau')} ? ' input-invalid' : ''">
+                       
                         <input type="radio" name="gioiTinh" value="true" checked="checked" hidden>
                         <input type="text" name="loaiKhachHang" value="1" hidden>
                         <input type="text" name="avaImg" value="avatar.jpg" hidden>
@@ -51,8 +59,10 @@
         <div class="form-container login-container">
             <form th:action="@{/dangnhap}" th:object="${khachHangDN}" method="post" >
                 <h1 style="text-align: center; margin-bottom: 20px;">ĐĂNG NHẬP</h1>
-                <input th:field="*{email}" type="text" placeholder="Nhập email" name="emailDN" style="margin-right: 10px;" required>
-                <input type="password" th:value="*{matKhau}" name="matKhau" placeholder="Nhập mật khẩu" style="margin-right: 10px;" required >
+                <input th:field="*{email}" type="text" placeholder="Nhập email" name="emailDN" style="margin-right: 10px;" class="input-field"
+                       th:classappend="${#fields.hasErrors('email')} ? ' input-invalid' : ''">
+                <input type="password" th:value="*{matKhau}" name="matKhau" placeholder="Nhập mật khẩu" style="margin-right: 10px;" class="input-field"
+                       th:classappend="${#fields.hasErrors('matKhau')} ? ' input-invalid' : ''" >
                 <div class="content">
                     <div class="checkbox" style="margin-right: 0px;">
                         <input type="checkbox" name="ghiNhoDN" id="checkbox" style="margin-right: 10px;" checked>

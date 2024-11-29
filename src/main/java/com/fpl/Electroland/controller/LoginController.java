@@ -66,6 +66,10 @@ public class LoginController {
 	@PostMapping("/dangky")
 	public String dangKy(@Valid @ModelAttribute("khachHang") KhachHang khachHangDK, BindingResult result, Model model,
 			@RequestParam("ngaySinh") String ns) {
+		if (result.hasErrors()) {
+            return "login"; 
+        }
+		
 		if (isEmailExists(khachHangDK.getEmail())) {
 			model.addAttribute("error", "Email đã được đăng ký");
 			return "login";
