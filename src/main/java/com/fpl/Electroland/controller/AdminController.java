@@ -1,4 +1,12 @@
 package com.fpl.Electroland.controller;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fpl.Electroland.helper.Author;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,17 +18,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fpl.Electroland.dao.DonHangDAO;
 import com.fpl.Electroland.model.DonHang;
 
-@Controller
-public class AdminController {
-	@Autowired
-	DonHangDAO donHangDAO;
-	@GetMapping("/adminIndex")
-	public String adminIndex() {
-		return "dashboard";
-	}
 
-      @GetMapping("/adminIndex")
-    public String getReport(@RequestParam(value = "month",  defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}")int month, Model model) throws JsonProcessingException {
+@Controller
+@RequestMapping("/admin")
+public class AdminController {
+    @Autowired
+    Author author;
+
+    @GetMapping("/index")
+     public String getReport(@RequestParam(value = "month",  defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}")int month, Model model) throws JsonProcessingException {
     	
         // Call the service to get the data for the selected month
         Long totalOrders = donHangDAO.countTotalOrdersByMonth(month);
@@ -46,29 +52,30 @@ public class AdminController {
         return "dashboard";  // Thymeleaf template name
     }
 
-	@GetMapping("/adminProduct")
-	public String adminProduct() {
-		return "productADM";
-	}
+    @GetMapping("/product")
+    public String adminProduct() {
+        return "productADM";
+    }
 
-	@GetMapping("/adminProductDetail")
-	public String adminProductDetail() {
-		return "productDetailADM";
-	}
+    @GetMapping("/product-detail")
+    public String adminProductDetail() {
+        return "productDetailADM";
+    }
 
-	@GetMapping("/adminOrderList")
-	public String adminOrderList() {
-		return "OrderList";
-	}
+    @GetMapping("/order")
+    public String adminOrderList() {
+        return "OrderList";
+    }
 
-	@GetMapping("/adimEmployes")
-	public String adimEmployes() {
-		return "employessADM";
-	}
+    @GetMapping("/employess")
+    public String adminEmployes() {
+        return "employessADM";
+    }
 
-	@GetMapping("/adminEmployessDetail	")
-	public String adimEmployesDetail() {
-		return "EmployessDetailADM";
-	}
+    @GetMapping("/EmployessDetail	")
+    public String adimEmployesDetail() {
+        return "EmployessDetailADM";
+    }
+
 
 }

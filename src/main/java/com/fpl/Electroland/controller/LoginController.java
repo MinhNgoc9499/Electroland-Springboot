@@ -63,6 +63,11 @@ public class LoginController {
 		return "login";
 	}
 
+	@GetMapping("/admin-login")
+	public String pageLoginAdmin() {
+		return "admin_login";
+	}
+
 	@PostMapping("/dangky")
 	public String dangKy(@Valid @ModelAttribute("khachHang") KhachHang khachHangDK, BindingResult result, Model model,
 			@RequestParam("ngaySinh") String ns) {

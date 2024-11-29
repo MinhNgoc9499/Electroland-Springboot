@@ -16,6 +16,16 @@
     <link rel="stylesheet" href="CSS/index.css">
   </head>
   <body>
+    <header th:replace="fragments/_header :: body"> </header>
+    <div class="filter container mt-4">
+      <div class="row">
+        <div class="col-3">
+          <div class="accordion" id="accordionPanelsStayOpenExample">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <div class="filter-menu-header d-flex align-items-center">
+                  <i class="fa-solid fa-bars ms-2"></i>
+                  <h5 class="p-2">Bộ lọc tìm kiếm</h5>
     <header th:insert="~{/fragments/_header::header}" class="full-screen-div"></header>
     <nav th:replace="~{/fragments/_navbar::navbar}"></nav>
     <div class="container">
