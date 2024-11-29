@@ -1,5 +1,7 @@
 package com.fpl.Electroland.model;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,6 +20,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 
+@DynamicUpdate
+@Table
 public class GioHang {
 
 	@Id
@@ -28,18 +32,19 @@ public class GioHang {
 	@Column(nullable = false)
 	int soLuong;
 
+	@Column(nullable = true, columnDefinition = "nvarchar(100)")
+	String moTa;
+
+	@Column(nullable = true)
+	Boolean checked;
+
 	// Mối quan hệ với sản phẩm
 	@ManyToOne
 	@JoinColumn(name = "idSP", nullable = false)
 	SanPham sanPham;
 
-	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
-	String moTa;
-
 	// Mối quan hệ với khách hàng
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false)
 	KhachHang khachHang;
-
-	Boolean checked;
 }

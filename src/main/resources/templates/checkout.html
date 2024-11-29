@@ -76,173 +76,184 @@
                 <h3>Thanh toán</h3>
             </a>
         </div>
+        <form id="TTKH" action="/thanhtoan" method="post">
+            <div class="row g-4" th:object="${donHang}">
+                <!-- Phần bên trái: Thông tin sản phẩm và khách hàng -->
+                <div class="col-lg-7">
+                    <div class="checkout-section">
+                        <h4>Thông tin khách hàng</h4>
 
-        <div class="row g-4" th:object="${donHang}">
-            <!-- Phần bên trái: Thông tin sản phẩm và khách hàng -->
-            <div class="col-lg-7">
-                <div class="checkout-section">
-                    <h4>Thông tin khách hàng</h4>
-                    <form>
                         <div class="mb-3">
                             <label for="last-name" class="form-label">Họ tên</label>
-                            <input type="text" class="form-control" id="nguoiNhan" th:field="*{nguoiNhan}">
-                            <!-- <span th:field="*{name}" class="text-danger error">Vui lòng nhập đúng thông tin</span> -->
+                            <input type="text" class="form-control" id="nguoiNhan" th:field="*{nguoiNhan}" required="true">
+                            <div class="text-danger error" th:if="${#fields.hasErrors('nguoiNhan')}" th:errors="*{nguoiNhan}"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="phone" class="form-label">Số điện thoại</label>
-                            <input type="text" class="form-control" id="sdt" th:field="*{sdt}">
-                            <!-- <span class="text-danger error">Vui lòng nhập đúng thông tin</span> -->
+                            <label for="phone" class="form-label" >Số điện thoại</label>
+                            <input type="text" class="form-control" id="sdt" th:field="*{sdt}" required>
+                            <div class="text-danger error" th:if="${#fields.hasErrors('sdt')}" th:errors="*{sdt}"></div>
                         </div>
                         <h4 class="mt-4">Thông tin giao hàng</h4>
                         <div class="mb-3">
                             <label for="country" class="form-label">Địa chỉ</label>
                             <select class="form-select" id="country" required th:field="*{diaChi}">
-                                <option value="Mặc định">696/4 Âu Cơ, Phường 14, Tân Bình, Thành phố Hồ Chí Minh
+                                <option value="" disabled>Chọn địa chỉ</option>
+                                <option th:each="item : ${listDC}" th:value="${item.chiTiet}" th:text="${item.chiTiet}"
+                                    th:selected="${item.chiTiet == donHang.diaChi}">
                                 </option>
-                                <option value="Địa chỉ 1">Địa chỉ 1</option>
-                                <option value="Địa chỉ 2">Địa chỉ 2</option>
-                                <option value="Địa chỉ 3">Địa chỉ 3</option>
                             </select>
+                            
+                            <div class="text-danger error" th:if="${#fields.hasErrors('diaChi')}" th:errors="*{diaChi}"></div>
                         </div>
+
                         <div class="mb-3">
                             <label for="note" class="form-label">Ghi chú</label>
                             <textarea class="form-control" id="note" rows="3" th:field="*{ghiChu}"></textarea>
-                            <!-- <span class="text-danger error">Vui lòng nhập đúng thông tin</span> -->
                         </div>
                         <h4 class="mt-4">Phương thức giao hàng</h4>
                         <div class="form-check">
                             <input type="radio" class="form-check-input" name="shipping" id="standard" checked>
                             <label class="form-check-label" for="standard">Standard (Miễn phí)</label>
                         </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Phần bên phải: Thông tin đơn hàng và thanh toán -->
-            <div class="col-lg-5">
-                <div class="checkout-summary">
-                    <h4>Sản phẩm trong đơn</h4>
-                    <div class="cart-item" th:each="item : ${ListSelected}">
-                        <div class="product-name"><span th:text="${item.sanPham.tenSP}"></span></div>
-                        <div><span th:text="${item.soLuong}"></span></div>
-                        <div><span
-                                th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
-                        </div>
-                    </div>
-
-
-                    <h4 class="mt-4">Thông tin đơn hàng</h4>
-                    <ul class="list-unstyled">
-                        <li class="d-flex justify-content-between">
-                            <span><strong>Tổng tiền</strong></span>
-                            <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
-                        </li>
-                        <li class="d-flex justify-content-between hot-deal">
-                            <span>Khuyến mãi</span>
-                            <span
-                                th:text="${#numbers.formatDecimal(TotalDiscount, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
-                        </li>
-                        <li class="d-flex justify-content-between hot-deal">
-                            <span>Phí vận chuyển</span>
-                            <span th:if="${VanChuyen == null} ">Miễn phí</span>
-                            <span th:if="${VanChuyen > 0}" th:text="${VanChuyen}"></span>
-                        </li>
-                    </ul>
-                    <div class="d-flex justify-content-between mt-3">
-                        <span><strong>Cần thanh toán</strong></span>
-                        <span class="total-price"
-                            th:text="${#numbers.formatDecimal(TotalMoney-TotalDiscount, 0, 'POINT', 0, 'COMMA')}+' vnđ'">3.190.000
-                            đ</span>
-                    </div>
-                    <div class="container my-5">
-                        <div class="checkout-section">
-                            <h4>Phương thức thanh toán</h4>
-                            <div class="row">
-                                <div class="payment-methods col-md-12">
-                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt1"
-                                        value="Thanh toán khi nhận hàng" hidden>
-                                    <label for="ptt1" class="payment-method" onclick="selectPaymentMethod(this)">
-                                        <img th:src="@{/IMG/cash.png}" alt="COD Icon">
-                                        <p>Thanh toán khi nhận hàng</p>
-                                    </label>
-
-                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt2"
-                                        value="Chuyển khoản ngân hàng" hidden>
-                                    <label for="ptt2" class="payment-method" onclick="selectPaymentMethod(this)">
-                                        <img th:src="@{/IMG/banking.png}" alt="ATM Icon">
-                                        <p>Chuyển khoản ngân hàng</p>
-                                    </label>
-
-                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt3" value="Ví MoMo" hidden>
-                                    <label for="ptt3" class="payment-method" onclick="selectPaymentMethod(this)">
-                                        <img th:src="@{/IMG/Logo-MoMo-Circle.webp}" alt="MoMo Icon">
-                                        <p>Ví MoMo</p>
-                                    </label>
-
-                                    <input type="radio" th:field="*{phuongThucTT}" id="ptt4" value="Ví ZaloPay" hidden>
-                                    <label for="ptt4" class="payment-method" onclick="selectPaymentMethod(this)">
-                                        <img th:src="@{/IMG/palopay.png}" alt="ZaloPay Icon">
-                                        <p>Ví ZaloPay</p>
-                                    </label>
-                                </div>
+                <!-- Phần bên phải: Thông tin đơn hàng và thanh toán -->
+                <div class="col-lg-5">
+                    <div class="checkout-summary">
+                        <h4>Sản phẩm trong đơn</h4>
+                        <div class="cart-item" th:each="item : ${ListSelected}">
+                            <div class="product-name"><span th:text="${item.sanPham.tenSP}"></span></div>
+                            <div><span th:text="${item.soLuong}"></span></div>
+                            <div><span
+                                    th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
                             </div>
-                            <h3 id="selected-method"></h3>
-                            <button type="button" class="btn-checkout" data-bs-toggle="modal"
-                                data-bs-target="#paymentModal" onclick="btntt()">
-                                Thanh toán
-                            </button>
-                            <!-- Modal Thanh toán -->
-                            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <!-- Cảnh báo -->
-                                        <div class="alert alert-warning" role="alert">
-                                            Quý khách vui lòng không tắt trình duyệt cho đến khi nhận được kết quả giao
-                                            dịch trên website. Xin cảm ơn!
-                                        </div>
+                        </div>
 
-                                        <div class="modal-body">
-                                            <!-- Phần bên trái: Thông tin đơn hàng -->
-                                            <div class="order-info-section">
-                                                <h5>Thông tin giao dịch</h5>
-                                                <div class="info-item">
-                                                    <p>Đơn vị thụ hưởng: <span>ELECTROLAND - Hệ thống bán lẻ thiết bị
-                                                            điện tử</span></p>
-                                                </div>
-                                                <div class="info-item">
-                                                    <p>Số tiền thanh toán: <span id="PayMoney"
-                                                            th:text="${#numbers.formatDecimal(TotalMoney-TotalDiscount, 0, 'POINT', 0, 'COMMA')} +' vnđ'"></span>
-                                                    </p>
-                                                </div>
-                                                <div class="info-item">
-                                                    <p>Nội dung thanh toán: <span id="Paycontent">[[${key}]]</span></p>
-                                                </div>
-                                                <div class="info-item">
-                                                    <p>Ngân hàng: <span>MB -Ngân hàng Quân Đội MB Bank</span></p>
-                                                </div>
-                                                <div class="info-item">
-                                                    <p>Mã thanh toán: <span>[[${key}]]</span></p>
-                                                </div>
-                                                <div class="info-item">
-                                                    <p>Nhà cung cấp: <span>CÔNG TY CỔ PHẦN BÁN LẺ KỸ THUẬT SỐ
-                                                            ELECTROLAND</span></p>
-                                                </div>
+
+                        <h4 class="mt-4">Thông tin đơn hàng</h4>
+                        <ul class="list-unstyled">
+                            <li class="d-flex justify-content-between">
+                                <span><strong>Tổng tiền</strong></span>
+                                <span
+                                    th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
+                            </li>
+                            <li class="d-flex justify-content-between hot-deal">
+                                <span>Khuyến mãi</span>
+                                <span
+                                    th:text="${#numbers.formatDecimal(TotalDiscount, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
+                            </li>
+                            <li class="d-flex justify-content-between hot-deal">
+                                <span>Phí vận chuyển</span>
+                                <span th:if="${VanChuyen == null} ">Miễn phí</span>
+                                <span th:if="${VanChuyen > 0}" th:text="${VanChuyen}"></span>
+                            </li>
+                        </ul>
+                        <div class="d-flex justify-content-between mt-3">
+                            <span><strong>Cần thanh toán</strong></span>
+                            <span class="total-price"
+                                th:text="${#numbers.formatDecimal(TotalMoney-TotalDiscount, 0, 'POINT', 0, 'COMMA')}+' vnđ'">3.190.000
+                                đ</span>
+                        </div>
+                        <div class="container my-5">
+                            <div class="checkout-section">
+                                <h4>Phương thức thanh toán</h4>
+                                <div class="row">
+                                    <div class="payment-methods col-md-12">
+                                        <input type="radio" name="phuongThucTT" th:field="*{phuongThucTT}" id="ptt1"
+                                            value="Thanh toán khi nhận hàng" hidden>
+                                        <label for="ptt1" class="payment-method" onclick="selectPaymentMethod(this)">
+                                            <img th:src="@{/IMG/cash.png}" alt="COD Icon">
+                                            <p>Thanh toán khi nhận hàng</p>
+                                        </label>
+
+                                        <input type="radio" name="phuongThucTT" th:field="*{phuongThucTT}" id="ptt2"
+                                            value="Chuyển khoản ngân hàng" hidden>
+                                        <label for="ptt2" class="payment-method" onclick="selectPaymentMethod(this)">
+                                            <img th:src="@{/IMG/banking.png}" alt="ATM Icon">
+                                            <p>Chuyển khoản ngân hàng</p>
+                                        </label>
+
+                                        <input type="radio" name="phuongThucTT" th:field="*{phuongThucTT}" id="ptt3"
+                                            value="Ví MoMo" hidden>
+                                        <label for="ptt3" class="payment-method" onclick="selectPaymentMethod(this)">
+                                            <img th:src="@{/IMG/Logo-MoMo-Circle.webp}" alt="MoMo Icon">
+                                            <p>Ví MoMo</p>
+                                        </label>
+
+                                        <input type="radio" name="phuongThucTT" th:field="*{phuongThucTT}" id="ptt4"
+                                            value="Ví ZaloPay" hidden>
+                                        <label for="ptt4" class="payment-method" onclick="selectPaymentMethod(this)">
+                                            <img th:src="@{/IMG/palopay.png}" alt="ZaloPay Icon">
+                                            <p>Ví ZaloPay</p>
+                                        </label>
+                                    </div>
+                                    
+                                </div>
+                                <div class="text-danger error" th:if="${#fields.hasErrors('phuongThucTT')}" th:errors="*{phuongThucTT}"></div>
+                                <button type="button" class="btn-checkout" data-bs-toggle="modal"
+                                    data-bs-target="#paymentModal" onclick="btntt()">
+                                    Thanh toán
+                                </button>
+                                <!-- Modal Thanh toán -->
+                                <div class="modal fade" id="paymentModal" tabindex="-1"
+                                    aria-labelledby="paymentModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <!-- Cảnh báo -->
+                                            <div class="alert alert-warning" role="alert">
+                                                Quý khách vui lòng không tắt trình duyệt cho đến khi nhận được kết quả
+                                                giao
+                                                dịch trên website. Xin cảm ơn!
                                             </div>
 
-                                            <!-- Phần bên phải: Mã QR -->
-                                            <div class="qr-code-section">
-                                                <h5>Quét mã qua ứng dụng Ngân hàng/ Ví điện tử</h5>
-                                                <img src="https://api.qrserver.com/v1/create-qr-code/?data=ThanhToan123456789&size=200x200"
-                                                    id="PayCode" alt="QR code">
-                                                <p>Scan to Pay</p>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                    aria-label="Close">Hủy thanh toán</button>
+                                            <div class="modal-body">
+                                                <!-- Phần bên trái: Thông tin đơn hàng -->
+                                                <div class="order-info-section">
+                                                    <h5>Thông tin giao dịch</h5>
+                                                    <div class="info-item">
+                                                        <p>Đơn vị thụ hưởng: <span>ELECTROLAND - Hệ thống bán lẻ thiết
+                                                                bị
+                                                                điện tử</span></p>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <p>Số tiền thanh toán: <span id="PayMoney"
+                                                                th:text="${#numbers.formatDecimal(TotalMoney-TotalDiscount, 0, 'POINT', 0, 'COMMA')} +' vnđ'"></span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <p>Nội dung thanh toán: <span id="Paycontent">[[${key}]]</span>
+                                                        </p>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <p>Ngân hàng: <span>MB -Ngân hàng Quân Đội MB Bank</span></p>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <p>Mã thanh toán: <span>[[${key}]]</span></p>
+                                                    </div>
+                                                    <div class="info-item">
+                                                        <p>Nhà cung cấp: <span>CÔNG TY CỔ PHẦN BÁN LẺ KỸ THUẬT SỐ
+                                                                ELECTROLAND</span></p>
+                                                    </div>
+                                                </div>
 
-                                                <!-- Đồng hồ đếm ngược -->
-                                                <div class="timer" id="timer">5:00</div>
+                                                <!-- Phần bên phải: Mã QR -->
+                                                <div class="qr-code-section">
+                                                    <h5>Quét mã qua ứng dụng Ngân hàng/ Ví điện tử</h5>
+                                                    <img src="https://api.qrserver.com/v1/create-qr-code/?data=ThanhToan123456789&size=200x200"
+                                                        id="PayCode" alt="QR code">
+                                                    <p>Scan to Pay</p>
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal" aria-label="Close"
+                                                        onclick="btnhuytt()">Hủy thanh toán</button>
 
-                                                <!-- Thông báo thành công -->
-                                                <div class="toast success-message" id="successMessage">Thành công!</div>
+                                                    <!-- Đồng hồ đếm ngược -->
+                                                    <div class="timer" id="timer">5:00</div>
+
+                                                    <!-- Thông báo thành công -->
+                                                    <div class="toast success-message" id="successMessage">Thành công!
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -251,65 +262,22 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
+        </form>
     </div>
     </div>
     <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
         crossorigin="anonymous"></script>
-    <script th:src="@{js/checkout.js}"></script>
     <script>
         var toast = document.getElementById("successMessage");
         var sotien = Number("[[${TotalMoney-TotalDiscount}]]");
         var noidung = document.getElementById('Paycontent');
         var img = document.getElementById('PayCode');
-
-        function btntt() {
-            img.src = 'https://qr.sepay.vn/img?acc=0865854002&bank=MB&amount=' + sotien + '&des=' + noidung.innerText;
-            let i = 0;
-            // Tạo bản sao của console.error để phục hồi sau này
-            const originalConsoleError = console.error;
-            let currentDate = new Date();
-
-            let timesubmit = currentDate.getFullYear().toString() + "-" + (currentDate.getMonth() + 1).toString() + "-" + currentDate.getDate().toString() + " " + currentDate.getHours().toString() + ":" + currentDate.getMinutes().toString() + ":" + currentDate.getSeconds().toString();
-            let myInterval = setInterval(async () => {
-                try {
-                    const response = await fetch("http://localhost:8080/checktttc?sotien=" + sotien + "&noidung=" + noidung.innerText + "&timesubmit=" + timesubmit);
-                    const data = await response.json(); // Chuyển đổi phản hồi thành JSON
-                    if (data == true) {
-                        clearInterval(myInterval);  // Dừng Interval khi thanh toán thành công
-                        toast.className = "toast show";  // Hiển thị toast
-                        setTimeout(function () { window.location.href = "http://localhost:8080/oder_detail"; }, 5000);
-                    } else {
-                        i++;
-                    }
-                } catch (error) {
-                    // Bỏ qua lỗi mà không log ra console
-                } finally {
-                    // Khôi phục lại console.error sau khi fetch hoàn thành
-                    console.error = originalConsoleError;
-                }
-
-                // Dừng gọi API nếu vượt quá số lần thử cho phép (sau 5 phút)
-                if (i > 59) {
-                    clearInterval(myInterval);
-                    alert("Thanh toán không thành công. Vui lòng thử lại sau.");
-                }
-            }, 5000);
-        }
+        const form = document.getElementById('TTKH');
     </script>
-    <script>
-        document.querySelectorAll('input[name="phuongThucTT"]').forEach(radio => {
-            radio.addEventListener('change', function () {
-                const selectedValue = this.value;
-                document.getElementById('selected-method').textContent = selectedValue;
-            });
-        });
-
-    </script>
+    <script th:src="@{js/checkout.js}"></script>
 </body>
 
 </html>

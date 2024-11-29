@@ -1,201 +1,135 @@
-var citis = document.getElementById("city");
-var districts = document.getElementById("district");
-var wards = document.getElementById("ward");
-var Parameter = {
-    url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-    method: "GET",
-    responseType: "application/json",
-};
-var promise = axios(Parameter);
-promise.then(function (result) {
-    renderCity(result.data);
-});
+var diaChiList = [[${ diaChiList }]];
 
-function renderCity(data) {
-    citis.innerHTML = '<option value="">Chọn tỉnh thành</option>';
-    for (const x of data) {
-        citis.options[citis.options.length] = new Option(x.Name, x.Name);
-    }
-    citis.onchange = function () {
-        districts.length = 1;
-        wards.length = 1;
-        if (this.value != "") {
-            const result = data.filter(n => n.Name === this.value);
+// Đảm bảo rằng hàm fillModal được định nghĩa và có thể sử dụng
+function fillModal(id) {
 
-            for (const k of result[0].Districts) {
-                districts.options[districts.options.length] = new Option(k.Name, k.Name);
+    console.log(diaChiList);
+
+    console.log("ID của địa chỉ cần sửa:", id); // Debugging
+    // Lấy thông tin của địa chỉ qua ID
+    let diaChi = getDiaChiById(id);
+
+    // Kiểm tra xem địa chỉ có tồn tại không
+    if (diaChi) {
+        console.log("Thông tin địa chỉ:", diaChi); // Debugging
+        console.log("Thông tin địa chỉ:", diaChi.khachHang); // Debugging
+
+        // Điền dữ liệu vào các trường trong modal
+        document.getElementById("idAddress").value = diaChi.id;
+        document.getElementById("name").value = diaChi.hoTenNN;
+        document.getElementById("phone").value = diaChi.sdtNN;
+        document.getElementById("addressDetail").value = diaChi.chiTiet;
+
+        // Cập nhật Loại địa chỉ (Văn phòng/Nhà riêng)
+        let typeButtons = document.querySelectorAll(".type-btn");
+        typeButtons.forEach(function (button) {
+
+            console.log("Loại địa chỉ:", diaChi.loaiDiaChi); // Debugging
+            console.log("Loại địa chỉ của button:", button.getAttribute("data-type")); // Debugging
+            if (button.getAttribute("data-type") === diaChi.loaiDiaChi) {
+                button.classList.add("active");
+            } else {
+                button.classList.remove("active");
             }
-        }
+        });
+
+        // Đặt địa chỉ mặc định nếu có
+        document.getElementById("defaultAddress").checked = diaChi.macDinh;
+    } else {
+        console.log("Không tìm thấy địa chỉ với id", id);
+    }
+
+}
+
+function getDiaChiById(id) {
+    // Tìm địa chỉ trong danh sách (danh sách này được truyền từ server)
+    return diaChiList.find(diaChi => diaChi.id === id);
+}
+
+function updateAddress() {
+    // Lấy giá trị từ các trường trong modal
+    const id = $("#idAddress").val();
+    const name = $("#name").val();
+    const phone = $("#phone").val();
+    const addressDetail = $("#addressDetail").val();
+    const loaiDiaChi = $(".type-btn.active").attr("data-type");
+    const isDefault = $("#defaultAddress").is(":checked");
+    console.log("Name:", name);
+    // Tạo object chứa dữ liệu cần gửi lên server
+    const dataToUpdate = {
+        id: id,  // ID của địa chỉ cần cập nhật
+        hoTen: name,
+        sdt: phone,
+        chiTiet: addressDetail,
+        loaiDiaChi: loaiDiaChi,
+        macDinh: isDefault
     };
-    districts.onchange = function () {
-        wards.length = 1;
-        const dataCity = data.filter((n) => n.Name === citis.value);
-        if (this.value != "") {
-            const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
+  
 
-            for (const w of dataWards) {
-                wards.options[wards.options.length] = new Option(w.Name, w.Name);
-            }
-        }
-    };
-}
-function deleteSelectedCards() {
-    const checkboxes = document.querySelectorAll('.delete-checkbox');
-    checkboxes.forEach((checkbox) => {
-        if (checkbox.checked) {
-            checkbox.closest('.address-card').remove();
-        }
-    });
-}
-async function fillModal(editBtn) {
-    // Lấy thông tin từ card mà nút "Sửa" thuộc về
-    const card = editBtn.closest('.address-card');
-    const addressType = card.querySelector('.address-type').innerText.trim();
-    const addressName = card.querySelector('.address-name').innerText.trim();
-    const addressPhone = card.querySelector('.address-phone').innerText.trim();
-    const addressDetailText = card.querySelector('.address-detail').innerText.trim();
+    // Gửi dữ liệu tới controller thông qua jQuery AJAX
+    $.ajax({
+        url: "/user_address/update",  // Đảm bảo id địa chỉ được gửi đúng
+        type: "POST",  // Phương thức PUT để cập nhật
+        contentType: "application/json",  // Định dạng nội dung là JSON
+        data: JSON.stringify(dataToUpdate),  // Chuyển object thành JSON
+        success: function (response) {
+            console.log("Cập nhật thành công:", response);
+            // Ẩn modal và thông báo thành công
+            $('#updateModal').modal('hide');
+            alert("Cập nhật địa chỉ thành công");
+            location.reload();
 
-   
-    document.getElementById('name').value = addressName;
-    document.getElementById('phone').value = addressPhone;
-    document.getElementById('addressDetail').value = addressDetailText;
 
-    // Kiểm tra xem card có class "active" không để đặt checkbox "Đặt làm địa chỉ mặc định"
-    const defaultAddressCheckbox = document.getElementById('defaultAddress');
-    defaultAddressCheckbox.checked = card.classList.contains('active');
-
-    try {
-        const result = await axios.get("https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json");
-        const data = result.data;
-
-        // Điền dữ liệu vào dropdown thành phố và chọn thành phố
-        fillCityDropdown(data, city).then(() => {
-            const cityData = data.find(item => normalizeString(item.Name) === normalizeString(city));
-            if (cityData) {
-                // Điền dữ liệu quận/huyện vào dropdown và chọn quận/huyện
-                fillDistrictDropdown(cityData, district).then(() => {
-                    const districtData = cityData.Districts.find(item => normalizeString(item.Name) === normalizeString(district));
-                    if (districtData) {
-                        // Điền dữ liệu phường/xã vào dropdown và chọn phường/xã
-                        fillWardDropdown(districtData, ward);
-                    }
-                });
-            }
-        });
-    } catch (error) {
-        console.error('Không thể lấy dữ liệu thành phố:', error);
-    }
-
-    // Đặt loại địa chỉ vào modal
-    document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-    document.querySelectorAll('.type-btn').forEach(btn => {
-        if (normalizeString(btn.dataset.type) === normalizeString(addressType)) {
-            btn.classList.add('active');
+        },
+        error: function (error) {
+            console.log("Lỗi khi cập nhật:", error);
+            alert("Có lỗi xảy ra khi cập nhật địa chỉ.");
         }
     });
 }
-
-// Hàm để chuẩn hóa chuỗi để loại bỏ khoảng trắng và dấu không mong muốn
-function normalizeString(str) {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/đ/g, 'd');
-}
-
-// Hàm để điền thành phố vào dropdown
-function fillCityDropdown(data, selectedCity) {
-    return new Promise((resolve) => {
-        const citySelect = document.getElementById('city');
-        citySelect.innerHTML = '<option value="">Chọn tỉnh thành</option>';
-        data.forEach(cityItem => {
-            const option = new Option(cityItem.Name, cityItem.Name);
-            citySelect.add(option);
-        });
-
-        // Đặt giá trị thành phố sau khi thêm option
-        const normalizedCity = normalizeString(selectedCity);
-        for (let i = 0; i < citySelect.options.length; i++) {
-            if (normalizeString(citySelect.options[i].value) === normalizedCity) {
-                citySelect.selectedIndex = i;
-                break;
-            }
-        }
-        resolve();
-    });
-}
-
-// Hàm để điền quận/huyện vào dropdown
-function fillDistrictDropdown(cityData, selectedDistrict) {
-    return new Promise((resolve) => {
-        const districtSelect = document.getElementById('district');
-        districtSelect.innerHTML = '<option value="">Chọn quận huyện</option>';
-        cityData.Districts.forEach(districtItem => {
-            const option = new Option(districtItem.Name, districtItem.Name);
-            districtSelect.add(option);
-        });
-
-        // Đặt giá trị quận/huyện sau khi thêm option
-        const normalizedDistrict = normalizeString(selectedDistrict);
-        for (let i = 0; i < districtSelect.options.length; i++) {
-            if (normalizeString(districtSelect.options[i].value) === normalizedDistrict) {
-                districtSelect.selectedIndex = i;
-                break;
-            }
-        }
-        resolve();
-    });
-}
-
-// Hàm để điền phường/xã vào dropdown
-function fillWardDropdown(districtData, selectedWard) {
-    const wardSelect = document.getElementById('ward');
-    wardSelect.innerHTML = '<option value="">Chọn phường xã</option>';
-    districtData.Wards.forEach(wardItem => {
-        const option = new Option(wardItem.Name, wardItem.Name);
-        wardSelect.add(option);
-    });
-
-    // Đặt giá trị phường/xã sau khi thêm option
-    const normalizedWard = normalizeString(selectedWard);
-    for (let i = 0; i < wardSelect.options.length; i++) {
-        if (normalizeString(wardSelect.options[i].value) === normalizedWard) {
-            wardSelect.selectedIndex = i;
-            break;
-        }
-    }
-}
-
+    
 // Hàm để chuyển trạng thái "active" cho loại địa chỉ
 function toggleType(button) {
-    document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
+// Loại bỏ class 'active' khỏi tất cả các nút
+document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+
+// Thêm class 'active' vào nút hiện tại
+button.classList.add('active');
 }
+$(document).ready(function() {
+// Khi người dùng tick vào checkbox
+$('.delete-checkbox').change(function() {
+// Cập nhật danh sách ID các mục cần xóa
+var selectedIds = [];
 
-function clearModal() {
-    // Làm trống các trường trong modal khi nhấn vào "Thêm địa chỉ mới"
-    document.getElementById('name').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('addressDetail').value = '';
-    document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-}
+// Lấy tất cả các checkbox đã chọn
+$('.delete-checkbox:checked').each(function() {
+    var id = $(this).data('id');  // Lấy giá trị data-id của checkbox đã chọn
+    selectedIds.push(id);  // Thêm ID vào danh sách
+});
 
-function toggleType(button) {
-    document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-}
+// Khi nhấn nút "Xóa", gửi yêu cầu xóa
+$('#submitDelete').click(function() {
+    // Kiểm tra xem có mục nào được chọn không
+    if (selectedIds.length > 0) {
+        // Gửi yêu cầu xóa các ID đã chọn
+        $.ajax({
+            url: '/user_address/delete',
+            type: 'DELETE',
+            contentType: 'application/json',
+            data: JSON.stringify({ ids: selectedIds }),  // Gửi danh sách ID cần xóa
+            success: function(response) {
+                alert("Đã xóa thành công.");
+                location.reload();  // Tải lại trang để cập nhật dữ liệu
+            },
+            error: function(xhr, status, error) {
+                alert("Lỗi xảy ra khi xóa.");
+            }
+        });
+    } else {
+        alert("Vui lòng chọn ít nhất một địa chỉ để xóa.");
+    }
+});
+});
+});
 
-
-
-function clearModal() {
-    // Làm trống các trường trong modal khi nhấn vào "Thêm địa chỉ mới"
-    document.getElementById('name').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('city').value = '';
-    document.getElementById('district').length = 1;
-    document.getElementById('ward').length = 1;
-    document.getElementById('addressDetail').value = '';
-    document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-}
-
-function toggleType(button) {
-    document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-    button.classList.add('active');
-}
