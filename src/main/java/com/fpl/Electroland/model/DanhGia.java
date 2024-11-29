@@ -19,7 +19,7 @@ public class DanhGia {
 	private int id; // Primary Key
 
 	@Column(nullable = true)
-	private int diem;
+	private int diem = 1;
 
 	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
 	private String noiDung;

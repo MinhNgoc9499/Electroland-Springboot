@@ -44,7 +44,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @Controller
 public class detailController {
 
@@ -102,16 +101,17 @@ public class detailController {
 
 	@PostMapping("/detail/danhgia")
 	public String getComment(@Valid @ModelAttribute("danhGia") DanhGia dg, BindingResult rs,
-			@RequestParam("file") MultipartFile file,Model model) throws IOException {
+			@RequestParam("file") MultipartFile file, Model model) throws IOException {
 		dg.setKhachHang(author.getUserKhachHang());
-		if (file.isEmpty()) { 
+
+		if (file.isEmpty()) {
 			dgDAO.save(dg);
 		} else {
 			String url = cloudinaryService.uploadMultipleFile(file);
 			dg.setImg(url);
 			dgDAO.save(dg);
 		}
-		return "redirect:/detail?id=1";
+		return "redirect:/detail?id=5";
 	}
 
 	void getToDetailPage(Model model, int id, String filter) {
@@ -130,10 +130,12 @@ public class detailController {
 			Map<String, List<ThuocTinh>> tableTT = new HashMap<>();
 			listTTSP.forEach(ttsp -> {
 				List<ThuocTinh> listTT = ttDAO.findByThuocTinhSp(ttsp);
+				System.out.println(listTT.size() + "size");
 				if (listTT.size() > 1) {
 					mapTT.put(ttsp.getTen(), listTT); // mapTT dùng để chứa các thuộc tính có trên 2 giá trị
 				}
 				tableTT.put(ttsp.getTen(), listTT); // tableTT dùng để chứa tất cả các thuộc tính không phân biệt
+
 			});
 			// lấy điểm trung bình và số lần đánh giá
 			double avgScore = listDG.stream().mapToInt(DanhGia::getDiem).average().orElse(0.0);
@@ -166,9 +168,9 @@ public class detailController {
 			Map<Integer, Long> ratingCounts = listDG.stream()
 					.collect(Collectors.groupingBy(DanhGia::getDiem, Collectors.counting()));
 
-			//Khóa bình luận 
-			Boolean isDisabled = true ;
-			if(listCT.size()>=1){
+			// Khóa bình luận
+			Boolean isDisabled = true;
+			if (listCT.size() >= 1) {
 				isDisabled = false;
 			}
 			System.out.println(listCT.size() + " " + isDisabled);
@@ -198,8 +200,8 @@ public class detailController {
 				cart.get().setSoLuong(cart.get().getSoLuong() + 1);
 				ghDAO.save(cart.get());
 			} else {
-				GioHang newCart = new GioHang(0, 1, product.get(), allAtt.toString(), author.getUserKhachHang(),
-						true);
+				GioHang newCart = new GioHang(0, 1, allAtt.toString(), true, product.get(), author.getUserKhachHang());
+
 				ghDAO.save(newCart);
 				System.out.println(ghDAO.toString());
 			}
