@@ -12,6 +12,7 @@ import com.fpl.Electroland.model.SanPham;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MaGiamKhDAO extends JpaRepository<MaGiamKh, Integer> {
     List<MaGiamKh> findByKhachHangAndSelected(KhachHang khachHang, boolean selected);
@@ -24,4 +25,6 @@ public interface MaGiamKhDAO extends JpaRepository<MaGiamKh, Integer> {
 
     @Transactional
     void deleteByKhachHangAndSelectedTrue(KhachHang khachHang);
+
+    Optional<MaGiamKh> findByKhachHangAndMaGiamSpIsNullAndSelectedTrue(KhachHang khachhang);
 }

@@ -28,4 +28,8 @@ public class MaGiamSp {
 	@ManyToOne
 	@JoinColumn(name = "idSP", nullable = false) // nullable = false
 	SanPham sanPham;
+
+	// Đảm bảo moTa là nvarchar(225) và không thể null
+	@Column(columnDefinition = "nvarchar(225)", nullable = true)
+	String moTa;
 }
