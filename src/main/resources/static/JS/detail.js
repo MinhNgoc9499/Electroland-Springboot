@@ -82,57 +82,62 @@ function calculateTotals() {
     return { totalRatings, totalScore };
 }
 
-//Cập nhật
-function updateDisplay() {
-    const { totalRatings, totalScore } = calculateTotals();
-    const averageScore = totalRatings > 0 ? (totalScore / totalRatings).toFixed(1) : 0;
 
-    document.getElementById('avg-score').textContent = averageScore;
-    document.getElementById('total-ratings').textContent = totalRatings;
+document.addEventListener('DOMContentLoaded', function () {
+    const avgScore = parseFloat(document.getElementById('avg-score').textContent);
+    const starElements = document.querySelectorAll('.average-star');
 
-    averageStars.forEach((star, index) => {
-        star.classList.remove('selected', 'half');
-        if (index < Math.floor(averageScore)) {
-            star.classList.add('selected'); 
-        } else if (index === Math.floor(averageScore) && averageScore % 1 !== 0) {
-            star.classList.add('half');
+    starElements.forEach(star => {
+        const starValue = parseFloat(star.getAttribute('data-value'));
+        if (avgScore >= starValue) {
+            star.style.color = '#FFD700'; // Màu vàng cho sao được đánh giá
+        } else if (avgScore >= starValue - 0.5 && avgScore < starValue) {
+            star.style.color = '#FFD700'; // Màu vàng cho nửa sao
+            star.style.position = 'relative';
+            star.innerHTML = '<span style="position: absolute; width: 50%; overflow: hidden; display: inline-block; color: #FFD700;">&#9733;</span><span style="color: #CCCCCC;">&#9733;</span>';
+        } else {
+            star.style.color = '#CCCCCC'; // Màu xám cho sao không được đánh giá
         }
     });
-}
+});
 
-//Cũng cập nhật
-function updateRatingCounts() {
-    const totalRatings = Object.values(ratingCounts).reduce((a, b) => a + b, 0);
-    let totalScore = 0;
+document.addEventListener('DOMContentLoaded', function () {
+    // Lấy dữ liệu từ HTML
+    const totalRatings = parseInt(document.getElementById('total-ratings').textContent);
+    const ratingCounts = {
+        1: parseInt(document.getElementById('count1').textContent) || 0,
+        2: parseInt(document.getElementById('count2').textContent) || 0,
+        3: parseInt(document.getElementById('count3').textContent) || 0,
+        4: parseInt(document.getElementById('count4').textContent) || 0,
+        5: parseInt(document.getElementById('count5').textContent) || 0
+    };
 
+    // Cập nhật các thanh tiến trình và số lượng đánh giá
     for (let i = 1; i <= 5; i++) {
         const countElement = document.getElementById(`count${i}`);
         const progressBar = document.getElementById(`bar${i}`);
-        
-        if (countElement) {
-            countElement.textContent = ratingCounts[i];
-            const percentage = totalRatings > 0 ? (ratingCounts[i] / totalRatings) * 100 : 0;
+
+        if (countElement && progressBar) {
+            const count = ratingCounts[i];
+            countElement.textContent = count;
+
+            const percentage = totalRatings > 0 ? (count / totalRatings) * 100 : 0;
             progressBar.style.width = `${percentage}%`;
-            totalScore += i * ratingCounts[i];
         }
     }
-
-    const averageScore = totalRatings > 0 ? (totalScore / totalRatings).toFixed(2) : 0;
-    updateDisplay(); 
-}
-
+});
+var point = document.getElementById('point');
 //Nhấn vô sao là nó sáng lên
 stars.forEach((star, index) => {
     star.addEventListener('click', () => {
         const value = index + 1;
-        ratingCounts[value]++;
+        point.value = index;
         stars.forEach(s => {
             s.classList.remove('selected');
         });
         for (let i = 0; i < value; i++) {
             stars[i].classList.add('selected');
         }
-        updateRatingCounts();
     });
 
     //Di chuột vô là sao sáng lên
@@ -160,36 +165,25 @@ stars.forEach((star, index) => {
     });
 });
 
-updateRatingCounts(); 
 
 //Cái upload file
-const form = document.querySelector("form"),
-fileInput = document.querySelector(".file-input"),
-progressArea = document.querySelector(".progress-area"),
-uploadedArea = document.querySelector(".uploaded-area");
-form.addEventListener("click", () =>{
-  fileInput.click();
+const form = document.querySelector(".wrapper"),
+    fileInput = document.querySelector(".file-input"),
+    progressArea = document.querySelector(".progress-area"),
+    uploadedArea = document.querySelector(".uploaded-area");
+form.addEventListener("click", () => {
+    fileInput.click();
 });
-fileInput.onchange = ({target})=>{
-  let file = target.files[0];
-  if(file){
-    let fileName = file.name;
-    if(fileName.length >= 12){
-      let splitName = fileName.split('.');
-      fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
-    }
-    uploadFile(fileName);
-  }
-}
-function uploadFile(name){
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", "php/upload.php");
-  xhr.upload.addEventListener("progress", ({loaded, total}) =>{
-    let fileLoaded = Math.floor((loaded / total) * 100);
-    let fileTotal = Math.floor(total / 1000);
-    let fileSize;
-    (fileTotal < 1024) ? fileSize = fileTotal + " KB" : fileSize = (loaded / (1024*1024)).toFixed(2) + " MB";
-    let progressHTML = `<li class="row">
+
+function uploadFile(name) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "php/upload.php");
+    xhr.upload.addEventListener("progress", ({ loaded, total }) => {
+        let fileLoaded = Math.floor((loaded / total) * 100);
+        let fileTotal = Math.floor(total / 1000);
+        let fileSize;
+        (fileTotal < 1024) ? fileSize = fileTotal + " KB" : fileSize = (loaded / (1024 * 1024)).toFixed(2) + " MB";
+        let progressHTML = `<li class="row">
                           <i class="fas fa-file-alt"></i>
                           <div class="content">
                             <div class="details">
@@ -201,11 +195,11 @@ function uploadFile(name){
                             </div>
                           </div>
                         </li>`;
-    uploadedArea.classList.add("onprogress");
-    progressArea.innerHTML = progressHTML;
-    if(loaded == total){
-      progressArea.innerHTML = "";
-      let uploadedHTML = `<li class="row upload-success">
+        uploadedArea.classList.add("onprogress");
+        progressArea.innerHTML = progressHTML;
+        if (loaded == total) {
+            progressArea.innerHTML = "";
+            let uploadedHTML = `<li class="row upload-success">
                             <div class="content upload">
                               <i class="fas fa-file-alt"></i>
                               <div class="details">
@@ -215,12 +209,12 @@ function uploadFile(name){
                               </div>
                             </div>
                           </li>`;
-      uploadedArea.classList.remove("onprogress");
-      uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
-    }
-  });
-  let data = new FormData(form);
-  xhr.send(data);
+            uploadedArea.classList.remove("onprogress");
+            uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
+        }
+    });
+    let data = new FormData(form);
+    xhr.send(data);
 }
 
 const buttons = document.querySelectorAll('.btn-custom2');
@@ -232,7 +226,7 @@ buttons.forEach(button => {
     });
 });
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const commentButton = document.querySelector('.modal-footer .btn-primary');
     const commentTextarea = document.getElementById('floatingTextarea');
     const commentList = document.getElementById('commentList');
@@ -240,16 +234,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const uploadedArea = document.querySelector('.uploaded-area');
 
     let uploadedImage = null; // Chỉ lưu một hình ảnh
-    fileInput.addEventListener('change', function() {
+    fileInput.addEventListener('change', function () {
         const files = fileInput.files;
-        uploadedImage = null; 
+        uploadedImage = null;
         uploadedArea.innerHTML = '';
 
         if (files.length > 0) {
             const file = files[0]; // Chỉ lấy hình ảnh đầu tiên
             const reader = new FileReader();
 
-            reader.onload = function(event) {
+            reader.onload = function (event) {
                 const img = document.createElement('img');
                 img.src = event.target.result;
                 img.alt = 'Uploaded Image';
@@ -267,17 +261,16 @@ function selectColor(element) {
     const selectedColor = element.value;
     console.log('Màu sản phẩm đã chọn:', selectedColor);
 }
-  
-  
-  
+
+
+
 function selectCapacity(element) {
-    document.querySelectorAll('.product-capacity').forEach((capacity) => {
+    let name = element.getAttribute('data-name');
+    document.querySelectorAll(`[data-name="${name}"]`).forEach((capacity) => {
         capacity.classList.remove('selected');
     });
 
-    const selectedElement = element.closest('.product-capacity');
-    if (selectedElement) {
-        selectedElement.classList.add('selected');
-    }
-    console.log('Dung lượng được chọn:', element.value);
+
+    element.classList.add('selected')
+
 }

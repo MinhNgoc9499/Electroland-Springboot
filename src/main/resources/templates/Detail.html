@@ -10,219 +10,94 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
   <link rel="stylesheet" href="CSS/detail.css">
   <link rel="stylesheet" href="CSS/index.css">
+
   <link rel="shortcut icon" type="image/png" href="IMG/logoden.png">
 </head>
 
-<body >
+<body>
   <header th:replace="~{/fragments/_header :: header}"> </header>
 
   <div class="detail container">
     <!-- Thông tin sản phẩm -->
-    <div class="card mb-3">
-      <div class="row">
-        <div class="col-md-6 slider">
-          <div class="slider-container">
-            <div class="swiper mySwiper2">
-              <div class="swiper-wrapper main">
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
+    <form action="/detail/addToCart" method="post">
+      <div class="card mb-3">
+        <div class="row">
+          <div class="col-md-6 slider">
+            <div class="slider-container">
+              <div class="swiper mySwiper2">
+                <div class="swiper-wrapper main"> <!-- Sử dụng th:each để lặp qua danh sách pictures -->
+                  <div th:each="picture : ${pictures}" class="swiper-slide">
+                    <!-- Giả sử đối tượng HinhSp có thuộc tính url là đường dẫn hình ảnh --> <img
+                      th:src="@{|/IMG/${picture.link}|}" alt="Image" />
+                  </div>
                 </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img src="IMG/xiaomi_pad6_12.webp" alt="Image" />
-                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
               </div>
-              <div class="swiper-button-next"></div>
-              <div class="swiper-button-prev"></div>
-            </div>
-            <div class="swiper mySwiper thumbnail-slider mt-2">
-              <div class="swiper-wrapper">
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
-                </div>
-                <div class="swiper-slide">
-                  <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="Image" />
+              <div class="swiper mySwiper thumbnail-slider mt-2">
+                <div class="swiper-wrapper"> <!-- Sử dụng th:each để lặp qua danh sách pictures -->
+                  <div th:each="picture : ${pictures}" class="swiper-slide">
+                    <!-- Giả sử đối tượng HinhSp có thuộc tính url là đường dẫn hình ảnh -->
+                    <img th:src="@{|/IMG/${picture.link}|}" alt="Image" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-md-6 product-info">
-          <div class="product-rating d-flex">
-            <div class="star-icon me-2">&#9733;
-              &#9733;
-              &#9733;
-              &#9733;
-              &#9733;
+          <div class="col-md-6 product-info">
+            <h2 name="name" class="mb-0" th:text="${product.tenSP}"></h2>
+            <input type="text" th:field="${product.id}" name="id" hidden>
+            <p name="id" class="text-muted" th:text="'Mã sản phẩm: ' + ${product.id}"></p>
+            <span name="price" class="text-danger price"
+              th:text="${#numbers.formatDecimal(product.giaGiam, 0, 'POINT', 0, 'COMMA') + 'đ'}"></span>
+            <p class="mb-3">
+              <del th:text="${#numbers.formatDecimal(product.giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}"></del>
+              (<span name="discount" class="discount"
+                th:text="${(product.giaBan - product.giaGiam) / product.giaBan * 100} + '%'">11%</span> giảm)
+            </p>
+            <div class="color-picker">
+              <h5>Chọn màu sản phẩm:</h5>
+              <div class="colors">
+                <!-- Sử dụng th:each để lặp qua danh sách colors -->
+                <label class="color-option" th:each="color : ${colors}">
+                  <input type="radio" name="color" th:value="${color}" onchange="selectColor(this)" required />
+                  <span class="color-circle" th:style="'background-color:' + ${color}"></span>
+                </label>
+              </div>
             </div>
-            <span>2 Đánh giá 0 Bình luận</span>
-          </div>
-          <h2 name="name" class="mb-0">Xiaomi Pad 6 8GB 256GB</h2>
-          <p name="id" class="text-muted">Mã sản phẩm: Pad6</p>
-          <span name="price" class="text-danger price">8.800.000đ</span>
-          <p class="mb-3"><del>10.490.000đ</del> (<span name="discount" class="discount">11%</span> giảm)</p>
-          <div class="color-picker">
-            <h5>Chọn màu sản phẩm:</h5>
-            <div class="colors">
-              <label class="color-option">
-                <input type="radio" name="color" value="#EF5350" onchange="selectColor(this)" />
-                <span class="color-circle" style="background-color: #EF5350;"></span>
-              </label>
-              <label class="color-option">
-                <input type="radio" name="color" value="#42A5F5" onchange="selectColor(this)" />
-                <span class="color-circle" style="background-color: #42A5F5;"></span>
-              </label>
-              <label class="color-option">
-                <input type="radio" name="color" value="#FFEB3B" onchange="selectColor(this)" />
-                <span class="color-circle" style="background-color: #FFEB3B;"></span>
-              </label>
-              <label class="color-option">
-                <input type="radio" name="color" value="#9E9E9E" onchange="selectColor(this)" />
-                <span class="color-circle" style="background-color: #9E9E9E;"></span>
-              </label>
+            <div class="row ms-0 mt-3" th:each="entry : ${selectAtt}">
+              <div class="col-12">
+                <h5 th:text="${entry.key}"></h5>
+                <div class="row">
+                  <label th:each="att : ${entry.value}" th:data-name="${entry.key}" class="col-sm-2 product-capacity"
+                    onclick="selectCapacity(this)">
+                    <input type="radio" th:name="${entry.key}" th:value="${att.tenTT}" hidden required>
+                    <span th:text="${att.tenTT}"></span>
+                  </label>
+                </div>
+              </div>
             </div>
+            <div th:if="${message}" class="alert alert-danger" role="alert"> <span th:text="${errorMessage}"></span>
+            </div>
+            <button type="submit" class="btn btn-custom1 col-sm-12 mt-3">Thêm vào giỏ hàng</button>
           </div>
-
-          <div class="row ms-0 mt-3">
-            <label class="product-capacity col-sm-2">
-              <input type="radio" name="capacity" value="8GB 128GB" hidden onclick="selectCapacity(this)">
-              <span>8GB 128GB</span>
-            </label>
-
-            <label class="product-capacity col-sm-2">
-              <input type="radio" name="capacity" value="8GB 256GB" hidden onclick="selectCapacity(this)">
-              <span>8GB 256GB</span>
-            </label>
-
-            <label class="product-capacity col-sm-2">
-              <input type="radio" name="capacity" value="12GB 512GB" hidden onclick="selectCapacity(this)">
-              <span>12GB 512GB</span>
-            </label>
-          </div>
-          <button class="btn btn-custom1 col-sm-12 mt-3">Thêm vào giỏ hàng</button>
         </div>
       </div>
-    </div>
-
+    </form>
     <!-- Mấy cái cuộn hiện thông tin chi tiết thông tin kỹ thuật -->
     <div class="row mb-3">
       <div class="col-sm-8">
         <div class="card descript-product">
           <h3>Thông tin sản phẩm</h3>
           <div class="card-body">
-            <h2 class="product-title">iPad Gen 10 - Màu sắc và thiết kế sang trọng</h2>
-            <p class="product-description">
-              iPad Gen 10 2022 là chiếc máy tính bảng mới nhất với thiết kế tối giản, chip A14 Bionic mạnh mẽ, màn hình
-              Retina sắc nét, và nhiều tính năng đặc biệt khác. Sản phẩm này sẽ giúp bạn thực hiện mọi công việc nhanh
-              chóng và hiệu quả.
-            </p>
-            <img th:src="@{/IMG/galaxy-s24-plus-den copy.webp}" alt="iPad Gen 10" class="descript-img">
+            <h2 class="product-title" th:text="${product.tenSP}">iPad Gen 10 - Màu sắc và thiết kế sang trọng</h2>
+            <img th:src="@{|/IMG/${product.hinhDaiDien}|}" class="descript-img">
             <div class="extra-info" style="display: none;">
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
-              </p>
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
-              </p>
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
-              </p>
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
-              </p>
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
-              </p>
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
-              </p>
-              <h3>Chi tiết sản phẩm</h3>
-              <p>
-                iPad Gen 10 sở hữu màn hình 10.9 inch, chip A14 Bionic, khả năng kết nối Wi-Fi và 4G. Máy được thiết kế
-                với các màu sắc trẻ trung, phù hợp với nhiều đối tượng người dùng.
+              <p class="product-description" th:text="${product.moTa}">
+                iPad Gen 10 2022 là chiếc máy tính bảng mới nhất với thiết kế tối giản, chip A14 Bionic mạnh mẽ, màn
+                hình
+                Retina sắc nét, và nhiều tính năng đặc biệt khác. Sản phẩm này sẽ giúp bạn thực hiện mọi công việc nhanh
+                chóng và hiệu quả.
               </p>
             </div>
             <button class="btn-dropdown" onclick="toggleExtraInfo()">Xem thêm <i
@@ -233,68 +108,12 @@
       <div class="col-sm-4">
         <div class="card specifications">
           <h2>Thông Số Kỹ Thuật</h2>
-          <table border="1">
-            <tr>
-              <td>Kích thước</td>
-              <td>11 ins</td>
-            </tr>
-            <tr>
-              <td>Công nghệ màn hình</td>
-              <td>IPS LCD</td>
-            </tr>
-            <tr>
-              <td>Camera sau</td>
-              <td>13 MP, f/2.2, PDAF</td>
-            </tr>
-            <tr>
-              <td>Camera trước</td>
-              <td>8 MP, f/2.2, 1/4", 1.12µm</td>
-            </tr>
-            <tr>
-              <td>Chipset</td>
-              <td>Qualcomm Snapdragon 870 5G (7 nm)</td>
-            </tr>
-            <tr>
-              <td>Công nghệ NFC</td>
-              <td>Không</td>
-            </tr>
-            <tr>
-              <td>Dung lượng RAM</td>
-              <td>8 GB</td>
-            </tr>
-            <tr>
-              <td>Bộ nhớ trong</td>
-              <td>256 GB</td>
-            </tr>
-            <tr>
-              <td>Pin</td>
-              <td>8840 mAh</td>
-            </tr>
-            <tr>
-              <td>Hệ điều hành</td>
-              <td>Android 13</td>
-            </tr>
-            <tr>
-              <td>Độ phân giải màn hình</td>
-              <td>2880 x 1800 pixels</td>
+          <table border="1"> <!-- Sử dụng th:each để lặp qua danh sách listTT -->
+            <tr th:each="key : ${listTT.keySet()}">
+              <td th:text="${key}">Thông số</td>
+              <td th:text="${listTT.get(key).get(0).getTenTT()}">Chi tiết</td>
             </tr>
           </table>
-
-          <button class="btn-dropdown" onclick="toggleSpecificationDetails()">Xem thêm <i
-              class="fa-solid fa-caret-down"></i></button>
-
-          <div class="extra-info1 hidden">
-            <table class="specification-table" border="1">
-              <tr>
-                <td>Hệ điều hành</td>
-                <td>Android 13</td>
-              </tr>
-              <tr>
-                <td>Độ phân giải màn hình</td>
-                <td>2880 x 1800 pixels</td>
-              </tr>
-            </table>
-          </div>
         </div>
       </div>
     </div>
@@ -306,7 +125,7 @@
           <h3>Khách hàng nói về sản phẩm</h3>
           <div class="rating col-sm-12">
             <div class="rating-avg col-sm-4">
-              <h1 id="avg-score">0</h1>
+              <h1 id="avg-score" th:text="${#numbers.formatDecimal(avgScore, 1, 1)}">0</h1>
               <div class="star-outer average-stars">
                 <div class="average-star" data-value="1">&#9733;</div>
                 <div class="average-star" data-value="2">&#9733;</div>
@@ -314,8 +133,8 @@
                 <div class="average-star" data-value="4">&#9733;</div>
                 <div class="average-star" data-value="5">&#9733;</div>
               </div>
-              <p id="total-ratings">0</p>
-              <button class="btn btn-rating" data-bs-toggle="modal" data-bs-target="#ratingModal">Đánh giá ngay</button>
+              <p id="total-ratings" th:text="${totalRatings}">0</p>
+              <button class="btn btn-rating" data-bs-toggle="modal" data-bs-target="#ratingModal" th:attr="disabled=${isDisabled}">Đánh giá ngay</button>
             </div>
             <div class="rating-progress col-sm-8">
               <div class="rating-progress-value">
@@ -325,35 +144,38 @@
                     <div class="progress">
                       <div class="progress-bar" id="bar5"></div>
                     </div>
-                    <span id="count5" class="me-1">0</span> đánh giá
+                    <span id="count5" class="me-1" th:text="${ratingCounts[5]}">0</span> đánh giá
                   </div>
                   <div class="rating-count">
                     4 <span class="ms-1 star-icon">&#9733;</span>
                     <div class="progress">
                       <div class="progress-bar" id="bar4"></div>
                     </div>
-                    <span id="count4" class="me-1">0</span> đánh giá
+                    <span id="count4" class="me-1" th:text="${ratingCounts[4]}">0</span> đánh giá
                   </div>
                   <div class="rating-count">
                     3 <span class="ms-1 star-icon">&#9733;</span>
                     <div class="progress">
                       <div class="progress-bar" id="bar3"></div>
                     </div>
-                    <span id="count3" class="me-1">0</span> đánh giá
+                    <span id="count3" class="me-1" th:text="${ratingCounts[3] == null ? 0 : ratingCounts[3]}">0</span>
+                    đánh giá
                   </div>
                   <div class="rating-count">
                     2 <span class="ms-1 star-icon">&#9733;</span>
                     <div class="progress">
                       <div class="progress-bar" id="bar2"></div>
                     </div>
-                    <span id="count2" class="me-1">0</span> đánh giá
+                    <span id="count2" class="me-1" th:text="${ratingCounts[2] == null ? 0 : ratingCounts[2]}">0</span>
+                    đánh giá
                   </div>
                   <div class="rating-count">
                     1 <span class="ms-1 star-icon">&#9733;</span>
                     <div class="progress">
                       <div class="progress-bar" id="bar1"></div>
                     </div>
-                    <span id="count1" class="me-1">0</span> đánh giá
+                    <span id="count1" class="me-1" th:text="${ratingCounts[1]  == null ? 0 : ratingCounts[1]}">0</span>
+                    đánh giá
                   </div>
                 </div>
               </div>
@@ -362,49 +184,50 @@
           <hr>
           <div class="row">
             <div class="filter-rating">
-              <button class="btn btn-custom2 p-2">
+              <a th:href="@{/detail(id=${product.id}, filter='all')}" class="btn btn-custom2 p-2">
                 Tất cả
-              </button>
-              <button class="btn btn-custom2 p-2">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='hasImage')}" class="btn btn-custom2 p-2">
                 Có hình ảnh
-              </button>
-              <button class="btn btn-custom2 p-2">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='hasComment')}" class="btn btn-custom2 p-2">
                 Có bình luận
-              </button>
-              <button class="btn btn-custom2 p-1">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='5')}" class="btn btn-custom2 p-1">
                 5 <span class="star-icon">&#9733;</span>
-              </button>
-              <button class="btn btn-custom2 p-1">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='4')}" class="btn btn-custom2 p-1">
                 4 <span class="star-icon">&#9733;</span>
-              </button>
-              <button class="btn btn-custom2 p-1">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='3')}" class="btn btn-custom2 p-1">
                 3 <span class="star-icon">&#9733;</span>
-              </button>
-              <button class="btn btn-custom2 p-1">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='2')}" class="btn btn-custom2 p-1">
                 2 <span class="star-icon">&#9733;</span>
-              </button>
-              <button class="btn btn-custom2 p-1">
+              </a>
+              <a th:href="@{/detail(id=${product.id}, filter='1')}" class="btn btn-custom2 p-1">
                 1 <span class="star-icon">&#9733;</span>
-              </button>
+              </a>
             </div>
           </div>
+
           <div class="comment-list" id="commentList">
-            <div class="comment mt-2">
+            <div th:each="review : ${reviews}" class="comment mt-2">
               <div class="user-avatar me-2 mt-2">
-                <img src="IMG/IMG_0218.JPG" alt="User   Avatar">
+                <img th:src="${review.khachHang.avaImg}" alt="User Avatar">
               </div>
               <div class="user-account">
                 <div class="name-account">
-                  Đào Tấn Kiệt
+                  <span th:text="${review.khachHang.hoTen}">User Name</span>
                   <div class="ms-2 star-icon">
-                    &#9733;&#9733;&#9733;&#9733;&#9733;
+                    <span th:each="star : ${#numbers.sequence(1, review.diem)}">&#9733;</span>
                   </div>
                 </div>
                 <div class="comment-text">
-                  Đây là một sản phẩm tuyệt vời
+                  <span th:text="${review.noiDung}"></span>
                 </div>
-                <div class="comment-img">
-                  <img src="IMG/avatar.jpg" style="width: 100px; margin-right: 5px;">
+                <div class="comment-img" th:if="${review.img != null}">
+                  <img th:src="@{${review.img}}" style="width: 100px; margin-right: 5px;">
                 </div>
               </div>
             </div>
@@ -419,143 +242,15 @@
       </div>
       <div class="recommendation-body">
         <div class="row g-3 mt-2">
-          <div class=" col-2 position-relative">
-            <div class="card product-template">
-              <div class="badge">
-                <div class="discount-label">Giảm 20%</div>
-              </div>
-              <div class="card-body">
-                <img src="@{/IMG/galaxy-s24-plus-den copy.webp}">
-                <p class="product-name" name="name">iPhone 16 8GB 256GB |
-                  Chính hãng VN/A</p>
-                <div class="product-price">
-                  <span class="current-price">22.490.000đ </span><br>
-                  <span class="listed-price">22.990.000đ</span>
-                </div>
-                <div class="star-product">
-                  <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i>
-                  <button class="detail-btn">Chi tiết</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class=" col-2 position-relative">
-            <div class="card product-template">
-              <div class="badge">
-                <div class="discount-label">Giảm 20%</div>
-              </div>
-              <div class="card-body">
-                <img src="@{/IMG/galaxy-s24-plus-den copy.webp}">
-                <p class="product-name" name="name">iPhone 16 8GB 256GB |
-                  Chính hãng VN/A</p>
-                <div class="product-price">
-                  <span class="current-price">22.490.000đ </span><br>
-                  <span class="listed-price">22.990.000đ</span>
-                </div>
-                <div class="star-product">
-                  <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i>
-                  <button class="detail-btn">Chi tiết</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class=" col-2 position-relative">
-            <div class="card product-template">
-              <div class="badge">
-                <div class="discount-label">Giảm 20%</div>
-              </div>
-              <div class="card-body">
-                <img src="@{/IMG/galaxy-s24-plus-den copy.webp}">
-                <p class="product-name" name="name">iPhone 16 8GB 256GB |
-                  Chính hãng VN/A</p>
-                <div class="product-price">
-                  <span class="current-price">22.490.000đ </span><br>
-                  <span class="listed-price">22.990.000đ</span>
-                </div>
-                <div class="star-product">
-                  <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i>
-                  <button class="detail-btn">Chi tiết</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class=" col-2 position-relative">
-            <div class="card product-template">
-              <div class="badge">
-                <div class="discount-label">Giảm 20%</div>
-              </div>
-              <div class="card-body">
-                <img src="@{/IMG/galaxy-s24-plus-den copy.webp}">
-                <p class="product-name" name="name">iPhone 16 8GB 256GB |
-                  Chính hãng VN/A</p>
-                <div class="product-price">
-                  <span class="current-price">22.490.000đ </span><br>
-                  <span class="listed-price">22.990.000đ</span>
-                </div>
-                <div class="star-product">
-                  <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i>
-                  <button class="detail-btn">Chi tiết</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class=" col-2 position-relative">
-            <div class="card product-template">
-              <div class="badge">
-                <div class="discount-label">Giảm 20%</div>
-              </div>
-              <div class="card-body">
-                <img src="@{/IMG/galaxy-s24-plus-den copy.webp}">
-                <p class="product-name" name="name">iPhone 16 8GB 256GB |
-                  Chính hãng VN/A</p>
-                <div class="product-price">
-                  <span class="current-price">22.490.000đ </span><br>
-                  <span class="listed-price">22.990.000đ</span>
-                </div>
-                <div class="star-product">
-                  <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i>
-                  <button class="detail-btn">Chi tiết</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class=" col-2 position-relative">
-            <div class="card product-template">
-              <div class="badge">
-                <div class="discount-label">Giảm 20%</div>
-              </div>
-              <div class="card-body">
-                <img src="@{/IMG/galaxy-s24-plus-den copy.webp}">
-                <p class="product-name" name="name">iPhone 16 8GB 256GB |
-                  Chính hãng VN/A</p>
-                <div class="product-price">
-                  <span class="current-price">22.490.000đ </span><br>
-                  <span class="listed-price">22.990.000đ</span>
-                </div>
-                <div class="star-product">
-                  <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
-                    class="fa-solid fa-star checked"></i>
-                  <button class="detail-btn">Chi tiết</button>
-                </div>
-              </div>
-            </div>
+          <div th:each=" pd : ${recommendedProducts}" class="col-2 position-relative">
+            <div th:replace="~{fragments/_card_product_template :: card_product_template(${pd}) }"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!--Modal của cái nút đánh giá-->
+    <!--Modal của cái promotion-->
+
     <div class=" modal fade" id="ratingModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg"> <!-- Sử dụng modal-lg để tăng kích thước -->
         <div class="modal-content">
@@ -564,11 +259,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="row align-items-center col-sm-12">
-              <img src="IMG/xiaomi-mi-pad-6.webp" class="img-rating col-sm-3"> <!-- Giới hạn kích thước hình ảnh -->
-              <span class="name-rating col-sm-9">Xiaomi Pad 6 8GB 265GB</span>
-            </div>
-            <hr>
             <div class="row">
               <h4>Đánh giá sản phẩm</h4>
               <div class="star-outer">
@@ -578,49 +268,41 @@
                 <div class="star" data-value="4">&#9733;</div>
                 <div class="star" data-value="5">&#9733;</div>
               </div>
-
-              <div class="row mb-4">
-                <div class="form-floating">
-                  <textarea class="form-control comment-rating" placeholder="Đánh giá sản phẩm"
-                    id="floatingTextarea"></textarea>
-                  <label for="floatingTextarea">Bình luận sản phẩm</label>
+              <form action="/detail/danhgia" th:object="${danhGia}" method="post" enctype="multipart/form-data">
+                <div class="row mb-4">
+                  <div class="form-floating">
+                    <textarea class="form-control comment-rating" placeholder="Đánh giá sản phẩm"
+                      th:field="*{noiDung}"></textarea>
+                    <label for="floatingTextarea">Bình luận sản phẩm</label>
+                  </div>
                 </div>
-              </div>
-              <hr>
-              <div class="wrapper">
-                <header>Đăng tải hình ảnh của bạn</header>
-                <form action="#">
+                <input type="text" th:field="*{diem}" id="point" hidden required>
+                <input type="text" th:field="*{sanPham}" id="point" hidden>
+                <hr>
+                <div class="wrapper">
+                  <header>Đăng tải hình ảnh của bạn</header>
                   <input class="file-input" type="file" name="file" hidden>
                   <i class="fas fa-cloud-upload-alt"></i>
                   <p>Nhấn vào đây để upload file</p>
-                </form>
-                <section class="progress-area"></section>
-                <section class="uploaded-area"></section>
-              </div>
+                </div>
+                <button type="submit" class="btn btn-primary float-end mt-3">Gửi đánh giá</button>
+              </form>
+              <section class="progress-area "></section>
+              <section class="uploaded-area d-flex justify-content-center"></section>
             </div>
-            <div class="class"></div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-            <button type="button" class="btn btn-primary">Đánh giá</button>
           </div>
         </div>
       </div>
     </div>
-
-    <!--Modal của cái promotion-->
-  
     <div th:insert="~{/fragments/_footer::footer}" class="mt-4 full-screen-div"></div>
-  </div>
-  <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-  <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-  <script src="js/detail.js"></script>
+    <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+    <script src="js/detail.js"></script>
 </body>
 
 </html>
