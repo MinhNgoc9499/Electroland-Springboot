@@ -73,5 +73,7 @@ public class DonHang {
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại với KhachHang
 	private KhachHang khachHang;
+	Double tongTien;
 
+	Double tongGiam;
 }

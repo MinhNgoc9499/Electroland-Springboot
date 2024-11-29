@@ -2,6 +2,7 @@ package com.fpl.Electroland.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,8 +20,8 @@ public class AdminController {
 		return "dashboard";
 	}
 
-      @GetMapping("/adminIndex")
-    public String getReport(@RequestParam(value = "month",  defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}")int month, Model model) throws JsonProcessingException {
+    @GetMapping("/adminIndex")
+    public String getReport(@RequestParam(value = "month",  defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}")int month, @RequestParam(value = "year", defaultValue = "#{T(java.time.LocalDate).now().getYear()}") int year,, Model model) throws JsonProcessingException {
     	
         // Call the service to get the data for the selected month
         Long totalOrders = donHangDAO.countTotalOrdersByMonth(month);
@@ -40,9 +41,7 @@ public class AdminController {
         model.addAttribute("canceledOrders", canceledOrders);
         // model.addAttribute("totalRevenue", totalRevenue);
         model.addAttribute("currentMonth", month); // Pass selected month to the view
-        // Call the service to get the product revenue data
-   
-        model.addAttribute("customerData", customerData);
+     
         return "dashboard";  // Thymeleaf template name
     }
 

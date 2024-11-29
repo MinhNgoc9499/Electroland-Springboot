@@ -22,7 +22,16 @@
         <div class=row>
 <div class= "col-sm-6">
     <!-- Form chọn tháng -->
-    <form method="get" th:action="@{/report}">
+    <form method="get" th:action="@{/adminIndex}">
+        <div class="col-sm-6">
+            <label for="year">Chọn năm:</label>
+            <select name="year" id="year" class="form-control" style="width: 150px;">
+                <!-- Giả sử bạn đang truyền năm hiện tại vào từ Controller -->
+                <option value="${currentYear}" th:selected="${currentYear == currentYear}">${currentYear}</option>
+                <option value="${currentYear - 1}" th:selected="${currentYear == currentYear - 1}">${currentYear - 1}</option>
+                <option value="${currentYear + 1}" th:selected="${currentYear == currentYear + 1}">${currentYear + 1}</option>
+            </select>
+        </div>
         <label for="month">Chọn tháng:</label>
         <select name="month" id="month" class="form-control" style="width: 150px;">
             <option value="1" th:selected="${currentMonth == 1}">Tháng 1</option>
@@ -44,7 +53,8 @@
     <!-- Các nội dung khác -->
     <div class="col-md-12 text-end">
       <div>
-        <a th:href="@{/report/export(month=${currentMonth})}" class="btn btn-primary">Xuất báo cáo</a>
+     <a class="btn btn-primary">Xuất báo cáo</a> 
+        <!-- <a th:href="@{/adminIndex/export(month=${currentMonth}, year=${currentYear})}" class="btn btn-primary">Xuất báo cáo</a> -->
     </div>
 </div>
     </form>
