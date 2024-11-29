@@ -1,0 +1,2 @@
+insert into dbo.NhanVien (id, trangthai, chucVu, email, hoTen, matKhau, std) values (1, 1, N'ROLE_USER', N'minh.ngoc@fpt.com', N'Minh Ngoc', N'$2a$12$kG749qcekyj5fGcm2d.v/eokJ85h14dRjajpP9Pp8jbhsTIN3pevO', N'0332286105');
+insert into dbo.NhanVien (id, trangthai, chucVu, email, hoTen, matKhau, std) values (2, 1, N'ROLE_ADMIN', N'minh.ngoc1@fpt.com', N'Minh Ngoc', N'$2a$10$gqHrslMttQWSsDSVRTK1OehkkBiXsJ/a4z2OURU./dizwOQu5Lovu', N'0332286105');

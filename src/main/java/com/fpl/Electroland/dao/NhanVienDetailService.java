@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NhanVienDetailService implements UserDetailsService {
 
-
     private final NhanVienDAO nhanvienDao;
-
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
