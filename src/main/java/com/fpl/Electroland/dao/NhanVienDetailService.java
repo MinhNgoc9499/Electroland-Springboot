@@ -19,7 +19,7 @@ public class NhanVienDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<NhanVien> userInfo = nhanvienDao.findNhanVienByEmail(username);
         if (userInfo.isPresent()) {
-            return new User(userInfo.get().getEmail(), userInfo.get().getMatKhau(), userInfo.get().getChucVu());
+            return new User(userInfo.get().getHoTen(), userInfo.get().getMatKhau(), userInfo.get().getChucVu());
         }
         throw new UsernameNotFoundException(username);
     }

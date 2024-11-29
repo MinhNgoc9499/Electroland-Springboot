@@ -1,7 +1,8 @@
 package com.fpl.Electroland.config;
 
-import com.fpl.Electroland.common.Constanst;
 import lombok.AllArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -10,49 +11,56 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.fpl.Electroland.model.NhanVien;
+
+
+
 /**
  * SecurityConfig
  */
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
-@AllArgsConstructor
+
 public class SecurityConfig {
-
+    @Autowired
     private UserDetailsService userDetailsService;
-
+    
+        public SecurityConfig(UserDetailsService userDetailsService) {
+            this.userDetailsService = userDetailsService;
+    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        
         http.authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(Constanst.ADMIN_ALL).hasAuthority(Constanst.ROLE_ADMIN);
+                    auth.requestMatchers("/admin","/admin/**").hasAuthority("ROLE_ADMIN");
                     auth.anyRequest().permitAll();
                 }
             ).formLogin(formLogin -> formLogin
-                .loginPage(Constanst.URL_LOGIN)
-                .loginProcessingUrl(Constanst.URL_PROCESS_LOGIN)
-                .usernameParameter(Constanst.EMAIL_FIELD)
-                .passwordParameter(Constanst.PASS_WORD_FIELD)
-                .defaultSuccessUrl(Constanst.URL_ADMIN + Constanst.URL_INDEX, true)
+                .loginPage("/admin-login")
+                .loginProcessingUrl("/process-login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/admin/index")
                 .permitAll()
             ).logout(httpSecurityLogoutConfigurer ->
-                httpSecurityLogoutConfigurer.logoutUrl(Constanst.URL_LOGOUT)
-                    .logoutSuccessUrl(Constanst.URL_LOGIN)
+                httpSecurityLogoutConfigurer.logoutUrl("/log-out")
+                    .logoutSuccessUrl("/admin-login")
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
-                    .deleteCookies(Constanst.JSESSIONID)
+                    .deleteCookies("JSESSIONID")
                     .permitAll()
             ).exceptionHandling(exceptionHandlingConfigurer ->
-                exceptionHandlingConfigurer.accessDeniedPage(Constanst.ACCESS_DENIED)
+                exceptionHandlingConfigurer.accessDeniedPage("/accessDenied")
             ).rememberMe(rememberMeConfigurer ->
                 rememberMeConfigurer.key("electroland")
                     .rememberMeParameter("remember-me")
@@ -66,4 +74,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
+  
 }

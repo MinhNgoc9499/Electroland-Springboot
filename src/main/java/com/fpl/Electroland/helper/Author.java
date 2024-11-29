@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 import com.fpl.Electroland.model.KhachHang;
+import com.fpl.Electroland.model.NhanVien;
 
 @Component
 @Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -18,4 +19,6 @@ public class Author {
 	public void setUserKhachHang(KhachHang userKhachHang) {
 		this.userKhachHang = userKhachHang;
 	}
+
+
 }

@@ -1,17 +1,29 @@
-package com.fpl.Electroland.controller.admin;
+package com.fpl.Electroland.controller;
 
-import com.fpl.Electroland.common.Constanst;
+import java.security.Principal;
+
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fpl.Electroland.helper.Author;
+
+
+
+
 
 @Controller
-@RequestMapping(Constanst.URL_ADMIN)
+@RequestMapping("/admin")
 public class AdminController {
+    @Autowired
+    Author author;
 
     @GetMapping("/index")
-    public String adminIndex() {
-        return "admin-dashboard";
+    public String adminIndex() { 
+        return "dashboard";
     }
 
     @GetMapping("/product")
@@ -29,8 +41,8 @@ public class AdminController {
         return "OrderList";
     }
 
-    @GetMapping("/employes")
-    public String adimEmployes() {
+    @GetMapping("/employess")
+    public String adminEmployes() {
         return "employessADM";
     }
 
