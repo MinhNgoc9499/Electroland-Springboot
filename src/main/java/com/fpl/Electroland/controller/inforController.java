@@ -7,6 +7,8 @@ import com.fpl.Electroland.dao.DiaChiDAO;
 import com.fpl.Electroland.dao.DonHangDAO;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -102,7 +104,14 @@ public ResponseEntity<DiaChi> updateAddress(@ModelAttribute("user") KhachHang us
 		 diaChi.setSdtNN(diaChiDto.getSdt());
 		 // Thêm các thuộc tính khác của KhachHang nếu cần
 		 diaChi.setKhachHang(user);
- 
+		// Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của khách hàng thành false
+		if (diaChiDto.isMacDinh()) {
+			List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
+			for (DiaChi address : allAddresses) {
+				address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
+				diachiDAO.save(address);  // Lưu các thay đổi
+			}
+}
 		 // Lưu địa chỉ vào database
 		 diachiDAO.save(diaChi);
  
@@ -118,7 +127,14 @@ public ResponseEntity<DiaChi> updateAddress(@ModelAttribute("user") KhachHang us
             // Cập nhật thông tin khách hàng
 			existingDiaChi.setHoTenNN(diaChiDto.getHoTen());
 			existingDiaChi.setSdtNN(diaChiDto.getSdt());
-            
+             // Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của khách hàng thành false
+			 if (diaChiDto.isMacDinh()) {
+                List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
+                for (DiaChi address : allAddresses) {
+                    address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
+                    diachiDAO.save(address);  // Lưu các thay đổi
+                }
+            }
             // Lưu địa chỉ và khách hàng (nếu thông tin khách hàng thay đổi)
             diachiDAO.save(existingDiaChi);
             
@@ -200,12 +216,26 @@ public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model mo
 			return "_user_infor";
 		} else {
 			if (!file.isEmpty()) {
+				System.out.println("Tệp được chọn: " + file.getOriginalFilename()); // Log tên tệp
+				if (!isImageFileType(file)) {
+					model.addAttribute("error", "Chỉ cho phép  image files (jpg, jpeg, png, gif).");
+					return "_user_infor";
+				}
+	
+				// Log kiểu MIME của tệp để xem xét:
+				System.out.println("Loại MIME tệp: " + file.getContentType()); // Kiểm tra kiểu MIME
+	
+				// Tải tệp lên
 				String url = cloudinaryService.uploadMultipleFile(file);
+				System.out.println("URL sau khi tải lên: " + url); // Log URL trả về từ Cloudinary
+	
 				user.setAvaImg(url);
+				khDAO.save(user);
+			} else {
+				System.out.println("Không có tệp được chọn!");
 			}
-			khDAO.save(user);
 		}
-
+	
 		return "_user_infor";
 	}
 
@@ -217,5 +247,9 @@ public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model mo
 	public boolean isEmailExists(String email) {
 		return khDAO.findByEmail(email).isPresent();
 	}
-
+	private boolean isImageFileType(MultipartFile file) {
+		String fileName = file.getOriginalFilename().toLowerCase();
+		return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png") || fileName.endsWith(".gif");
+	}
+	
 }
