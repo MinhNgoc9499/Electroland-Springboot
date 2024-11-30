@@ -2,20 +2,20 @@
   font-size: 20px;
 }
 
-.wrapper {
+.filter .wrapper {
   position: relative;
   width: 80%;
   background-color: #ffffff;
   padding: 50px 40px 20px 40px;
   border-radius: 10px;
 }
-.container {
+.filter .container {
   position: relative;
   width: 100%;
   height: 100px;
   margin-top: 30px;
 }
-input[type="range"] {
+.filter input[type="range"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -29,7 +29,7 @@ input[type="range"] {
   background-color: transparent;
   pointer-events: none;
 }
-.slider-track {
+.filter .slider-track {
   width: 100%;
   height: 5px;
   position: absolute;
@@ -39,19 +39,19 @@ input[type="range"] {
   bottom: 0;
   border-radius: 5px;
 }
-input[type="range"]::-webkit-slider-runnable-track {
+.filter input[type="range"]::-webkit-slider-runnable-track {
   -webkit-appearance: none;
   height: 5px;
 }
-input[type="range"]::-moz-range-track {
+.filter input[type="range"]::-moz-range-track {
   -moz-appearance: none;
   height: 5px;
 }
-input[type="range"]::-ms-track {
+.filter input[type="range"]::-ms-track {
   appearance: none;
   height: 5px;
 }
-input[type="range"]::-webkit-slider-thumb {
+.filter input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   height: 1.7em;
   width: 1.7em;
@@ -61,7 +61,7 @@ input[type="range"]::-webkit-slider-thumb {
   pointer-events: auto;
   border-radius: 50%;
 }
-input[type="range"]::-moz-range-thumb {
+.filter input[type="range"]::-moz-range-thumb {
   -webkit-appearance: none;
   height: 1.7em;
   width: 1.7em;
@@ -71,7 +71,7 @@ input[type="range"]::-moz-range-thumb {
   pointer-events: auto;
   border: none;
 }
-input[type="range"]::-ms-thumb {
+.filter input[type="range"]::-ms-thumb {
   appearance: none;
   height: 1.7em;
   width: 1.7em;
@@ -80,11 +80,11 @@ input[type="range"]::-ms-thumb {
   background-color: #3264fe;
   pointer-events: auto;
 }
-input[type="range"]:active::-webkit-slider-thumb {
+.filter input[type="range"]:active::-webkit-slider-thumb {
   background-color: #ffffff;
   border: 1px solid #3264fe;
 }
-.values {
+.filter .values {
   background-color: #3264fe;
   width: 32%;
   position: relative;
@@ -96,7 +96,7 @@ input[type="range"]:active::-webkit-slider-thumb {
   font-size: 25px;
   color: #ffffff;
 }
-.values:before {
+.filter .values:before {
   content: "";
   position: absolute;
   height: 0;
@@ -108,4 +108,20 @@ input[type="range"]:active::-webkit-slider-thumb {
   bottom: -14px;
   left: 0;
   right: 0;
+}
+
+.filter .pagination {
+  justify-content: center;
+}
+
+.filter .btn-custom-1 {
+  background-color: #001429;
+  color: white;
+  height: 25px;
+  align-items: center;
+  display: flex;
+  justify-content: center; 
+  text-align: center;    
+  padding: 0 10px;
+  font-weight: 500;
 }
