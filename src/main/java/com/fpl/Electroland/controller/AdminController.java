@@ -26,29 +26,29 @@ public class AdminController {
     Author author;
 
     @GetMapping("/index")
-     public String getReport(@RequestParam(value = "month",  defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}")int month, Model model) throws JsonProcessingException {
+     public String getReport() {
     	
-        // Call the service to get the data for the selected month
-        Long totalOrders = donHangDAO.countTotalOrdersByMonth(month);
-        Long successfulTransactions = donHangDAO.countSuccessfulTransactionsByMonth(month);
-        Long canceledOrders = donHangDAO.countCanceledOrdersByMonth(month);
-        // Double totalRevenue = reportService.getTotalRevenueByMonth(month);
-        // Get the monthly revenue data
-        // double[] monthlyRevenue = reportService.getMonthlyRevenue(); 
+        // // Call the service to get the data for the selected month
+        // Long totalOrders = donHangDAO.countTotalOrdersByMonth(month);
+        // Long successfulTransactions = donHangDAO.countSuccessfulTransactionsByMonth(month);
+        // Long canceledOrders = donHangDAO.countCanceledOrdersByMonth(month);
+        // // Double totalRevenue = reportService.getTotalRevenueByMonth(month);
+        // // Get the monthly revenue data
+        // // double[] monthlyRevenue = reportService.getMonthlyRevenue(); 
 
-        // Convert monthly revenue data to JSON format for chart
-        // String monthlyRevenueJson = new ObjectMapper().writeValueAsString(monthlyRevenue);
+        // // Convert monthly revenue data to JSON format for chart
+        // // String monthlyRevenueJson = new ObjectMapper().writeValueAsString(monthlyRevenue);
 
-        // Add attributes to the model
-        // model.addAttribute("monthlyRevenue", monthlyRevenueJson);
-        model.addAttribute("totalOrders", totalOrders);
-        model.addAttribute("successfulTransactions", successfulTransactions);
-        model.addAttribute("canceledOrders", canceledOrders);
-        // model.addAttribute("totalRevenue", totalRevenue);
-        model.addAttribute("currentMonth", month); // Pass selected month to the view
-        // Call the service to get the product revenue data
+        // // Add attributes to the model
+        // // model.addAttribute("monthlyRevenue", monthlyRevenueJson);
+        // model.addAttribute("totalOrders", totalOrders);
+        // model.addAttribute("successfulTransactions", successfulTransactions);
+        // model.addAttribute("canceledOrders", canceledOrders);
+        // // model.addAttribute("totalRevenue", totalRevenue);
+        // model.addAttribute("currentMonth", month); // Pass selected month to the view
+        // // Call the service to get the product revenue data
    
-        model.addAttribute("customerData", customerData);
+        // model.addAttribute("customerData", customerData);
         return "dashboard";  // Thymeleaf template name
     }
 
