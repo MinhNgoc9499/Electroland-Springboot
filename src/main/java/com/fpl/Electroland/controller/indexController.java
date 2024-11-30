@@ -38,8 +38,8 @@ public class indexController {
 	}
 
 	SanPham sanPhamMau = new SanPham(1, "iPhone 16 8GB 256GB | Chính hãng VN/A", "iphone-16-1.webp", "Mô tả",
-			22490000.0,
-			22990000.0, true,
+			8000000.0,
+			7900000.0, true,
 			new LoaiSanPham(1, "Điện thoại", "Hình"), new NhaCungCap(1, "Appo", "Hình"));
 
 	LoaiSanPham loaiSanPhamMau = new LoaiSanPham(1, "Điện thoại", "caseiphone.jpg");

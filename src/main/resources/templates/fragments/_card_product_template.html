@@ -1,6 +1,6 @@
 <div class="card product-template" th:fragment="card_product_template(product)" th:object="${product}" th:data-id="*{id}">
     <div class="badge">
-        <div class="discount-label">Giảm 20%</div>
+        <div class="discount-label" th:text="${'Giảm ' + ((product.giaBan - product.giaGiam) / product.giaBan )* 100} + '%'">Giảm 20%</div>
     </div>
     <div class="card-body">
         <img th:src="@{'/IMG/' + *{hinhDaiDien}}">

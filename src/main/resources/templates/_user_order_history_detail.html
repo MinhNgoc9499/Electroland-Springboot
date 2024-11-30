@@ -53,7 +53,9 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <p><strong>Giảm:</strong></p>
-                        <p th:text="${#numbers.formatDecimal(discount, 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
+                        <!-- <p th:text="${#numbers.formatDecimal(discount, 0, 'POINT', 0, 'COMMA') + 'đ'}"></p> -->
+                        <p th:text="${discount == 'Không có giảm giá' ? discount : #numbers.formatDecimal(discount, 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
+
                     </div>
                     <div class="d-flex justify-content-between">
                         <p><strong>Phí vận chuyển:</strong></p>
@@ -61,7 +63,9 @@
                     </div>
                     <div class="d-flex justify-content-between">
                         <p><strong>Thanh toán:</strong></p>
-                        <p th:text="${#numbers.formatDecimal(tongGiaTri-discount, 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
+                        <p th:text="${discount == 'Không có giảm giá' ? #numbers.formatDecimal(tongGiaTri, 0, 'POINT', 0, 'COMMA') + 'đ' : (discount != null ? #numbers.formatDecimal(tongGiaTri - discount, 0, 'POINT', 0, 'COMMA') + 'đ' : '0đ')}"></p>
+
+
                     </div>
                 </div>
                 <div class="col-md-7">

@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import com.fpl.Electroland.model.DiaChi;
 import com.fpl.Electroland.model.KhachHang;
 
-import java.util.List;
 
 import jakarta.transaction.Transactional;
 
