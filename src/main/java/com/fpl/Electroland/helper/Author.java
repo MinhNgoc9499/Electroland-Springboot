@@ -12,6 +12,8 @@ import com.fpl.Electroland.model.NhanVien;
 public class Author {
 	private KhachHang userKhachHang = null;
 
+	private NhanVien userNhanVien = null;
+
 	public KhachHang getUserKhachHang() {
 		return userKhachHang;
 	}
@@ -20,5 +22,11 @@ public class Author {
 		this.userKhachHang = userKhachHang;
 	}
 
+	public NhanVien getUserNhanVien(){
+		return userNhanVien;
+	}
 
+	public void setUserNhanVien(NhanVien userNhanVien) {
+		this.userNhanVien = userNhanVien;
+	}
 }

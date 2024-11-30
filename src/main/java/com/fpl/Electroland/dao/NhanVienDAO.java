@@ -4,8 +4,9 @@ import com.fpl.Electroland.model.NhanVien;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 public interface NhanVienDAO extends JpaRepository<NhanVien, Integer> {
 
-    Optional<NhanVien> findNhanVienByEmail(String email);
 
+    Optional<NhanVien> findByEmail(String email);
 }
