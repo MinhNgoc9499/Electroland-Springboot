@@ -9,5 +9,5 @@ import com.fpl.Electroland.model.LoaiSanPham;
 import com.fpl.Electroland.model.SanPham;
 
 public interface SanPhamDAO extends JpaRepository<SanPham, Integer>, JpaSpecificationExecutor<SanPham>{
-
+    List<SanPham> findByLoaiSanPham(LoaiSanPham loaiSanPham);
 }

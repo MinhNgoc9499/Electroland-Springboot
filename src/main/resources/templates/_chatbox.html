@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins|Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background: #f4f7fa;
+        }
+
+        /* Chat Box Styles */
+        .chat-box {
+            width: 350px;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 450px;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease-in-out;
+        }
+
+        .chat-box-header {
+            background: #2C50EF;
+            color: #fff;
+            padding: 15px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-box-header .fa-times {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .chat-box-body {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .chat-message {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message-send, .message-receive {
+            max-width: 75%;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        .message-send {
+            background: #2C50EF;
+            color: #fff;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message-receive {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .chat-box-footer {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background: #fff;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .chat-box-footer input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .chat-box-footer button {
+            background-color: #2C50EF;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .chat-box-footer button:hover {
+            background-color: #1a3ab1;
+        }
+
+        /* Chat Button Styles */
+        .chat-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #2C50EF;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        .chat-button:hover {
+            background: #1d3d9b;
+            transform: translateY(-5px);
+        }
+
+        .chat-button i {
+            margin-right: 10px;
+        }
+
+        /* Exit Button */
+        .chat-box .exit-button {
+            background-color: #FF4C4C;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .exit-button:hover {
+            background-color: #ff0000;
+        }
+
+        /* Responsiveness */
+        @media screen and (max-width: 450px) {
+            .chat-box {
+                width: 100%;
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Chatbox -->
+<div class="chat-box" th:fragment="chatbox">
+    <div class="chat-box-header">
+        <span>Kênh hỗ trợ và tư vấn</span>
+        <i class="fa fa-times"></i> <!-- Close button icon -->
+    </div>
+    <div class="chat-box-body"> 
+        <!-- <div class="chat-message message-receive">
+            <div>
+                <p>Xin chào! Tôi có thể giúp gì cho bạn?</p>
+                <span class="time">12:00</span>
+            </div>
+        </div> -->
+    </div> 
+    <div class="chat-box-footer">
+        <input type="text" placeholder="Nhập tin nhắn" />
+        <button class="send"><i class="fa fa-paper-plane"></i></button> <!-- Send button with paper plane icon -->
+    </div>
+    <button class="exit-button">Thoát</button> <!-- Exit button -->
+</div>
+
+<!-- Circular Button to Open Chatbox -->
+<div class="chat-button">
+    <i class="fa fa-comment"></i>
+    <span>Chat với chúng tôi</span>
+</div>
+
+<script>
+    // Mở hộp chat khi nhấn vào nút chat
+    $('.chat-button').on('click', function () {
+        $('.chat-button').fadeOut();
+        $('.chat-box').css({
+            "visibility": "visible",
+            "opacity": 1
+        });
+        // Hiển thị tin nhắn chào sau khi mở chatbox
+        showGreetingMessage();
+    });
+
+    // Hiển thị tin nhắn chào
+    function showGreetingMessage() {
+        let currentTime = getCurrentTime();
+        $(".chat-box-body").append(`
+            <div class="chat-message message-receive">
+                <div>
+                    <p>Xin chào! Tôi có thể giúp gì cho bạn?</p>
+                    <span class="time">${currentTime}</span>
+                </div>
+            </div>
+        `);
+        $(".chat-box-body").scrollTop($(".chat-box-body")[0].scrollHeight); // Cuộn xuống dưới cùng
+    }
+
+    // Đóng hộp chat khi nhấn vào nút đóng
+    $('.chat-box .chat-box-header i').on('click', function () {
+        $('.chat-button').fadeIn();
+        $('.chat-box').css({
+            "visibility": "hidden",
+            "opacity": 0
+        });
+    });
+
+    // Thoát chat khi nhấn nút "Thoát"
+    $('.chat-box .exit-button').on('click', function () {
+        $('.chat-button').fadeIn();
+        $('.chat-box').css({
+            "visibility": "hidden",
+            "opacity": 0
+        });
+    });
+
+    // Gửi tin nhắn khi nhấn nút gửi
+    $(".send").on("click", function () {
+        let message = $(".chat-box-footer input").val();
+        if (message.trim() !== "") {
+            let currentTime = getCurrentTime();
+            $(".chat-box-body").append(`
+                <div class="chat-message message-send">
+                    <div>
+                        <p>${message}</p>
+                        <span class="time">${currentTime}</span>
+                    </div>
+                </div>
+            `);
+            $(".chat-box-footer input").val(""); // Xóa nội dung input
+            $(".chat-box-body").scrollTop($(".chat-box-body")[0].scrollHeight); // Cuộn xuống dưới cùng
+
+            // Gửi tin nhắn đến API và nhận phản hồi
+            sendMessageToAPI(message);
+        }
+    });
+
+    // Gửi tin nhắn khi nhấn phím Enter
+    $(".chat-box-footer input").on("keypress", function (e) {
+        if (e.which === 13) { // Phím Enter
+            $(".send").click(); // Kích hoạt sự kiện click của nút gửi
+        }
+    });
+
+    // Lấy thời gian hiện tại (real-time)
+    function getCurrentTime() {
+        let now = new Date();
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        return hours + ':' + minutes;
+    }
+
+    function sendMessageToAPI(message) {
+        const apiUrl = `http://localhost:8000/chat?message=${encodeURIComponent(message)}`; // Gửi message qua query
+
+        console.log('Sending data to API:', { message: message });
+
+        // Gửi yêu cầu POST
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errData => {
+                    console.error('API Error:', errData);
+                    throw new Error(`HTTP error! Status: ${response.status}, Message: ${JSON.stringify(errData)}`);
+                });
+            }
+            return response.json(); // Chuyển đổi response thành JSON
+        })
+        .then(data => {
+            console.log('API Response:', data); // Log dữ liệu phản hồi từ API
+            if (data.answer) {
+                let currentTime = getCurrentTime();
+                // Hiển thị phản hồi từ API trong chatbox
+                $(".chat-box-body").append(`
+                    <div class="chat-message message-receive">
+                        <div>
+                            <p>${data.answer}</p>
+                            <span class="time">${currentTime}</span>
+                        </div>
+                    </div>
+                `);
+                $(".chat-box-body").scrollTop($(".chat-box-body")[0].scrollHeight); // Cuộn xuống dưới cùng
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script>
+
+</body>
+</html>
