@@ -11,7 +11,6 @@ import com.fpl.Electroland.model.SanPham;
 
 import jakarta.transaction.Transactional;
 
-import java.util.List;
 
 public interface GioHangDAO extends JpaRepository<GioHang, Integer> {
     List<GioHang> findAllByKhachHangAndChecked(KhachHang khachHang, boolean checked);

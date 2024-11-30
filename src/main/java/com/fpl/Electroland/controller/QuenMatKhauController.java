@@ -2,7 +2,6 @@ package com.fpl.Electroland.controller;
 
 import java.util.Optional;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -41,14 +40,13 @@ public class QuenMatKhauController {
 
     // Xử lý yêu cầu quên mật khẩu (gửi email OTP)
     @PostMapping("/quenMatKhau")
-public String processForgotPassword(@RequestParam("email") String email, Model model) {
+    public String processForgotPassword(@RequestParam("email") String email, Model model) {
     Optional<KhachHang> khachHang = khachHangDAO.findByEmail(email);
     if (khachHang.isPresent()) {
         String otp = generateOtp();
         sendOtpEmail(email, otp);
         session.setAttribute("otp", otp);
         session.setAttribute("email", email);
-
         model.addAttribute("message", "OTP đã được gửi đến email của bạn.");
         model.addAttribute("otpVisible", true);  // Hiển thị form OTP
     } else {
