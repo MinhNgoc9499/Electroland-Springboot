@@ -17,11 +17,6 @@ public class AdminController {
 	DonHangDAO donHangDAO;
 
 	@GetMapping("/adminIndex")
-	public String adminIndex() {
-		return "dashboard";
-	}
-
-	@GetMapping("/adminIndex")
 	public String getReport(
 			@RequestParam(value = "month", defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}") int month,
 			Model model) throws JsonProcessingException {
@@ -64,16 +59,6 @@ public class AdminController {
 	@GetMapping("/adminOrderList")
 	public String adminOrderList() {
 		return "OrderList";
-	}
-
-	@GetMapping("/adimEmployes")
-	public String adimEmployes() {
-		return "employessADM";
-	}
-
-	@GetMapping("/adminEmployessDetail	")
-	public String adimEmployesDetail() {
-		return "EmployessDetailADM";
 	}
 
 }

@@ -11,17 +11,17 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
-	<link rel="stylesheet" href="CSS/navbarAdmin.css">
-	<link rel="stylesheet" href="CSS/productADM.css"> <!-- Đường dẫn tới file CSS -->
-	<link rel="stylesheet" href="CSS/productDetailADM.css"> <!-- Đường dẫn tới file CSS -->
-	<link rel="stylesheet" href="CSS/OrderList.css">
-	<link rel="stylesheet" href="CSS/employessADM.css"> <!-- Đường dẫn tới file CSS -->
-	<link rel="stylesheet" href="CSS/employessDetailADM.css"> <!-- Đường dẫn tới file CSS -->
+	<link rel="stylesheet" th:href="@{/CSS/navbarAdmin.css}">
+	<link rel="stylesheet" th:href="@{/CSS/productADM.css}"> <!-- Đường dẫn tới file CSS -->
+	<link rel="stylesheet" th:href="@{/CSS/productDetailADM.css}"> <!-- Đường dẫn tới file CSS -->
+	<link rel="stylesheet" th:href="@{/CSS/OrderList.css}">
+	<link rel="stylesheet" th:href="@{/CSS/employessADM.css}"> <!-- Đường dẫn tới file CSS -->
+	<link rel="stylesheet" th:href="@{/CSS/employessDetailADM.css}"> <!-- Đường dẫn tới file CSS -->
 </head>
 
 <body>
 	<div class="row">
-		<nav th:replace="navbarAdmin :: nav"></nav>
+		<nav th:replace="~{navbarAdmin :: nav}"></nav>
 		<main th:replace=${view}></main>
 	</div>
 	<script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
