@@ -14,6 +14,7 @@
   </head>
   <body>
     <header th:replace="~{/fragments/_header :: header}"> </header>
+    <nav th:replace="~{/fragments/_navbar::navbar}"></nav>
     <form method="GET">
     <div class="filter container mt-4">
       <div class="row">
@@ -163,7 +164,7 @@
       </div>
     </form>
     </div>
-
+    <div th:insert="~{/fragments/_footer::footer}" class="mt-4 full-screen-div"></div>
     <script src="JS/sanPham.js"></script>
     <script src="https://kit.fontawesome.com/6d391eb7f8.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
