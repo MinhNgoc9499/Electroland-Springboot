@@ -99,7 +99,7 @@ public class sanphamController {
     	Page<SanPham> sanPhamList = sanPhamDAO.findAll(spec, pageable);
 
 		int totalPages = sanPhamList.getTotalPages();
-		int startPage = Math.max(0, page - 2);  // Hiển thị tối thiểu 2 trang trước
+		int startPage = Math.max(0, page - 2); 
 		int endPage = Math.min(totalPages - 1, page + 2);
 		
 		long count = sanPhamList.getTotalElements();

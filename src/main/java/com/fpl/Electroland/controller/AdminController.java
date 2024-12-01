@@ -1,12 +1,18 @@
 package com.fpl.Electroland.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import com.fpl.Electroland.dao.DonHangDAO;
 import com.fpl.Electroland.helper.Author;
+import com.fpl.Electroland.model.DonHang;
 
 
 
@@ -15,6 +21,9 @@ import com.fpl.Electroland.helper.Author;
 public class AdminController {
     @Autowired
     Author author;
+
+    @Autowired
+    DonHangDAO donHangDAO;
 
     @GetMapping("/index")
      public String getReport() {
@@ -68,5 +77,20 @@ public class AdminController {
         return "EmployessDetailADM";
     }
 
-
+    public List<DonHang> getDonHangByTT(int trangThai){
+        List<DonHang> list = new ArrayList<>();
+        list = donHangDAO.findAll();
+        list.stream().filter(dh -> dh.getTrangThai() == trangThai).collect(Collectors.toList());
+        return list;
+    }
+    
+    @GetMapping("/order-statistics")
+    public String adminOrderStatistics(Model model) {
+        List<DonHang> listDonHangHuy = getDonHangByTT(0);
+        for(DonHang dh : listDonHangHuy){
+            System.out.println(dh.toString());
+        }
+        // model.addAttribute("donHuy", listDonHangHuy.size());
+        return "OrderStatisticsADM";
+    }
 }

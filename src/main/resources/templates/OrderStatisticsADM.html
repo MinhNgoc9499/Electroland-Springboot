@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/fragments/Layout_Admin::dynamic(~{::body},~{::title})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="../CSS/productADM.css">
+</head>
+<body>
+    <div class="col-10">
+        <h1 class="mb-3">Báo cáo Đơn Hàng</h1>
+        <div id="filterContainer" class="d-flex align-items-center col-sm-12">
+            <div class="input-group me-2 col-sm-3">
+                <input type="text" class="form-control" placeholder="Tìm bằng mã đơn hàng" id="searchInput">
+            </div>
+
+            <div class="col-sm-2">
+                <select class="form-select">
+                    <option value="">Trạng thái</option>
+                    <option value="completed">Hoàn thành</option>
+                    <option value="pending">Chờ xử lý</option>
+                    <option value="cancelled">Ngưng hoạt động</option>
+                </select>
+            </div>
+
+            <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
+        </div>
+        
+        <div class="row mt-3">
+            <div class="col-12">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Đơn hàng thành công</th>
+                        <th scope="col">Đơn hàng thất bại</th>
+                        <th scope="col">Tổng tiền</th>
+                        <th scope="col">Tháng</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <!-- <td th:text="${donHuy}"></td> -->
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://kit.fontawesome.com/6d391eb7f8.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script th:src="@{/JS/productADM.js}"></script>
+</html>

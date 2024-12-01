@@ -23,4 +23,7 @@ public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
     @Query("SELECT COUNT(d) FROM DonHang d WHERE d.trangThai = 0 AND MONTH(d.ngayDH) = :month")
     Long countCanceledOrdersByMonth(@Param("month") int month);
 
+    // @Query("Select new com.fpl.Electroland.dto.DonHangStatDTO( " +
+
+    // List<DonHangStatDTO> findDonHangStats();
 }
