@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
@@ -16,70 +17,65 @@
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
             </div>
-
             <!-- Form Khôi Phục Mật Khẩu -->
-            <form action="#" method="POST" th:action="@{/quenMatKhau}" th:object="${khachHang}">
+            <div id="password-recovery" class="password-recovery">
                 <h2>Quên mật khẩu?</h2>
                 <p>Vui lòng nhập tài khoản bạn muốn lấy lại mật khẩu.</p>
                 <label for="email">Email của bạn</label>
-                <input type="email" id="email" name="email" placeholder="Vui lòng nhập email của bạn" th:value="${khachHang.email}">
-                <p id="email-error" th:if="${error != null}" style="color: red;">Thử lại! Email không tồn tại.</p>
+                <input type="email" id="email" placeholder="Vui lòng nhập email của bạn">
+                <p id="email-error" style="color: red; display: none;">Nhập email của bạn</p>
                 <div class="buttons">
-                    <button type="button" class="btn-cancel" onclick="goBackToHome()">Quay lại</button>
-                    <button type="submit" class="btn-confirm">Xác nhận</button>
-                </div>
-            </form>
-
-            <!-- Form Xác Minh OTP -->
-            <div id="otp-verification" class="otp-verification" th:style="display: ${otpVisible ? 'block' : 'none'};">
-                <h2>Xác minh danh tính của bạn</h2>
-                <p>Vui lòng nhập OTP đã gửi qua <span class="otp-email" th:text="${email}"></span></p>
-                <div class="otp-input-container">
-                    <div class="otp-bx">
-                        <input type="text" id="otp-1" name="otp" maxlength="1" oninput="moveToNextBox(1)">
-                        <input type="text" id="otp-2" name="otp" maxlength="1" oninput="moveToNextBox(2)">
-                        <input type="text" id="otp-3" name="otp" maxlength="1" oninput="moveToNextBox(3)">
-                        <input type="text" id="otp-4" name="otp" maxlength="1" oninput="moveToNextBox(4)">
-                        <input type="text" id="otp-5" name="otp" maxlength="1" oninput="moveToNextBox(5)">
-                        <input type="text" id="otp-6" name="otp" maxlength="1" oninput="moveToNextBox(6)">
-                    </div>
-                    <a href="#" class="resend-otp" onclick="resendOtp()">Gửi lại mã OTP</a>
-                    <p id="otp-error" th:if="${otpError != null}" style="color: red;" th:text="${otpError}"></p>
-                </div>
-                <div class="buttons">
-                    <button type="button" class="btn-cancel" onclick="goBackToRecovery()">Quay lại</button>
-                    <button type="submit" class="btn-confirm">Xác nhận</button>
+                    <button class="btn-cancel" onclick="goBackToHome()">Quay lại</button>
+                    <button class="btn-confirm" onclick="validateEmail()">Xác nhận</button>
                 </div>
             </div>
 
-            <!-- Form Nhập Mật Khẩu Mới -->
-            <form action="#" method="POST" th:action="@{/capNhatMatKhau}" th:object="${khachHang}">
-                <div id="new-password" class="new-password" th:style="display: ${newPasswordVisible ? 'block' : 'none'};">
-                    <h2>Đặt lại mật khẩu</h2>
-                    <p>Nhập mật khẩu mới bên dưới để tiếp tục.</p>
-                    <div class="form-group mb-3" style="max-width: 400px; position: relative;">
-                        <input type="password" id="new-password-input" class="form-control" name="newPassword" placeholder="Nhập mật khẩu mới" style="border-radius: 8px;">
-                        <button type="button" id="toggle-password" onclick="toggleNewPasswordVisibility()" class="btn btn-link position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); padding: 0;">
-                            <i class="fa-solid fa-eye-slash" id="eye-icon"></i>
-                        </button>
+            <!-- Form Xác Minh OTP -->
+            <div id="otp-verification" class="otp-verification" style="display: none;">
+                <h2>Xác minh danh tính của bạn</h2>
+                <p>Vui lòng nhập OTP đã gửi qua <span class="otp-email"></span></p>
+                <div class="otp-input-container">
+                    <div class="otp-bx">
+                        <input type="text" id="otp-1" maxlength="1" oninput="moveToNextBox(1)">
+                        <input type="text" id="otp-2" maxlength="1" oninput="moveToNextBox(2)">
+                        <input type="text" id="otp-3" maxlength="1" oninput="moveToNextBox(3)">
+                        <input type="text" id="otp-4" maxlength="1" oninput="moveToNextBox(4)">
+                        <input type="text" id="otp-5" maxlength="1" oninput="moveToNextBox(5)">
+                        <input type="text" id="otp-6" maxlength="1" oninput="moveToNextBox(6)">
                     </div>
-                    <label for="confirm-password-input">Xác nhận mật khẩu mới</label>
-                    <div class="form-group mb-3" style="max-width: 400px; position: relative;">
-                        <input type="password" id="confirm-password-input" name="confirmPassword" class="form-control" placeholder="Nhập lại mật khẩu mới" style="border-radius: 8px;">
-                        <button type="button" id="toggle-password" onclick="toggleConfirmPasswordVisibility()" class="btn btn-link position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); padding: 0;">
-                            <i class="fa-solid fa-eye-slash" id="eye-icon"></i>
-                        </button>
-                    </div>
-                    <p id="length-requirement" style="color: #555;">* Độ dài mật khẩu phải từ 8-20 ký tự.</p>
-                    <p id="character-requirement" style="color: #555;">* Mật khẩu phải chứa chữ cái, số và ký tự đặc biệt.</p>
-                    <p id="allowed-characters" style="color: #555;">* Ký tự cho phép: ~.!@#$%^&*</p>
-                    <div class="buttons">
-                        <button type="button" class="btn-cancel" onclick="goBackToOtp()">Quay lại</button>
-                        <button type="submit" class="btn-confirm">Đặt lại</button>
-                    </div>
+                    <a href="#" class="resend-otp" onclick="resendOtp()">Gửi lại mã OTP</a>
+                    <p id="otp-error" style="color: red; display: none;"></p>
                 </div>
-            </form>
-            
+                <div class="buttons">
+                    <button class="btn-cancel" onclick="goBackToRecovery()">Quay lại</button>
+                    <button class="btn-confirm" onclick="confirmOtp()">Xác nhận</button>
+                </div>
+            </div>
+            <!-- Form Nhập Mật Khẩu Mới -->
+            <div id="new-password" class="new-password" style="display: none;">
+                <h2>Đặt lại mật khẩu</h2>
+                <p>Nhập mật khẩu mới bên dưới để tiếp tục.</p>
+                <div class="form-group mb-3" style="max-width: 400px; position: relative;">
+                    <input type="password" id="new-password-input" class="form-control" placeholder="Nhập mật khẩu mới" style="border-radius: 8px;">
+                    <button id="toggle-password" onclick="toggleNewPasswordVisibility()" class="btn btn-link position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); padding: 0;">
+                        <i class="fa-solid fa-eye-slash" id="eye-icon"></i>
+                    </button>
+                </div>
+                <label for="confirm-password-input">Xác nhận mật khẩu mới</label>
+                <div class="form-group mb-3" style="max-width: 400px; position: relative;">
+                    <input type="password" id="confirm-password-input" class="form-control" placeholder="Nhập lại mật khẩu mới" style="border-radius: 8px;">
+                    <button id="toggle-password" onclick="toggleConfirmPasswordVisibility()" class="btn btn-link position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); padding: 0;">
+                        <i class="fa-solid fa-eye-slash" id="eye-icon"></i>
+                    </button>
+                </div>
+                <p id="length-requirement" style="color: #555;">* Độ dài mật khẩu phải từ 8-20 ký tự.</p>
+                <p id="character-requirement" style="color: #555;">* Mật khẩu phải chứa chữ cái, số và ký tự đặc biệt.</p>
+                <p id="allowed-characters" style="color: #555;">* Ký tự cho phép: ~.!@#$%^&*</p>
+                <div class="buttons">
+                    <button class="btn-cancel" onclick="goBackToOtp()">Quay lại</button>
+                    <button class="btn-confirm" onclick="confirmNewPassword()">Đặt lại</button>
+                </div>
+            </div>
         </div>
         <div class="image-container">
             <img id="slide" th:src="@{/img/turntable-top-view-audio-equipment-159376.jpeg}" alt="Background Image">
@@ -90,11 +86,10 @@
             </div>
         </div>
     </div>
-
     <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         crossorigin="anonymous"></script>
     <script th:src="@{/js/quenmatkhau.js}"></script>
 </body>
 
-</html>
+</html> 

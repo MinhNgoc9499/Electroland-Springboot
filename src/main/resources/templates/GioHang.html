@@ -60,7 +60,7 @@
             
             <!-- Xóa sản phẩm -->
             <p class="remove">
-                <a href="#" onclick="removeItem(this)" th:data-id="${item.id}"><i class="fa-regular fa-trash-can"></i></a>
+                <a th:href="@{/giohang}" onclick="removeItem(this)" th:data-id="${item.id}"><i class="fa-regular fa-trash-can"></i></a>
             </p>
         </div>
         <hr>
@@ -92,29 +92,62 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
-                   <!-- Lặp qua danh sách voucherList -->
-                    <div class="col-md-4 voucher-item text-center mb-3" th:each="voucher : ${Voucher}">
-                       <!-- Debug dữ liệu -->
-                       <img src="img/logoxanh.png" alt="Voucher 4" class="img-fluid">
-                    <div th:text="${voucher.maGiamDh.moTa}">Dữ liệu không tồn tại</div>
-                    <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
+                <div class="row p-3">
+                    <div class="text-center col-12 mb-2">
+                        <h3>Voucher cho đơn hàng</h3>
                     </div>
-                </div>
-                <div class="row">
+                    <!-- Lặp qua danh sách voucherList -->
+                    <div class="col-12 voucher-item mb-3"  th:if="${voucher.MaGiamDh}" th:each="voucher : ${Voucher}">
+                        <div class="d-flex align-items-center">
+                            <!-- Hình ảnh -->
+                            <img src="img/logoxanh.png" alt="Voucher" class="img-fluid me-3" style="width: 80px; height: 80px;">
+                            
+                            <!-- Mô tả -->
+                            <div class="text-center">
+                                <div th:text="${voucher.maGiamDh.moTa}" class="mb-2"></div>
+                            </div>
+                            
+                            <!-- Nút chọn -->
+                            <button type="button" class="btn"
+                            th:classappend="${voucher.checked != null && voucher.checked ? 'btn-success' : 'btn-outline-primary'}"
+                            th:disabled="${voucher.checked == null}"
+                            th:data-id="${voucher.id}"
+                            th:text="${voucher.checked != null && voucher.checked ? 'Đã chọn' : 'Chọn'}"
+                            name="MaGiamDh"
+                            disabled
+                            onclick="addVoucher(this)">
+                        </button>
+                        </div>
+                    </div>
                     
-                    <div class="col-md-4 voucher-item text-center mb-3" th:each="voucher : ${Voucher}">
-                        <!-- Debug dữ liệu -->
-                        <img src="img/logoxanh.png" alt="Voucher 4" class="img-fluid">
-                     <div th:text="${voucher.MaGiamSp.giaTri}">Dữ liệu không tồn tại</div>
-                     <button type="button" class="btn btn-outline-primary select-voucher">Chọn</button>
+                </div>
+                <div class="row p-3">
+                    <div class="text-center col-12 mb-4">
+                        <h3>Voucher cho sản phẩm</h3>
+                    </div>
+                    <div class="col-12 voucher-item mb-3" th:if="${voucher.MaGiamSp}" th:each="voucher : ${Voucher}">
+                        <div class="d-flex align-items-center">
+                            <img src="img/logoxanh.png" alt="Voucher 4" class="img-fluid me-3" style="width: 80px; height: 80px;">
+                        <div class="text-center">
+                     <div th:text="${voucher.MaGiamSp.moTa}"></div>
+                    </div>
+                    <!-- Voucher cho sản phẩm -->
+                    <button type="button" class="btn"
+                    th:classappend="${voucher.checked != null && voucher.checked ? 'btn-success' : 'btn-outline-primary'}"
+                    th:disabled="${voucher.checked == null}"
+                    th:data-id="${voucher.id}"
+                    th:text="${voucher.checked != null && voucher.checked ? 'Đã chọn' : 'Chọn'}"
+                    name="MaGiamSp"
+                    onclick="addVoucher(this)">
+                    </button>
+                     </div>  
                      </div>
-                   
+                 </div>
+                
                 </div>
             </div>
         </div>
     </div>
-</div>
 
             </div>   
             <div class="left-buttons">
@@ -126,12 +159,13 @@
         <div class="row">
            
             <div class="col-12 total-amount">
+                <div class="d-flex justify-content-between totalall">
+                    <span>Tổng cổng</span>
+                    <span class="amount" name="tongTien"> <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span></span>
+                </div>
                 <div class="d-flex justify-content-between totaltongcong">
                     <span>Tổng thanh toán:</span>
-                </div>
-                <div class="d-flex justify-content-between totalall">
-                    <span>Tổng cộng</span>
-                    <span class="amount" name="tongTien"> <span th:text="${#numbers.formatDecimal(TotalMoney, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span></span>
+                    <span class="amount" name="tongTien"> <span th:text="${#numbers.formatDecimal(TotalMoney - Discount, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span></span>
                 </div>
                 <div style="margin-top: 30px;">
                     <a class="checkout-btn" href="/checkout">Mua Hàng</a>

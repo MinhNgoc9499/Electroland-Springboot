@@ -41,7 +41,7 @@ public class QuenMatKhauController {
 
     // Xử lý yêu cầu quên mật khẩu (gửi email OTP)
     @PostMapping("/quenMatKhau")
-public String processForgotPassword(@RequestParam("email") String email, Model model) {
+    public String processForgotPassword(@RequestParam("email") String email, Model model) {
     Optional<KhachHang> khachHang = khachHangDAO.findByEmail(email);
     if (khachHang.isPresent()) {
         String otp = generateOtp();

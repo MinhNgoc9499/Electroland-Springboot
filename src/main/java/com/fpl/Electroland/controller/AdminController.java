@@ -3,6 +3,8 @@ package com.fpl.Electroland.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+
+
 @Controller
 public class AdminController {
 	@GetMapping("/adminIndex")
@@ -29,10 +31,14 @@ public class AdminController {
 	public String adimEmployes() {
 		return "employessADM";
 	}
+	
 
-	@GetMapping("/adminEmployessDetail	")
+	@GetMapping("/adminEmployessDetail")
 	public String adimEmployesDetail() {
 		return "EmployessDetailADM";
 	}
+	
+
+	
 
 }
