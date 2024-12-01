@@ -61,6 +61,8 @@ public class CheckoutController {
 		dh.setDiaChi(diaChi.getChiTiet());
 		dh.setNguoiNhan(diaChi.getHoTenNN());
 		dh.setSdt(diaChi.getSdtNN());
+		dh.setTongTien(gettotal());
+		dh.setTongGiam(getTotalDiscount());
 		return dh;
 	};
 

@@ -68,9 +68,14 @@ public class DonHang {
 	private MaGiamDh maGiamDh;
 
 	@OneToMany(mappedBy = "donHang", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<ChiTietDh> chiTietDhs;
+	private List<ChiTietDh> chiTietDhs;
+
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại với KhachHang
 	private KhachHang khachHang;
+
+	Double tongTien;
+
+	Double tongGiam;
 
 }
