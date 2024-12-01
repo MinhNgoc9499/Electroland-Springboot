@@ -1,4 +1,4 @@
-package com.fpl.Electroland.model;
+	package com.fpl.Electroland.model;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -23,15 +23,15 @@ import lombok.NoArgsConstructor;
 @Table
 public class GioHang {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	int id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		int id;
 
-	// Số lượng sản phẩm
-	@Column(nullable = false)
-	int soLuong;
+		// Số lượng sản phẩm
+		@Column(nullable = false)
+		int soLuong;
 
-	@Column(nullable = true, columnDefinition = "nvarchar(100)")
+	@Column(nullable = true, columnDefinition = "nvarchar(225)")
 	String moTa;
 
 	@Column(nullable = true)

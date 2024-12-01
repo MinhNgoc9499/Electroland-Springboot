@@ -1,8 +1,17 @@
 package com.fpl.Electroland.dao;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.fpl.Electroland.model.KhachHang;
+import com.fpl.Electroland.model.MaGiamKh;
+import com.fpl.Electroland.model.MaGiamSp;
+
+
+public interface MaGiamKhDAO extends JpaRepository<MaGiamKh, Integer> {
 import com.fpl.Electroland.model.KhachHang;
 import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.MaGiamKh;
@@ -27,4 +36,7 @@ public interface MaGiamKhDAO extends JpaRepository<MaGiamKh, Integer> {
     void deleteByKhachHangAndSelectedTrue(KhachHang khachHang);
 
     Optional<MaGiamKh> findByKhachHangAndMaGiamSpIsNullAndSelectedTrue(KhachHang khachhang);
+  
+  List<MaGiamKh> findByKhachHang(KhachHang khachHang);
+    Optional<MaGiamKh> findByKhachHangAndMaGiamSpIsNullAndCheckedTrue(KhachHang khachhang);
 }

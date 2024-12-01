@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/fragments/Layout_Admin::dynamic(~{::body},~{::title})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroLand</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/OrderList.css">
+    <link rel="shortcut icon" type="image/png" href="IMG/logoden.png">
+</head>
+<body>
+
+    <div class="col-10">
+    <h1 class="mb-4">Danh sách khách hàng</h1>
+    <div id="filterContainer" class="d-flex align-items-center col-sm-12">
+        <!-- Search Input with Dropdown Icon -->
+        <div class="input-group me-2 col-sm-3">
+            <input type="text" class="form-control" placeholder="Tìm bằng mã khách hàng" id="searchInput">
+            <span class="input-group-text" id="dropdownIcon" style="cursor: pointer;">
+                <i class="fa-solid fa-caret-down"></i>
+            </span>
+            
+            <!-- Dropdown Filters -->
+            <div id="dropdownFilters">
+                <form class="row g-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="Họ tên khách hàng">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="Số điện thoại khách hàng">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="Địa chỉ">
+                    </div>
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="col-12 text-end">
+                        <button type="submit" class="btn btn-primary btn-sm">Tìm kiếm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <select class="form-select">
+                <option value="">Trạng thái</option>
+                <option value="completed">Hoạt động</option>
+                <option value="cancelled">Ngừng hoạt động</option>
+            </select>
+        </div>
+
+        <div class="col-sm-1">
+            <select class="form-select">
+                <option value="">Người tạo</option>
+                <option value="completed">Đào Tấn Kiệt</option>
+                <option value="cancelled">Nguyễn Thị Minh Ngọc</option>
+            </select>
+        </div>
+        <a href="/adminCustomerDetail" class="btn btn-primary btn-custom me-1 col-sm-1" id="addOrderButton">Thêm mới</a>
+        <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
+    </div>
+
+    <div class="row mt-3">
+        <!-- Table for Order Data -->
+        <div class="col-sm-12">
+            <table class="table table-striped">
+                <thead class="table-light">
+                    <tr>
+                        <th>Mã KH</th>
+                        <th>Họ tên khách hàng</th>
+                        <th>Số điện thoại</th>
+                        <th>Địa chỉ</th>
+                        <th>Ngày sinh</th>
+                        <th>Giới tính</th>
+                        <th>Email</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="list : ${List}">
+                        <td th:text="${list.id}"></td>
+                        <td th:text="${list.hoTen}"></td>
+                        <td th:text="${list.sdt}"></td>
+                        <td th:each="diaChi : ${list.diaChiList}" th:text="${diaChi.chiTiet}"></td>
+                        <td th:text="${list.ngaySinh}"></td>
+                        <td th:text="${list.gioiTinh}"></td>
+                        <td th:text="${list.email}"></td>
+                        <td  th:text="${list.trangThai}"><span class="badge bg-success">Hoạt động</span></td>
+                        <td><a><i class="fa-solid fa-trash ms-3"></i></a>
+                            <a><i class="fa-solid fa-pencil ms-2"></i></a>
+                            </td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-arrow-left"></i></a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-arrow-right"></i></a></li>
+        </ul>
+    </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
+<script src="JS/OrderList.js"></script>
+</body>
+</html>

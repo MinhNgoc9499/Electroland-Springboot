@@ -18,6 +18,7 @@
                 <div class="progress" id="progress"></div>
             </div>
             <!-- Form Khôi Phục Mật Khẩu -->
+
             <form action="/quenMatKhau" method="POST"  th:object="${khachHang}">
 	            <div id="password-recovery" class="password-recovery">
 	                <h2>Quên mật khẩu?</h2>
@@ -35,7 +36,7 @@
             <!-- Form Xác Minh OTP -->
             <div id="otp-verification" class="otp-verification" th:style="'display: ' + (${otpVisible} ? 'block' : 'none')">
                 <h2>Xác minh danh tính của bạn</h2>
-                <p>Vui lòng nhập OTP đã gửi qua <span class="otp-email" th:text="${email}"></span></p>
+                <p>Vui lòng nhập OTP đã gửi qua <span class="otp-email"></span></p>
                 <div class="otp-input-container">
                     <div class="otp-bx">
                         <input type="text" id="otp-1" maxlength="1" oninput="moveToNextBox(1)">
@@ -46,7 +47,7 @@
                         <input type="text" id="otp-6" maxlength="1" oninput="moveToNextBox(6)">
                     </div>
                     <a href="#" class="resend-otp" onclick="resendOtp()">Gửi lại mã OTP</a>
-                    <p id="otp-error" th:if="${otpError != null}" style="color: red;" th:text="${otpError}"></p>
+                    <p id="otp-error" style="color: red; display: none;"></p>
                 </div>
                 <div class="buttons">
                     <button class="btn-cancel" onclick="goBackToRecovery()">Quay lại</button>
@@ -54,6 +55,7 @@
                 </div>
             </div>
             <!-- Form Nhập Mật Khẩu Mới -->
+
             <form action="/capNhatMatKhau" method="POST" th:object="${khachHang}">
             	 <input type="hidden" name="email" th:value="${session.email}"> <!-- Thêm trường ẩn email -->
 	            <div id="new-password" class="new-password" th:style="'display: ' + (${newPassword} ? 'block' : 'none')">
@@ -96,5 +98,4 @@
         crossorigin="anonymous"></script>
     <script th:src="@{/js/quenmatkhau.js}"></script>
 </body>
-
-</html>
+</html> 

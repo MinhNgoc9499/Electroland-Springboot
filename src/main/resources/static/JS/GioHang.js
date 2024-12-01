@@ -67,9 +67,6 @@ function toggleSelectAll() {
     document.querySelectorAll(".select-item").forEach(item => {
         item.checked = selectAll;
         // Lấy thông tin sản phẩm và khách hàng từ các thuộc tính
-        const sanPham = item.getAttribute("data-idsp");
-        const khachhang = item.getAttribute("data-idkh"); // ID khách hàng nếu có
-        updateProductSelection(sanPham, khachhang, selectAll); // Cập nhật trạng thái trên server
     });
     updateTotalAmount();
 }
@@ -110,59 +107,71 @@ function deselectAll() {
 }
 
 
+
 // Xóa sản phẩm cá nhân
 function removeItem(link) {
-    const productItem = link.closest('.cart-containerItem');
-    if (productItem) {
-        const sanPham = productItem.querySelector(".select-item").getAttribute("data-idsp");
-        const khachhang = productItem.querySelector(".select-item").getAttribute("data-idkh");
-        removeItemFromDB(sanPham, khachhang); // Xóa sản phẩm khỏi DB
-        productItem.remove(); // Xóa sản phẩm khỏi UI
-        updateTotalAmount();
+    let id = link.getAttribute("data-id")
+    console.log(id)
+    let a = fetch("http://localhost:8080/rest/giohang/" + id)
+  }
+  // Xóa sản phẩm cá nhân
+function addItem(link) {
+  let checked = link.getAttribute("data-id")
+  console.log(checked)
+  let a = fetch("http://localhost:8080/rest/giohang/update" + checked)
+}   
+
+function addVoucher(link) {
+    let id = link.getAttribute("data-id");
+    let type = link.getAttribute("name"); // "MaGiamDh" hoặc "MaGiamSp"
+    console.log("Voucher ID:", id, "Type:", type);
+
+    // Nếu là maGiamDh, chỉ chọn được 1 voucher
+    if (type === "MaGiamDh") {
+        let maGiamDhButtons = document.querySelectorAll("[name = MaGiamDh]");
+        maGiamDhButtons.forEach(button => {
+            button.classList.add("btn-outline-primary");
+            button.classList.remove("btn-success");
+            button.innerText = "Chọn";
+        });
     }
-}
-// Kiểm tra tham số trước khi gọi hàm
-if (sanPham && khachhang) {
-    updateProductSelection(sanPham, khachhang, selectAll);
-} else {
-    console.error('Tham số sanPham hoặc khachhang không hợp lệ:', sanPham, khachhang);
-}
-function updateProductSelection(sanPham, khachhang, ischecked) {
-    const encodedSanPham = encodeURIComponent(sanPham);
-    const encodedKhachhang = encodeURIComponent(khachhang);
-    fetch(`/update-product-selection?idSP=${encodedSanPham}&checked=${ischecked}&idKH=${encodedKhachhang}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data); // Hiển thị thông báo kết quả
-    })
-    .catch(error => console.error('Lỗi:', error));
-}
+    
 
-function updateAllProductSelection(khachhang, ischecked) {
-    const encodedKhachhang = encodeURIComponent(khachhang);
-    fetch(`/update-all-products-selection?checked=${ischecked}&idKH=${encodedKhachhang}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data); // Hiển thị thông báo kết quả
-    })
-    .catch(error => console.error('Lỗi:', error));
-}
-
-function removeItemFromDB(sanPham, khachhang) {
-    const encodedSanPham = encodeURIComponent(sanPham);
-    const encodedKhachhang = encodeURIComponent(khachhang);
-    fetch(`/remove-product-from-cart?idSP=${encodedSanPham}&idKH=${encodedKhachhang}`, {
-        method: 'POST'
-    })
-    .then(response => response.text())
-    .then(data => {
-        console.log("Sản phẩm đã được xóa khỏi giỏ hàng trong DB.");
-    })
-    .catch(error => console.error('Lỗi khi xóa sản phẩm khỏi giỏ hàng:', error));
+    // Gửi yêu cầu tới API để cập nhật trạng thái
+    fetch(`http://localhost:8080/rest/giohang/updateVoucher/${id}`, { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Nếu loại là maGiamDh, chỉ cập nhật nút tương ứng
+                if (type === "MaGiamDh") {
+                    if (data.checked) {
+                        link.innerText = "Đã chọn";
+                        link.classList.remove("btn-outline-primary");
+                        link.classList.add("btn-success");
+                    } else {
+                        link.innerText = "Chọn";
+                        link.classList.remove("btn-success");
+                        link.classList.add("btn-outline-primary");
+                    }
+                }
+                
+                // Nếu loại là maGiamSp, nhiều voucher có thể chọn cùng lúc
+                if (type === "MaGiamSp") {
+                    if (data.checked) {
+                        link.innerText = "Đã chọn";
+                        link.classList.remove("btn-outline-primary");
+                        link.classList.add("btn-success");
+                    } else {
+                        link.innerText = "Chọn";
+                        link.classList.remove("btn-success");
+                        link.classList.add("btn-outline-primary");
+                    }
+                }
+            } else {
+                alert("Lỗi: " + data.message);
+            }
+        })
+        .catch(error => console.error("Lỗi khi gửi yêu cầu:", error));
 }
 
 

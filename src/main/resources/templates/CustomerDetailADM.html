@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/fragments/Layout_Admin::dynamic(~{::body},~{::title})}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +10,7 @@
     <link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
 </head>
 <body>
-    <div class="row p-3">
+    <div class="col-10">
         <h1 class="mb-3">Khách hàng</h1>
         
         <div class="row">
