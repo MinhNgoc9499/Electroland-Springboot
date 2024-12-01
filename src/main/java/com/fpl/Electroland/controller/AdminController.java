@@ -23,10 +23,11 @@ import com.fpl.Electroland.model.DonHang;
 public class AdminController {
 	@Autowired
 	DonHangDAO donHangDAO;
+
 	@GetMapping("/adminIndex")
-	public String adminIndex() {
-		return "dashboard";
-	}
+	public String getReport(
+			@RequestParam(value = "month", defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}") int month,
+			Model model) throws JsonProcessingException {
 
     @GetMapping("/adminIndex")
     public String getReport(@RequestParam(value = "month",  defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}")int month, @RequestParam(value = "year", defaultValue = "#{T(java.time.LocalDate).now().getYear()}") int year,, Model model) throws JsonProcessingException {
@@ -39,8 +40,9 @@ public class AdminController {
         // Get the monthly revenue data
         // double[] monthlyRevenue = reportService.getMonthlyRevenue(); 
 
-        // Convert monthly revenue data to JSON format for chart
-        // String monthlyRevenueJson = new ObjectMapper().writeValueAsString(monthlyRevenue);
+		// Convert monthly revenue data to JSON format for chart
+		// String monthlyRevenueJson = new
+		// ObjectMapper().writeValueAsString(monthlyRevenue);
 
         // Add attributes to the model
         // model.addAttribute("monthlyRevenue", monthlyRevenueJson);
@@ -68,15 +70,6 @@ public class AdminController {
         return "OrderList";
     }
 
-    @GetMapping("/employess")
-    public String adminEmployes() {
-        return "employessADM";
-    }
-
-    @GetMapping("/EmployessDetail	")
-    public String adimEmployesDetail() {
-        return "EmployessDetailADM";
-    }
 
     public List<DonHang> getDonHangByTT(int trangThai){
         List<DonHang> list = new ArrayList<>();

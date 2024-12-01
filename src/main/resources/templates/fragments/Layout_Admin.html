@@ -9,7 +9,6 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
-
 	<link rel="stylesheet" th:href="@{/CSS/dashboard.css}">
 	<link rel="stylesheet" th:href="@{/CSS/navbarAdmin.css}">
 	<link rel="stylesheet" th:href="@{/CSS/productADM.css}"> <!-- Đường dẫn tới file CSS -->
@@ -17,13 +16,12 @@
 	<link rel="stylesheet" th:href="@{/CSS/OrderList.css}">
 	<link rel="stylesheet" th:href="@{/CSS/employessADM.css}"> <!-- Đường dẫn tới file CSS -->
 	<link rel="stylesheet" th:href="@{/CSS/employessDetailADM.css}"> <!-- Đường dẫn tới file CSS -->
-
 </head>
 
 <body>
 	<div class="row">
 		<nav th:replace="~{navbarAdmin :: nav}"></nav>
-		<main th:replace="${view}"></main>
+		<main th:replace=${view}></main>
 	</div>
 	<script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
 </body>
