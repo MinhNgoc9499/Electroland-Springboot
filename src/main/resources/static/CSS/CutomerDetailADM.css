@@ -78,4 +78,5 @@ body {
 
 .error{
   font-size: 14px;
+  display: none;
 }

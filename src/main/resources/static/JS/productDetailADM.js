@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
     const colorOptions = document.querySelectorAll('.color-option');
     
@@ -10,3 +11,5 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
