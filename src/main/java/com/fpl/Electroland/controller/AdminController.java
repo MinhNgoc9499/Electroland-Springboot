@@ -52,15 +52,6 @@ public class AdminController {
         return "dashboard";  // Thymeleaf template name
     }
 
-    @GetMapping("/product")
-    public String adminProduct() {
-        return "productADM";
-    }
-
-    @GetMapping("/product-detail")
-    public String adminProductDetail() {
-        return "productDetailADM";
-    }
 
     @GetMapping("/order")
     public String adminOrderList() {

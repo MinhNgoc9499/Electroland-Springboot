@@ -72,9 +72,7 @@ body {
   background-color: white;
   color: black;
 }
-.form-label {
-  padding-left: 50px; /* Tăng hoặc giảm số này để điều chỉnh khoảng cách */
-}
+
 
 .error{
   font-size: 14px;
