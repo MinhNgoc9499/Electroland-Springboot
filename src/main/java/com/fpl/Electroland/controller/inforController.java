@@ -1,6 +1,5 @@
 package com.fpl.Electroland.controller;
 
-
 import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.CloudinaryService;
 import com.fpl.Electroland.dao.DiaChiDAO;
@@ -8,6 +7,7 @@ import com.fpl.Electroland.dao.DonHangDAO;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +33,6 @@ import com.fpl.Electroland.model.KhachHang;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Controller
 public class inforController {
 
@@ -57,12 +56,14 @@ public class inforController {
 		list = khDAO.findAll();
 		return list;
 	}
-    @Autowired
+
+	@Autowired
 	private ChiTietDhDAO chiTietDhDAO;
 	@Autowired
 	private DonHangDAO donhangDAO;
-    @Autowired
+	@Autowired
 	private DiaChiDAO diachiDAO;
+
 	@ModelAttribute("user")
 	public KhachHang getUser() {
 		return author.getUserKhachHang();
@@ -73,135 +74,151 @@ public class inforController {
 		return "_user_infor";
 	}
 
- 	@GetMapping("/user_address")
-    public String getListDiaChi(@ModelAttribute("user") KhachHang user,  
-                                 Model model) {
+	@GetMapping("/user_address")
+	public String getListDiaChi(@ModelAttribute("user") KhachHang user,
+			Model model) {
 		int userId = author.getUserKhachHang().getId();
-        // Lấy danh sách địa chỉ của khách hàng
-        List<DiaChi> diaChiList = diachiDAO.findByKhachHangId(userId);
+		// Lấy danh sách địa chỉ của khách hàng
+		List<DiaChi> diaChiList = diachiDAO.findByKhachHangId(userId);
 
-        // Thêm thông tin vào model để truyền cho view
-        model.addAttribute("diaChiList", diaChiList);
-        model.addAttribute("user", user);
+		// Thêm thông tin vào model để truyền cho view
+		model.addAttribute("diaChiList", diaChiList);
+		model.addAttribute("user", user);
 
-        return "_user_address"; // Trả về view để hiển thị
-    }
+		return "_user_address"; // Trả về view để hiển thị
+	}
+
 	@PostMapping("/user_address/update")
-public ResponseEntity<DiaChi> updateAddress(@ModelAttribute("user") KhachHang user, @RequestBody DiaChiDto diaChiDto) {
-	if (diaChiDto.getId() == 0) {
-		 // Tạo mới đối tượng DiaChi từ DTO
-		 DiaChi diaChi = new DiaChi();
-		 diaChi.setChiTiet(diaChiDto.getChiTiet());
-		 diaChi.setLoaiDiaChi(diaChiDto.getLoaiDiaChi());
-		 diaChi.setMacDinh(diaChiDto.isMacDinh());
+	public ResponseEntity<DiaChi> updateAddress(@ModelAttribute("user") KhachHang user,
+			@RequestBody DiaChiDto diaChiDto) {
+		if (diaChiDto.getId() == 0) {
+			// Tạo mới đối tượng DiaChi từ DTO
+			DiaChi diaChi = new DiaChi();
+			diaChi.setChiTiet(diaChiDto.getChiTiet());
+			diaChi.setLoaiDiaChi(diaChiDto.getLoaiDiaChi());
+			diaChi.setMacDinh(diaChiDto.isMacDinh());
 
-		 diaChi.setHoTenNN(diaChiDto.getHoTen());
-		 diaChi.setSdtNN(diaChiDto.getSdt());
-		 // Thêm các thuộc tính khác của KhachHang nếu cần
-		 diaChi.setKhachHang(user);
-		// Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của khách hàng thành false
-		if (diaChiDto.isMacDinh()) {
-			List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
-			for (DiaChi address : allAddresses) {
-				address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
-				diachiDAO.save(address);  // Lưu các thay đổi
+			diaChi.setHoTenNN(diaChiDto.getHoTen());
+			diaChi.setSdtNN(diaChiDto.getSdt());
+			// Thêm các thuộc tính khác của KhachHang nếu cần
+			diaChi.setKhachHang(user);
+			// Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của
+			// khách hàng thành false
+			if (diaChiDto.isMacDinh()) {
+				List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
+				for (DiaChi address : allAddresses) {
+					address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
+					diachiDAO.save(address); // Lưu các thay đổi
+				}
 			}
-}
-		 // Lưu địa chỉ vào database
-		 diachiDAO.save(diaChi);
- 
-		 return ResponseEntity.ok(diaChi);  
-	}else{
-        // Kiểm tra xem địa chỉ có tồn tại không
-        Optional<DiaChi> diaChiUpdate = diachiDAO.findById(diaChiDto.getId());
-            DiaChi existingDiaChi = diaChiUpdate.get();
-            existingDiaChi.setChiTiet(diaChiDto.getChiTiet());
-            existingDiaChi.setLoaiDiaChi(diaChiDto.getLoaiDiaChi());
-            existingDiaChi.setMacDinh(diaChiDto.isMacDinh());
+			// Lưu địa chỉ vào database
+			diachiDAO.save(diaChi);
 
-            // Cập nhật thông tin khách hàng
+			return ResponseEntity.ok(diaChi);
+		} else {
+			// Kiểm tra xem địa chỉ có tồn tại không
+			Optional<DiaChi> diaChiUpdate = diachiDAO.findById(diaChiDto.getId());
+			DiaChi existingDiaChi = diaChiUpdate.get();
+			existingDiaChi.setChiTiet(diaChiDto.getChiTiet());
+			existingDiaChi.setLoaiDiaChi(diaChiDto.getLoaiDiaChi());
+			existingDiaChi.setMacDinh(diaChiDto.isMacDinh());
+
+			// Cập nhật thông tin khách hàng
 			existingDiaChi.setHoTenNN(diaChiDto.getHoTen());
 			existingDiaChi.setSdtNN(diaChiDto.getSdt());
-             // Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của khách hàng thành false
-			 if (diaChiDto.isMacDinh()) {
-                List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
-                for (DiaChi address : allAddresses) {
-                    address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
-                    diachiDAO.save(address);  // Lưu các thay đổi
-                }
-            }
-            // Lưu địa chỉ và khách hàng (nếu thông tin khách hàng thay đổi)
-            diachiDAO.save(existingDiaChi);
-            
-            return ResponseEntity.ok(existingDiaChi); // Trả về địa chỉ đã được cập nhật
-	}
-}
+			// Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của
+			// khách hàng thành false
+			if (diaChiDto.isMacDinh()) {
+				List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
+				for (DiaChi address : allAddresses) {
+					address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
+					diachiDAO.save(address); // Lưu các thay đổi
+				}
+			}
+			// Lưu địa chỉ và khách hàng (nếu thông tin khách hàng thay đổi)
+			diachiDAO.save(existingDiaChi);
 
-@DeleteMapping("/user_address/delete")
-public ResponseEntity<String> deleteSelectedAddresses(@RequestBody DeleteRequest deleteRequest) {
-	try {
-		// Gọi service để xóa các địa chỉ theo danh sách ID
-		diachiDAO.deleteByIdIn(deleteRequest.getIds());
-		return ResponseEntity.ok("Đã xóa thành công các địa chỉ.");
-	} catch (Exception e) {
-		return ResponseEntity.status(500).body("Lỗi xảy ra khi xóa: " + e.getMessage());
+			return ResponseEntity.ok(existingDiaChi); // Trả về địa chỉ đã được cập nhật
+		}
 	}
-}
 
-	 @GetMapping("/order_detail")
-    public String getOrderDetail(@ModelAttribute("user") KhachHang user, @RequestParam("id") int orderId, Model model) {
+	// @DeleteMapping("/user_address/delete")
+	// public ResponseEntity<String> deleteSelectedAddresses(@RequestBody
+	// DeleteRequest deleteRequest) {
+	// try {
+	// // Gọi service để xóa các địa chỉ theo danh sách ID
+	// diachiDAO.deleteByIdIn(deleteRequest.getIds());
+	// return ResponseEntity.ok("Đã xóa thành công các địa chỉ.");
+	// } catch (Exception e) {
+	// return ResponseEntity.status(500).body("Lỗi xảy ra khi xóa: " +
+	// e.getMessage());
+	// }
+	// }
+	@PostMapping("/user_address/delete")
+	public String deleteSelectedAddresses(@RequestParam("check") Integer[] check) {
+		try {
+			// Gọi service để xóa các địa chỉ theo danh sách ID
+			diachiDAO.deleteByIdIn(Arrays.asList(check));
+		} catch (Exception e) {
+		}
+		return "redirect:/user_address";
+	}
+
+	@GetMapping("/order_detail")
+	public String getOrderDetail(@ModelAttribute("user") KhachHang user, @RequestParam("id") int orderId, Model model) {
 		KhachHang UserInfor = author.getUserKhachHang();
-        // Lấy thông tin đơn hàng
+		// Lấy thông tin đơn hàng
 		DonHang donHang = donhangDAO.findById(orderId);
 		if (donHang == null) {
-    	throw new RuntimeException("Đơn hàng không tồn tại");
-		}if (donHang.getMaGiamDh() == null) {
+			throw new RuntimeException("Đơn hàng không tồn tại");
+		}
+		if (donHang.getMaGiamDh() == null) {
 			model.addAttribute("discount", "Không có giảm giá");
 		} else {
 			model.addAttribute("discount", donHang.getMaGiamDh().getGiamGiaVND());
 		}
 
+		// Lấy danh sách chi tiết đơn hàng
+		List<ChiTietDh> chiTietDonHang = chiTietDhDAO.findByDonHangId(orderId);
 
-        // Lấy danh sách chi tiết đơn hàng
-        List<ChiTietDh> chiTietDonHang = chiTietDhDAO.findByDonHangId(orderId);
+		// Tính tổng giá trị đơn hàng
+		double tongGiaTri = chiTietDonHang.stream()
+				.mapToDouble(ct -> ct.getGiaBan() * ct.getSoLuong())
+				.sum();
 
-        // Tính tổng giá trị đơn hàng
-        double tongGiaTri = chiTietDonHang.stream()
-                .mapToDouble(ct -> ct.getGiaBan() * ct.getSoLuong())
-                .sum();
-
-        // Truyền thông tin vào model
+		// Truyền thông tin vào model
 		model.addAttribute("UserInfor", UserInfor);
-        model.addAttribute("donHang", donHang);
-        model.addAttribute("chiTietDonHang", chiTietDonHang);
-        model.addAttribute("tongGiaTri", tongGiaTri);
+		model.addAttribute("donHang", donHang);
+		model.addAttribute("chiTietDonHang", chiTietDonHang);
+		model.addAttribute("tongGiaTri", tongGiaTri);
 
 		return "_user_order_history_detail";
-    }
-    @GetMapping("/order_history")
-public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model model) {
-    int userId = author.getUserKhachHang().getId();
+	}
 
-    // Lấy đơn hàng hoàn thành
-    List<Object[]> completedOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 1);
+	@GetMapping("/order_history")
+	public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model model) {
+		int userId = author.getUserKhachHang().getId();
 
-    // Lấy đơn hàng đang xử lý
-    List<Object[]> processingOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 2);
+		// Lấy đơn hàng hoàn thành
+		List<Object[]> completedOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 1);
 
-    // Lấy đơn hàng đã hủy
-    List<Object[]> cancelledOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 0);
-    // Thêm vào model để hiển thị
-    model.addAttribute("completedOrders", completedOrders);
-    model.addAttribute("processingOrders", processingOrders);
-    model.addAttribute("cancelledOrders", cancelledOrders);
+		// Lấy đơn hàng đang xử lý
+		List<Object[]> processingOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 2);
 
-    return "_user_order_history";
-}
+		// Lấy đơn hàng đã hủy
+		List<Object[]> cancelledOrders = chiTietDhDAO.findOrdersByCustomerIdAndStatus(userId, 0);
+		// Thêm vào model để hiển thị
+		model.addAttribute("completedOrders", completedOrders);
+		model.addAttribute("processingOrders", processingOrders);
+		model.addAttribute("cancelledOrders", cancelledOrders);
 
+		return "_user_order_history";
+	}
 
 	@PostMapping("/infor")
-	public String updateInfor(@ModelAttribute("user") KhachHang user, Model model, @RequestParam("file") MultipartFile file)
-        throws IOException {
+	public String updateInfor(@ModelAttribute("user") KhachHang user, Model model,
+			@RequestParam("file") MultipartFile file)
+			throws IOException {
 		Optional<KhachHang> userLogin = khDAO.findById(author.getUserKhachHang().getId());
 		if (!user.getSdt().equals(userLogin.get().getSdt()) && isSoDienThoaiExists(user.getSdt())) {
 			model.addAttribute("error", "Số điện thoại không hợp lệ");
@@ -216,21 +233,21 @@ public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model mo
 					model.addAttribute("error", "Chỉ cho phép  image files (jpg, jpeg, png, gif).");
 					return "_user_infor";
 				}
-	
+
 				// Log kiểu MIME của tệp để xem xét:
 				System.out.println("Loại MIME tệp: " + file.getContentType()); // Kiểm tra kiểu MIME
-	
+
 				// Tải tệp lên
 				String url = cloudinaryService.uploadMultipleFile(file);
 				System.out.println("URL sau khi tải lên: " + url); // Log URL trả về từ Cloudinary
-	
+
 				user.setAvaImg(url);
 				khDAO.save(user);
 			} else {
 				System.out.println("Không có tệp được chọn!");
 			}
 		}
-	
+
 		return "_user_infor";
 	}
 
@@ -242,9 +259,11 @@ public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model mo
 	public boolean isEmailExists(String email) {
 		return khDAO.findByEmail(email).isPresent();
 	}
+
 	private boolean isImageFileType(MultipartFile file) {
 		String fileName = file.getOriginalFilename().toLowerCase();
-		return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png") || fileName.endsWith(".gif");
+		return fileName.endsWith(".jpg") || fileName.endsWith(".jpeg") || fileName.endsWith(".png")
+				|| fileName.endsWith(".gif");
 	}
-	
+
 }
