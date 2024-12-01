@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class DanhGia {
 
 	@Id
@@ -17,7 +19,7 @@ public class DanhGia {
 	private int id; // Primary Key
 
 	@Column(nullable = true)
-	private int diem;
+	private int diem = 1;
 
 	@Column(nullable = true, columnDefinition = "NVARCHAR(225)")
 	private String noiDung;

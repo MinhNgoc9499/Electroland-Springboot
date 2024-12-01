@@ -1,6 +1,6 @@
 <div class="card product-template" th:fragment="card_product_template(product)" th:object="${product}" th:data-id="*{id}">
     <div class="badge">
-        <div class="discount-label">Giảm 20%</div>
+        <div class="discount-label" th:text="${'Giảm ' + ((product.giaBan - product.giaGiam) / product.giaBan )* 100} + '%'">Giảm 20%</div>
     </div>
     <div class="card-body">
         <img th:src="@{'/IMG/' + *{hinhDaiDien}}">
@@ -8,15 +8,15 @@
             Chính hãng VN/A</p>
         <div class="product-price">
             <span class="current-price"
-                th:text="*{#numbers.formatDecimal(giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}">22.490.000đ </span><br>
+                th:text="*{#numbers.formatDecimal(giaGiam, 0, 'POINT', 0, 'COMMA') + 'đ'}">22.490.000đ </span><br>
             <span class="listed-price"
-                th:text="*{#numbers.formatDecimal(giaGiam, 0, 'POINT', 0, 'COMMA') + 'đ'}">22.990.000đ</span>
+                th:text="*{#numbers.formatDecimal(giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}">22.990.000đ</span>
         </div>
         <div class="star">
             <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
                 class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
                 class="fa-solid fa-star checked"></i>
-            <a th:href="@{'/giohang?id=' + *{id}}" class="detail">Thêm</a>
+            <a th:href="@{'/detail?id=' + *{id}}" class="detail">Chi tiết</a>
         </div>
     </div>
 </div>

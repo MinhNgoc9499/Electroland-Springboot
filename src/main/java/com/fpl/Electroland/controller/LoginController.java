@@ -63,10 +63,23 @@ public class LoginController {
 		return "login";
 	}
 
+	@GetMapping("/admin-login")
+	public String pageLoginAdmin() {
+		return "admin_login";
+	}
+
 	@PostMapping("/dangky")
 	public String dangKy(@Valid @ModelAttribute("khachHang") KhachHang khachHangDK, BindingResult result, Model model,
-			@RequestParam("ngaySinh") String ns) {
-		if (isEmailExists(khachHangDK.getEmail())) {
+			@RequestParam("ngaySinh") String ns, @RequestParam("xacNhanMK") String xacNhanMK) {
+		if (result.hasErrors()) {
+            return "login"; 
+        }
+		// Kiểm tra nếu mật khẩu và xác nhận mật khẩu không trùng nhau
+		else if (!khachHangDK.getMatKhau().equals(xacNhanMK)) {
+	        model.addAttribute("error", "Mật khẩu và xác nhận mật khẩu không trùng nhau.");
+	        return "login";  // Trả lại trang đăng ký với thông báo lỗi
+	    }
+		else if (isEmailExists(khachHangDK.getEmail())) {
 			model.addAttribute("error", "Email đã được đăng ký");
 			return "login";
 		} else if (isSoDienThoaiExists(khachHangDK.getSdt())) {
