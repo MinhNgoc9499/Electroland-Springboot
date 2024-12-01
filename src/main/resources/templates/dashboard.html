@@ -1,134 +1,138 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org" th:replace="~{/fragments/Layout_Admin::dynamic(~{::body},~{::title})}">
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Admin</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{CSS/dashboard.css}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
 </head>
+
 <body>
     <div class="col-10">
-<!-- dashboard-content -->
-    <div class="dashboard-content">
-        <div class="dashboard-header">
-            <div>
-            <h1>Tổng quan</h1>
-            <p>Xin chào, Samantha. Chào mừng bạn đến với Sedap Admin!</p>
-        </div>
-        <div class=row>
-<div class= "col-sm-6">
-    <!-- Form chọn tháng -->
-    <form method="get" th:action="@{/report}">
-        <label for="month">Chọn tháng:</label>
-        <select name="month" id="month" class="form-control" style="width: 150px;">
-            <option value="1" th:selected="${currentMonth == 1}">Tháng 1</option>
-            <option value="2" th:selected="${currentMonth == 2}">Tháng 2</option>
-            <option value="3" th:selected="${currentMonth == 3}">Tháng 3</option>
-            <option value="4" th:selected="${currentMonth == 4}">Tháng 4</option>
-            <option value="5" th:selected="${currentMonth == 5}">Tháng 5</option>
-            <option value="6" th:selected="${currentMonth == 6}">Tháng 6</option>
-            <option value="7" th:selected="${currentMonth == 7}">Tháng 7</option>
-            <option value="8" th:selected="${currentMonth == 8}">Tháng 8</option>
-            <option value="9" th:selected="${currentMonth == 9}">Tháng 9</option>
-            <option value="10" th:selected="${currentMonth == 10}">Tháng 10</option>
-            <option value="11" th:selected="${currentMonth == 11}">Tháng 11</option>
-            <option value="12" th:selected="${currentMonth == 12}">Tháng 12</option>
-        </select>
-        <button type="submit" class="btn btn-primary mt-3">Xem báo cáo</button>
-    </div>
-    <div class="col-sm-6">
-    <!-- Các nội dung khác -->
-    <div class="col-md-12 text-end">
-      <div>
-        <a th:href="@{/report/export(month=${currentMonth})}" class="btn btn-primary">Xuất báo cáo</a>
-    </div>
-</div>
-    </form>
-    </div>
-</div>
-
+        <div class="dashboard-content">
+            <div class="row">
+                <div class="dashboard-header col-sm-3">
+                    <h1>Tổng quan</h1>
+                </div>
     
-        </div>
-        <div class="top-cards">
-            <div class="card">
-                <div class="icon1">📊</div>
-                <div class="info">
-                    <div class="number">75</div>
-                    <div class="description">Tổng đơn hàng</div>
-                    <div class="growth">4% (1 tháng)</div>
+                <!-- Form chọn năm và tháng -->
+                <div class="col-sm-5 ">
+                    <form method="get" th:action="@{/admin/index}" class="d-flex align-items-center">
+                        <div class="form-group m-2">
+                            <label for="year">Chọn năm:</label>
+                            <select name="year" id="year" class="form-control" style="width: 150px;">
+                                <option value="2023" th:selected="${currentYear == 2023}">Năm 2023</option>
+                                <option value="2024" th:selected="${currentYear == 2024}">Năm 2024</option>
+                            </select>
+                        </div>
+                        <div class="form-group m-2">
+                            <label for="month">Chọn tháng:</label>
+                            <select name="month" id="month" class="form-control" style="width: 150px;">
+                                <option value="1" th:selected="${currentMonth == 1}">Tháng 1</option>
+                                <option value="2" th:selected="${currentMonth == 2}">Tháng 2</option>
+                                <option value="3" th:selected="${currentMonth == 3}">Tháng 3</option>
+                                <option value="4" th:selected="${currentMonth == 4}">Tháng 4</option>
+                                <option value="5" th:selected="${currentMonth == 5}">Tháng 5</option>
+                                <option value="6" th:selected="${currentMonth == 6}">Tháng 6</option>
+                                <option value="7" th:selected="${currentMonth == 7}">Tháng 7</option>
+                                <option value="8" th:selected="${currentMonth == 8}">Tháng 8</option>
+                                <option value="9" th:selected="${currentMonth == 9}">Tháng 9</option>
+                                <option value="10" th:selected="${currentMonth == 10}">Tháng 10</option>
+                                <option value="11" th:selected="${currentMonth == 11}">Tháng 11</option>
+                                <option value="12" th:selected="${currentMonth == 12}">Tháng 12</option>
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-4 text-end mt-4">
+                        <button type="submit" class="btn btn-primary ">Xem báo cáo</button>
+                        </div>
+                        <!-- Các nội dung khác -->
+                        <div class="col-md-6 text-end" style="width:90%">
+                            <a class="btn btn-success">
+                                <i class="fas fa-file-excel" style="font-size: 18px;"></i> Xuất báo cáo
+                            </a>
+                        </div>
+                        
+                        
+                        </form>
+                    </div>
                 </div>
+                
             </div>
-            
-            <div class="card"> <!-- Card 2 -->
-                <div class="icon1">📊</div>
-                <div class="info">
-                    <div class="number">357</div>
-                    <div class="description">Giao dịch thành công</div>
-                    <div class="growth">4% (1 tháng)</div>
-                </div>
-            </div>
-            <div class="card"> <!-- Card 3 -->
-                <div class="icon1">📊</div>
-                <div class="info">
-                    <div class="number">65</div>
-                    <div class="description">Đơn bị hủy</div>
-                    <div class="growth">25% (1 tháng)</div>
-                </div>
-            </div>
-            <div class="card"> <!-- Card 4 -->
-                <div class="icon1">📊</div>
-                <div class="info">
-                    <div class="number">$128</div>
-                    <div class="description">Tổng doanh thu</div>
-                    <div class="growth">12% (1 tháng)</div>
-                </div>
-            </div>
-        </div>
-        <div class="charts-section">
-             <!-- charts hình đường -->
-            <div class="order-chart p-5">
-                <h4>Chart đơn hàng</h4>
-                <canvas id="lineChart"></canvas>
-            </div>
-            <div class="customer-map-chart p-5">
-                <h4>Khách hàng đăng ký mới</h4>
-                <canvas id="customerMapChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="revenue-customer-charts">
-             <!-- charts tổng doanh thu -->
-            <div class="revenue-chart p-5">
-                <h4>Tổng Doanh Thu</h4>
-                <canvas id="revenueChart" width="400" height="200"></canvas>
-            </div>
-               <!-- charts customer -->
-
-        </div> 
-    </div>
-    <!-- dashboard-content -->
     
-</div>
+            <!-- Top Cards (Tổng quan các chỉ số) -->
+            <div class="top-cards row">
+                <div class="col-md-3 card">
+                    <div class="icon1">📊</div>
+                    <div class="info">
+                        <div class="number" th:text="${totalOrders}">75</div>
+                        <div class="description">Tổng đơn hàng</div>
+                    </div>
+                </div>
+                <div class="col-md-3 card">
+                    <div class="icon1">📊</div>
+                    <div class="info">
+                        <div class="number" th:text="${successfulTransactions}">357</div>
+                        <div class="description">Giao dịch thành công</div>
+                    </div>
+                </div>
+                <div class="col-md-3 card">
+                    <div class="icon1">📊</div>
+                    <div class="info">
+                        <div class="number" th:text="${canceledOrders}">65</div>
+                        <div class="description">Đơn bị hủy</div>
+                    </div>
+                </div>
+                <div class="col-md-3 card">
+                    <div class="icon1">📊</div>
+                    <div class="info">
+                        <div class="number" th:text="${totalRevenue}">$128</div>
+                        <div class="description">Tổng doanh thu</div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Charts Section -->
+            <div class="charts-section row">
+                <div class="col-md-6 order-chart p-5">
+                    <h4>Chart đơn hàng</h4>
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <div class="col-md-6 revenue-chart p-5">
+                    <h4>Tổng Doanh Thu</h4>
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
     <script th:src="@{/JS/dashboard.js}"></script>
-    <script>
-        // Line Chart Data for Orders
-        const lineChartData = {
-            labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
-            datasets: [{
-                label: 'Số lượng đơn hàng',
-                data: [200, 300, 450, 400],
-                borderColor: '#3399ff',
-                fill: true,
-                backgroundColor: 'rgba(51, 153, 255, 0.2)',
-                pointBackgroundColor: '#3399ff'
-            }]
-        };
-    
+    <script th:inline="javascript">
+    // Line Chart Data for Orders
+const quarterData = JSON.parse('[[${quarterlyRevenue}]]');
+    console.log('quarterData :' + quarterData);
+    // Line Chart Data for Orders
+    const lineChartData = {
+        labels: ['Quý 1', 'Quý 2', 'Quý 3', 'Quý 4'],
+        datasets: [{
+            label:  'Số lượng đơn hàng',
+            data: quarterData,
+            borderColor: '#3399ff',
+            fill: true,
+            backgroundColor: 'rgba(51, 153, 255, 0.2)',
+            pointBackgroundColor: '#3399ff'
+        }]
+    };
         // Render Line Chart for Orders
         new Chart(document.getElementById('lineChart'), {
             type: 'line',
@@ -142,26 +146,29 @@
                 }
             }
         });
-    
+        const monthlyRevenuethisyearData = '[[${monthlyRevenueResultThisYear}]]';
+        console.log('monthlyRevenuethisyearData :' + monthlyRevenuethisyearData);
+        const monthlyRevenuelastyearData = '[[${monthlyRevenueResultLastYear}]]';
+        console.log('monthlyRevenuelastyearData :' + monthlyRevenuethisyearData);
         // Revenue Chart Data
         const revenueChartData = {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             datasets: [
                 {
-                    label: '2020',
-                    data: [12000, 19000, 30000, 50000, 40000, 60000, 50000, 70000, 80000, 90000, 65000, 72000],
+                    label: new Date().getFullYear(),
+                    data: monthlyRevenuelastyearData,
                     borderColor: 'red',
                     fill: false,
                 },
                 {
-                    label: '2023',
-                    data: [15000, 22000, 35000, 45000, 55000, 40000, 48000, 60000, 75000, 80000, 90000, 105000],
+                    label: (new Date().getFullYear() - 1),
+                    data: monthlyRevenuethisyearData,
                     borderColor: 'blue',
                     fill: false,
                 }
             ]
         };
-    
+
         // Render Revenue Chart
         new Chart(document.getElementById('revenueChart'), {
             type: 'line',
@@ -175,7 +182,7 @@
                 }
             }
         });
-    
+
         // Customer Map Chart Data
         const customerMapData = {
             labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -187,7 +194,7 @@
                 borderWidth: 1
             }]
         };
-    
+
         // Render Customer Map Chart
         new Chart(document.getElementById('customerMapChart'), {
             type: 'bar',
@@ -203,4 +210,5 @@
         });
     </script>
 </body>
+
 </html>
