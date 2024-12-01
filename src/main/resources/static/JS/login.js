@@ -39,14 +39,31 @@ document.addEventListener("DOMContentLoaded", () => {
     typeText1(); 
     typeText2(); 
 });
+
+
 const registerButton = document.getElementById("register");
 const loginButton = document.getElementById("login");
 const container = document.getElementById("container");
 const loginContainer = document.getElementsByClassName("login-container")[0]; // Access the first element directly
 
+    // Thêm sự kiện cho nút đăng ký
+    registerButton.addEventListener('click', (event) => {
+        // Ngừng chuyển form nếu có lỗi
+        if (!validateRegisterForm()) {
+            event.preventDefault(); // Ngừng gửi form
+            alert('Vui lòng điền đầy đủ thông tin hợp lệ.');
+        } else {
+            // Form hợp lệ, có thể thực hiện gửi form hoặc chuyển form nếu cần
+            alert('Đăng ký thành công!');
+        }
+    });
+	
+
+// Xử lý chuyển đổi giữa form đăng nhập và đăng ký **
 registerButton.addEventListener('click', () => {
-    container.classList.add("right-panel-active");
-    loginContainer.style.opacity = "0"; // Set opacity to 0 to make it invisible
+		    container.classList.add("right-panel-active");
+		    loginContainer.style.opacity = "0"; // Set opacity to 0 to make it invisible
+	
 });
 
 loginButton.addEventListener('click', () => {
@@ -61,4 +78,3 @@ document.getElementById("chk1").addEventListener("change", function() {
         console.log("Menu đóng");
     }
 });
-

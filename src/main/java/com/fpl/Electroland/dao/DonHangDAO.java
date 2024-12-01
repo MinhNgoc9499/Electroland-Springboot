@@ -1,14 +1,14 @@
 package com.fpl.Electroland.dao;
 
-import java.util.Optional;
+
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.fpl.Electroland.model.DonHang;
-import com.fpl.Electroland.model.KhachHang;
-import java.util.List;
+
 
 
 public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
@@ -25,4 +25,11 @@ public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
     @Query("SELECT COUNT(d) FROM DonHang d WHERE d.trangThai = 0 AND MONTH(d.ngayDH) = :month")
     Long countCanceledOrdersByMonth(@Param("month") int month);
 
+    // @Query("Select new com.fpl.Electroland.dto.DonHangStatDTO( " +
+
+    // List<DonHangStatDTO> findDonHangStats();
+
+    @Query("SELECT d FROM DonHang d WHERE MONTH(d.ngayDH) = :month AND YEAR(d.ngayDH) = :year AND d.trangThai = :trangThai") 
+    List<DonHang> findByMonthYearAndTrangThai( int month, int year, int trangThai);
+    
 }

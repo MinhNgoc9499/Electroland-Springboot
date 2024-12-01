@@ -5,13 +5,12 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+
 import com.fpl.Electroland.model.GioHang;
 import com.fpl.Electroland.model.KhachHang;
-import com.fpl.Electroland.model.SanPham;
 
 import jakarta.transaction.Transactional;
 
-import java.util.List;
 
 public interface GioHangDAO extends JpaRepository<GioHang, Integer> {
     List<GioHang> findAllByKhachHangAndChecked(KhachHang khachHang, boolean checked);
@@ -21,6 +20,7 @@ public interface GioHangDAO extends JpaRepository<GioHang, Integer> {
 
     GioHang findBySanPhamAndKhachHang(SanPham sanPham, KhachHang khachHang);
 
+public interface GioHangDAO extends JpaRepository<GioHang, Integer> {
     // Lấy danh sách giỏ hàng của một khách hàng
     List<GioHang> findByKhachHang(KhachHang khachHang);
 

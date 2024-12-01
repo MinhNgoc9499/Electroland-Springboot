@@ -6,7 +6,7 @@
     <title>Admin</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel='stylesheet' type='text/css' media='screen' href='CSS/dashboard.css'>
+    <link rel="stylesheet" th:href="@{CSS/dashboard.css}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
 </head>
@@ -22,7 +22,16 @@
         <div class=row>
 <div class= "col-sm-6">
     <!-- Form chọn tháng -->
-    <form method="get" th:action="@{/report}">
+    <form method="get" th:action="@{/adminIndex}">
+        <div class="col-sm-6">
+            <label for="year">Chọn năm:</label>
+            <select name="year" id="year" class="form-control" style="width: 150px;">
+                <!-- Giả sử bạn đang truyền năm hiện tại vào từ Controller -->
+                <option value="${currentYear}" th:selected="${currentYear == currentYear}">${currentYear}</option>
+                <option value="${currentYear - 1}" th:selected="${currentYear == currentYear - 1}">${currentYear - 1}</option>
+                <option value="${currentYear + 1}" th:selected="${currentYear == currentYear + 1}">${currentYear + 1}</option>
+            </select>
+        </div>
         <label for="month">Chọn tháng:</label>
         <select name="month" id="month" class="form-control" style="width: 150px;">
             <option value="1" th:selected="${currentMonth == 1}">Tháng 1</option>
@@ -44,7 +53,8 @@
     <!-- Các nội dung khác -->
     <div class="col-md-12 text-end">
       <div>
-        <a th:href="@{/report/export(month=${currentMonth})}" class="btn btn-primary">Xuất báo cáo</a>
+     <a class="btn btn-primary">Xuất báo cáo</a> 
+        <!-- <a th:href="@{/adminIndex/export(month=${currentMonth}, year=${currentYear})}" class="btn btn-primary">Xuất báo cáo</a> -->
     </div>
 </div>
     </form>

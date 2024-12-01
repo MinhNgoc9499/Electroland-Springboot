@@ -81,36 +81,36 @@ function toggleConfirmPasswordVisibility() {
 }
 
 function confirmNewPassword() {
-    const newPassword = document.getElementById('new-password-input').value;
-    const confirmPassword = document.getElementById('confirm-password-input').value;
-    const lengthRequirement = document.getElementById('length-requirement');
-    const characterRequirement = document.getElementById('character-requirement');
-    const allowedCharacters = /[a-zA-Z0-9~.!@#$%^&*]/;
+	const newPassword = document.getElementById('new-password-input').value;
+	    const confirmPassword = document.getElementById('confirm-password-input').value;
+	    const lengthRequirement = document.getElementById('length-requirement');
+	    const characterRequirement = document.getElementById('character-requirement');
+	    const allowedCharacters = /[a-zA-Z0-9~.!@#$%^&*]/;
 
-    if (newPassword.length < 8 || newPassword.length > 20) {
-        lengthRequirement.style.color = 'red';
-    } else {
-        lengthRequirement.style.color = '#555';
-    }
+	    if (newPassword.length < 8 || newPassword.length > 20) {
+	        lengthRequirement.style.color = 'red';
+	    } else {
+	        lengthRequirement.style.color = '#555';
+	    }
 
-    if (!/[a-zA-Z]/.test(newPassword) || !/[0-9]/.test(newPassword) || !allowedCharacters.test(newPassword)) {
-        characterRequirement.style.color = 'red';
-    } else {
-        characterRequirement.style.color = '#555';
-    }
+	    if (!/[a-zA-Z]/.test(newPassword) || !/[0-9]/.test(newPassword) || !allowedCharacters.test(newPassword)) {
+	        characterRequirement.style.color = 'red';
+	    } else {
+	        characterRequirement.style.color = '#555';
+	    }
 
-    if (newPassword !== confirmPassword) {
-        alert('Mật khẩu xác nhận không khớp. Vui lòng nhập lại.');
-    } else if (newPassword.length >= 8 && newPassword.length <= 20 && /[a-zA-Z]/.test(newPassword) && /[0-9]/.test(newPassword) && allowedCharacters.test(newPassword)) {
-        alert('Mật khẩu của bạn đã được thay đổi thành công.');
-        // Redirect to login page or another appropriate action
-        window.location.href = 'login.html';
-    } else {
-        alert('Vui lòng kiểm tra lại các yêu cầu về mật khẩu.');
-    }
-}
+	    if (newPassword !== confirmPassword) {
+	        alert('Mật khẩu xác nhận không khớp. Vui lòng nhập lại.');
+	    } else if (newPassword.length >= 8 && newPassword.length <= 20 && /[a-zA-Z]/.test(newPassword) && /[0-9]/.test(newPassword) && allowedCharacters.test(newPassword)) {
+	        alert('Mật khẩu của bạn đã được thay đổi thành công.');
+	        // Redirect to login page or another appropriate action
+	        window.location.href = 'login.html';
+	    } else {
+	        alert('Vui lòng kiểm tra lại các yêu cầu về mật khẩu.');
+	    }
+	}
 
-function goBackToHome() {
-    // Logic to go back to home or landing page
-    window.location.href = 'index';
-}
+	function goBackToHome() {
+	    // Logic to go back to home or landing page
+	    window.location.href = 'index';
+	};

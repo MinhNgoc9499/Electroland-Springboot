@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -74,9 +73,6 @@ public class DonHang {
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // Khóa ngoại với KhachHang
 	private KhachHang khachHang;
-
 	Double tongTien;
-
 	Double tongGiam;
-
 }

@@ -1,11 +1,5 @@
 package com.fpl.Electroland.helper;
 
-import java.util.Properties;
-
-import org.eclipse.angus.mail.util.MailSSLSocketFactory;
-
-import jakarta.mail.Session;
-import jakarta.mail.Transport;
 
 public class TestSMTPConnection {
     // public static void main(String[] args) {
