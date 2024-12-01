@@ -36,6 +36,6 @@ public class MaGiamDh {
 	Double minDonGia;
 
 	// Đảm bảo moTa là nvarchar(225) và không thể null
-	@Column(columnDefinition = "nvarchar(225)", nullable = false)
+	@Column(columnDefinition = "nvarchar(225)", nullable = true)
 	String moTa;
 }

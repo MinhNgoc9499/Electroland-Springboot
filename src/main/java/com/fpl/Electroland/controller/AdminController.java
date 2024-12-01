@@ -1,17 +1,23 @@
 package com.fpl.Electroland.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fpl.Electroland.dao.DonHangDAO;
+import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.DonHang;
 
+
+
 @Controller
+@RequestMapping("/admin")
 public class AdminController {
 	@Autowired
 	DonHangDAO donHangDAO;
@@ -45,29 +51,46 @@ public class AdminController {
         return "dashboard";  // Thymeleaf template name
     }
 
-	@GetMapping("/adminProduct")
-	public String adminProduct() {
-		return "productADM";
-	}
+    @GetMapping("/product")
+    public String adminProduct() {
+        return "productADM";
+    }
 
-	@GetMapping("/adminProductDetail")
-	public String adminProductDetail() {
-		return "productDetailADM";
-	}
+    @GetMapping("/product-detail")
+    public String adminProductDetail() {
+        return "productDetailADM";
+    }
 
-	@GetMapping("/adminOrderList")
-	public String adminOrderList() {
-		return "OrderList";
-	}
+    @GetMapping("/order")
+    public String adminOrderList() {
+        return "OrderList";
+    }
 
-	@GetMapping("/adimEmployes")
-	public String adimEmployes() {
-		return "employessADM";
-	}
+    @GetMapping("/employess")
+    public String adminEmployes() {
+        return "employessADM";
+    }
 
-	@GetMapping("/adminEmployessDetail	")
-	public String adimEmployesDetail() {
-		return "EmployessDetailADM";
-	}
+    @GetMapping("/EmployessDetail	")
+    public String adimEmployesDetail() {
+        return "EmployessDetailADM";
+    }
 
+    public List<DonHang> getDonHangByTT(int trangThai){
+        List<DonHang> list = new ArrayList<>();
+        list = donHangDAO.findAll();
+        list = list.stream().filter(dh -> dh.getTrangThai() == trangThai).collect(Collectors.toList());
+        return list;
+    }
+    
+    @GetMapping("/order-statistics")
+    public String adminOrderStatistics(Model model) {
+        List<DonHang> listDonHuyByMonth = donHangDAO.findByMonthYearAndTrangThai(1, 2020, 0);
+        for(int i = 1 ; i <= 12; i++){
+            listDonHuyByMonth = donHangDAO.findByMonthYearAndTrangThai(i, 2020, 0);
+            System.out.println(listDonHuyByMonth.size() + " month: " + i);
+            // model.addAttribute("listDonHuyByMonth", listDonHuyByMonth);
+        }
+        return "OrderStatisticsADM";
+    }
 }
