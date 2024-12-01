@@ -443,8 +443,22 @@ input {
     border-radius: 5px; /* Bo góc các ô */
     box-sizing: border-box; /* Đảm bảo padding không làm ảnh hưởng đến kích thước */
 }
+/* Viền đỏ cho ô input khi chưa nhập dữ liệu */
+.input-field:required:invalid {
+    border: 1px solid rgb(239, 55, 16); /* Viền đỏ khi ô input chưa nhập hoặc dữ liệu không hợp lệ */
+}
 
-/* Viền đỏ khi có lỗi */
-.input-invalid {
-    border: 1px solid #ff8040;
+/* Viền xanh cho ô input hợp lệ khi người dùng đã nhập */
+.input-field:required:valid {
+    border: 1px solid #4caf50; /* Viền xanh khi ô input hợp lệ */
+}
+
+/* Khi người dùng đang nhập dữ liệu, và ô đó còn trống */
+.input-field:focus:invalid {
+    border: 1px solid rgb(239, 55, 16); /* Viền đỏ khi ô đang được focus và không hợp lệ */
+}
+
+/* Nếu ô input hợp lệ, viền sẽ chuyển thành màu xanh */
+.input-field:focus:valid {
+    border: 1px solid #4caf50; /* Viền xanh khi ô đang được focus và hợp lệ */
 }
