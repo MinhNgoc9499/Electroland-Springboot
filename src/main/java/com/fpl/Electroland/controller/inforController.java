@@ -75,15 +75,13 @@ public class inforController {
 	}
 
 	@GetMapping("/user_address")
-	public String getListDiaChi(@ModelAttribute("user") KhachHang user,
-			Model model) {
+	public String getListDiaChi(Model model) {
 		int userId = author.getUserKhachHang().getId();
 		// Lấy danh sách địa chỉ của khách hàng
 		List<DiaChi> diaChiList = diachiDAO.findByKhachHangId(userId);
 
 		// Thêm thông tin vào model để truyền cho view
 		model.addAttribute("diaChiList", diaChiList);
-		model.addAttribute("user", user);
 
 		return "_user_address"; // Trả về view để hiển thị
 	}
@@ -165,7 +163,7 @@ public class inforController {
 	}
 
 	@GetMapping("/order_detail")
-	public String getOrderDetail(@ModelAttribute("user") KhachHang user, @RequestParam("id") int orderId, Model model) {
+	public String getOrderDetail( @RequestParam("id") int orderId, Model model) {
 		KhachHang UserInfor = author.getUserKhachHang();
 		// Lấy thông tin đơn hàng
 		DonHang donHang = donhangDAO.findById(orderId);
@@ -196,7 +194,7 @@ public class inforController {
 	}
 
 	@GetMapping("/order_history")
-	public String getOrdersByStatus(@ModelAttribute("user") KhachHang user, Model model) {
+	public String getOrdersByStatus(Model model) {
 		int userId = author.getUserKhachHang().getId();
 
 		// Lấy đơn hàng hoàn thành

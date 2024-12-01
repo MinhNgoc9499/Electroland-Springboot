@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Electro Land</title>
+    <title>Electroland</title>
 </head>
 
 <body>
@@ -140,53 +140,11 @@
             } else {
                 console.log("Không tìm thấy địa chỉ với id", id);
             }
-
-        }
-        // Đảm bảo rằng hàm fillModal được định nghĩa và có thể sử dụng
-        function fillModal(id) {
-
-            console.log(diaChiList);
-
-            console.log("ID của địa chỉ cần sửa:", id); // Debugging
-            // Lấy thông tin của địa chỉ qua ID
-            let diaChi = getDiaChiById(id);
-
-            // Kiểm tra xem địa chỉ có tồn tại không
-            if (diaChi) {
-                console.log("Thông tin địa chỉ:", diaChi); // Debugging
-                console.log("Thông tin địa chỉ:", diaChi.khachHang); // Debugging
-
-                // Điền dữ liệu vào các trường trong modal
-                document.getElementById("idAddress").value = diaChi.id;
-                document.getElementById("name").value = diaChi.hoTenNN;
-                document.getElementById("phone").value = diaChi.sdtNN;
-                document.getElementById("addressDetail").value = diaChi.chiTiet;
-
-                // Cập nhật Loại địa chỉ (Văn phòng/Nhà riêng)
-                let typeButtons = document.querySelectorAll(".type-btn");
-                typeButtons.forEach(function (button) {
-
-                    console.log("Loại địa chỉ:", diaChi.loaiDiaChi); // Debugging
-                    console.log("Loại địa chỉ của button:", button.getAttribute("data-type")); // Debugging
-                    if (button.getAttribute("data-type") === diaChi.loaiDiaChi) {
-                        button.classList.add("active");
-                    } else {
-                        button.classList.remove("active");
-                    }
-                });
-
-                // Đặt địa chỉ mặc định nếu có
-                document.getElementById("defaultAddress").checked = diaChi.macDinh;
-            } else {
-                console.log("Không tìm thấy địa chỉ với id", id);
-            }
-
         }
         function getDiaChiById(id) {
             // Tìm địa chỉ trong danh sách (danh sách này được truyền từ server)
             return diaChiList.find(diaChi => diaChi.id === id);
         }
-
         function updateAddress() {
             // Lấy giá trị từ các trường trong modal
             const id = $("#idAddress").val();
