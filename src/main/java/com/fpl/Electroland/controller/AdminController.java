@@ -80,17 +80,18 @@ public class AdminController {
     public List<DonHang> getDonHangByTT(int trangThai){
         List<DonHang> list = new ArrayList<>();
         list = donHangDAO.findAll();
-        list.stream().filter(dh -> dh.getTrangThai() == trangThai).collect(Collectors.toList());
+        list = list.stream().filter(dh -> dh.getTrangThai() == trangThai).collect(Collectors.toList());
         return list;
     }
     
     @GetMapping("/order-statistics")
     public String adminOrderStatistics(Model model) {
-        List<DonHang> listDonHangHuy = getDonHangByTT(0);
-        for(DonHang dh : listDonHangHuy){
-            System.out.println(dh.toString());
+        List<DonHang> listDonHuyByMonth = donHangDAO.findByMonthYearAndTrangThai(1, 2020, 0);
+        for(int i = 1 ; i <= 12; i++){
+            listDonHuyByMonth = donHangDAO.findByMonthYearAndTrangThai(i, 2020, 0);
+            System.out.println(listDonHuyByMonth.size() + " month: " + i);
+            // model.addAttribute("listDonHuyByMonth", listDonHuyByMonth);
         }
-        // model.addAttribute("donHuy", listDonHangHuy.size());
         return "OrderStatisticsADM";
     }
 }

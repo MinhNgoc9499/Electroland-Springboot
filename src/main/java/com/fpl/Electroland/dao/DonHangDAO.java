@@ -1,6 +1,8 @@
 package com.fpl.Electroland.dao;
 
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -26,4 +28,8 @@ public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
     // @Query("Select new com.fpl.Electroland.dto.DonHangStatDTO( " +
 
     // List<DonHangStatDTO> findDonHangStats();
+
+    @Query("SELECT d FROM DonHang d WHERE MONTH(d.ngayDH) = :month AND YEAR(d.ngayDH) = :year AND d.trangThai = :trangThai") 
+    List<DonHang> findByMonthYearAndTrangThai( int month, int year, int trangThai);
+    
 }
