@@ -11,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.fpl.Electroland.dao.GioHangDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
@@ -20,13 +24,13 @@ import com.fpl.Electroland.dao.MaGiamSpDAO;
 import com.fpl.Electroland.dao.SanPhamDAO;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.GioHang;
+import com.fpl.Electroland.model.KhachHang;
 import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.MaGiamKh;
 import com.fpl.Electroland.model.MaGiamSp;
 
 import com.fpl.Electroland.model.NhaCungCap;
 import com.fpl.Electroland.model.SanPham;
-
 
 @Controller
 public class gioHangController {
@@ -64,58 +68,58 @@ public class gioHangController {
 
 	@ModelAttribute("Voucher")
 	public List<MaGiamKh> getVoucher() {
-    // Lấy danh sách mã giảm giá của khách hàng
-    List<MaGiamKh> vouchers = mgkhDao.findByKhachHang(author.getUserKhachHang());
-    Double total = gettotal();
-    
-    // Sử dụng Set để theo dõi các sản phẩm đã được áp dụng voucher
-    Set<Integer> appliedProductIds = new HashSet<>();
+		// Lấy danh sách mã giảm giá của khách hàng
+		List<MaGiamKh> vouchers = mgkhDao.findByKhachHang(author.getUserKhachHang());
+		Double total = gettotal();
 
-    for (MaGiamKh voucher : vouchers) {
-        MaGiamDh maGiamDh = voucher.getMaGiamDh();
-        MaGiamSp maGiamSp = voucher.getMaGiamSp();
-        boolean validVoucher = false;
-        
-        // Kiểm tra điều kiện mã giảm giá đơn hàng
-        if (maGiamDh != null) {
-            boolean validGiamGiaVND = maGiamDh.getGiamGiaVND() != null
-                    && total >= (maGiamDh.getMinDonGia() != null ? maGiamDh.getMinDonGia() : 0)
-                    && total <= (maGiamDh.getMaxGG() != null ? maGiamDh.getMaxGG() : Double.MAX_VALUE);
+		// Sử dụng Set để theo dõi các sản phẩm đã được áp dụng voucher
+		Set<Integer> appliedProductIds = new HashSet<>();
 
-            boolean validPhanTramGG = maGiamDh.getPhanTramGG() != null
-                    && total >= (maGiamDh.getMinDonGia() != null ? maGiamDh.getMinDonGia() : 0)
-                    && total <= (maGiamDh.getMaxGG() != null ? maGiamDh.getMaxGG() : Double.MAX_VALUE);
+		for (MaGiamKh voucher : vouchers) {
+			MaGiamDh maGiamDh = voucher.getMaGiamDh();
+			MaGiamSp maGiamSp = voucher.getMaGiamSp();
+			boolean validVoucher = false;
 
-            validVoucher = validGiamGiaVND || validPhanTramGG;
-        }
-        
-        // Kiểm tra điều kiện mã giảm giá sản phẩm
-        if (maGiamSp != null) {
-            boolean validSanPham = maGiamSp.getGiaTri() != null && maGiamSp.getSanPham() != null;
-            
-            // Kiểm tra xem sản phẩm đã được áp dụng voucher chưa
-            if (validSanPham) {
-                // Kiểm tra xem ID của sản phẩm đã có voucher nào được áp dụng chưa
-                if (!appliedProductIds.contains(maGiamSp.getSanPham().getId())) {
-                    appliedProductIds.add(maGiamSp.getSanPham().getId());  // Đánh dấu sản phẩm này đã được áp dụng voucher
-                    validVoucher = true;  // Cho phép áp dụng voucher cho sản phẩm
-                } else {
-                    validVoucher = false;  // Nếu đã có voucher cho sản phẩm, không cho phép chọn thêm
-                }
-            }
-        }
+			// Kiểm tra điều kiện mã giảm giá đơn hàng
+			if (maGiamDh != null) {
+				boolean validGiamGiaVND = maGiamDh.getGiamGiaVND() != null
+						&& total >= (maGiamDh.getMinDonGia() != null ? maGiamDh.getMinDonGia() : 0)
+						&& total <= (maGiamDh.getMaxGG() != null ? maGiamDh.getMaxGG() : Double.MAX_VALUE);
 
-        // Cập nhật trạng thái voucher dựa trên điều kiện đã kiểm tra
-        if (validVoucher) {
-            voucher.setChecked(false); // Chưa chọn
-        } else {
-            voucher.setChecked(null); // Không đủ điều kiện
-        }
-    }
+				boolean validPhanTramGG = maGiamDh.getPhanTramGG() != null
+						&& total >= (maGiamDh.getMinDonGia() != null ? maGiamDh.getMinDonGia() : 0)
+						&& total <= (maGiamDh.getMaxGG() != null ? maGiamDh.getMaxGG() : Double.MAX_VALUE);
 
-    return vouchers;
-}
+				validVoucher = validGiamGiaVND || validPhanTramGG;
+			}
 
+			// Kiểm tra điều kiện mã giảm giá sản phẩm
+			if (maGiamSp != null) {
+				boolean validSanPham = maGiamSp.getGiaTri() != null && maGiamSp.getSanPham() != null;
+
+				// Kiểm tra xem sản phẩm đã được áp dụng voucher chưa
+				if (validSanPham) {
+					// Kiểm tra xem ID của sản phẩm đã có voucher nào được áp dụng chưa
+					if (!appliedProductIds.contains(maGiamSp.getSanPham().getId())) {
+						appliedProductIds.add(maGiamSp.getSanPham().getId()); // Đánh dấu sản phẩm này đã được áp dụng
+																				// voucher
+						validVoucher = true; // Cho phép áp dụng voucher cho sản phẩm
+					} else {
+						validVoucher = false; // Nếu đã có voucher cho sản phẩm, không cho phép chọn thêm
+					}
+				}
+			}
+
+			// Cập nhật trạng thái voucher dựa trên điều kiện đã kiểm tra
+			if (validVoucher) {
+				voucher.setChecked(false); // Chưa chọn
+			} else {
+				voucher.setChecked(null); // Không đủ điều kiện
+			}
+		}
+
+		return vouchers;
+	}
 
 	@ModelAttribute("TotalMoney")
 	public Double gettotal() {
@@ -125,28 +129,29 @@ public class gioHangController {
 		}
 		return total;
 	}
+
 	@ModelAttribute("Discount")
 	public Double getDiscount() {
-    Double discount = 0.0;
+		Double discount = 0.0;
 
-    for (MaGiamKh mgKH : getVoucher()) {
-        if (mgKH.getMaGiamDh() != null && mgKH.getMaGiamSp() != null) {
-            Double giamGia;
-            if (mgKH.getMaGiamDh().getGiamGiaVND() != null) {
-                giamGia = mgKH.getMaGiamDh().getGiamGiaVND();
-            } else if (mgKH.getMaGiamDh().getPhanTramGG() != null) {
-                giamGia = mgKH.getMaGiamDh().getPhanTramGG();
-            } else {
-                giamGia = 0.0;
-            }
+		for (MaGiamKh mgKH : getVoucher()) {
+			if (mgKH.getMaGiamDh() != null && mgKH.getMaGiamSp() != null) {
+				Double giamGia;
+				if (mgKH.getMaGiamDh().getGiamGiaVND() != null) {
+					giamGia = mgKH.getMaGiamDh().getGiamGiaVND();
+				} else if (mgKH.getMaGiamDh().getPhanTramGG() != null) {
+					giamGia = mgKH.getMaGiamDh().getPhanTramGG();
+				} else {
+					giamGia = 0.0;
+				}
 
-            // Tính tổng discount
-            discount += giamGia * mgKH.getMaGiamSp().getGiaTri();
-        }
-		System.out.println("Discount Value: " + discount);
-    }
-    return discount;
-}
+				// Tính tổng discount
+				discount += giamGia * mgKH.getMaGiamSp().getGiaTri();
+			}
+			System.out.println("Discount Value: " + discount);
+		}
+		return discount;
+	}
 
 	@ModelAttribute("Discount")
 	public MaGiamDh getMaGiamDh() {
@@ -173,29 +178,6 @@ public class gioHangController {
 			}
 		}
 		return "Sản phẩm không tìm thấy trong giỏ.";
-	}
-
-	@PostMapping("/update-all-products-selection")
-	@ResponseBody
-	public String updateAllProductSelection(@RequestParam("checked") boolean selected,
-			@RequestParam("khachhang") KhachHang khachhang) {
-		List<GioHang> gioHangs = gioHangDAO.findByKhachHang(khachhang); // Thay đổi phương thức DAO
-		if (gioHangs != null && !gioHangs.isEmpty()) {
-			if (!selected) {
-				// Nếu bỏ chọn tất cả (selected = false), xóa tất cả sản phẩm khỏi giỏ
-				gioHangDAO.deleteAll(gioHangs);
-				return "Tất cả sản phẩm đã được xóa khỏi giỏ hàng.";
-			} else {
-				// Nếu chọn lại tất cả (selected = true), cập nhật trạng thái checked cho tất cả
-				// sản phẩm
-				for (GioHang gioHang : gioHangs) {
-					gioHang.setChecked(true);
-					gioHangDAO.save(gioHang);
-				}
-				return "Cập nhật thành công trạng thái chọn cho tất cả sản phẩm.";
-			}
-		}
-		return "Giỏ hàng không có sản phẩm.";
 	}
 
 	@GetMapping("/giohang")

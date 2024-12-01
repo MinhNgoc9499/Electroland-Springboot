@@ -21,58 +21,61 @@ import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.GioHang;
 import com.fpl.Electroland.model.MaGiamKh;
 
-@RestController // 
+@RestController //
 public class GioHangRestCtrl {
     @Autowired
-	LoaiKhachHangDAO dao;
+    LoaiKhachHangDAO dao;
 
-	@Autowired
+    @Autowired
     GioHangDAO gioHangDAO; // DAO để thao tác với giỏ hàng
 
-	@Autowired
-	Author author;
-	
-	@Autowired
-	SanPhamDAO spDAO;
+    @Autowired
+    Author author;
 
-	@Autowired
-	KhachHangDAO khDAO;
+    @Autowired
+    SanPhamDAO spDAO;
 
-	@Autowired
-	MaGiamDhDAO mgdhDao;
+    @Autowired
+    KhachHangDAO khDAO;
 
-	@Autowired
-	MaGiamKhDAO mgkhDao;
+    @Autowired
+    MaGiamDhDAO mgdhDao;
 
-	@Autowired
-	MaGiamSpDAO mgspDao;
+    @Autowired
+    MaGiamKhDAO mgkhDao;
 
-	// Xóa sản phẩm khỏi giỏ hàng (Delete Product from Cart)
-	@GetMapping("/rest/giohang/{id}")
-	public void deleteProductFromCart(@PathVariable("id") int id) {
-        gioHangDAO.deleteById(id);  
+    @Autowired
+    MaGiamSpDAO mgspDao;
+
+    // Xóa sản phẩm khỏi giỏ hàng (Delete Product from Cart)
+    @GetMapping("/rest/giohang/{id}")
+    public void deleteProductFromCart(@PathVariable("id") int id) {
+        gioHangDAO.deleteById(id);
     }
-	// Thêm sản phẩm vào giỏ hàng (Add Product to Cart)
-	@GetMapping("/rest/giohang/update{checked}")
-	public void updateProductFromCart(@PathVariable("checked") int id) {
-        GioHang gh =  gioHangDAO.findById(id).get(); 
-        if(gh.isChecked() == true){
-            gh.setChecked(false); 
-        }
-        else{
+
+    // Thêm sản phẩm vào giỏ hàng (Add Product to Cart)
+    @GetMapping("/rest/giohang/update{checked}")
+    public void updateProductFromCart(@PathVariable("checked") int id) {
+        GioHang gh = gioHangDAO.findById(id).get();
+        if (gh.getChecked() == true) {
+            gh.setChecked(false);
+        } else {
             gh.setChecked(true);
         }
-        gioHangDAO.save(gh); 
-    }@PostMapping("/rest/giohang/updateVoucher/{id}")
+        gioHangDAO.save(gh);
+    }
+
+    @PostMapping("/rest/giohang/updateVoucher/{id}")
     public Map<String, Object> updateVoucherFromCart(@PathVariable("id") int id) {
         Map<String, Object> response = new HashMap<>();
-    
+
         try {
             MaGiamKh mgkh = mgkhDao.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy voucher"));
-    
+
             if (mgkh.getMaGiamDh() != null) {
                 // Xử lý cho maGiamDh: Chỉ một voucher được chọn
-                Optional<MaGiamKh> existingVoucher = mgkhDao.findByKhachHangAndMaGiamSpIsNullAndCheckedTrue(author.getUserKhachHang());
+                Optional<MaGiamKh> existingVoucher = mgkhDao
+                        .findByKhachHangAndMaGiamSpIsNullAndCheckedTrue(author.getUserKhachHang());
                 if (existingVoucher.isPresent() && existingVoucher.get().getId() != id) {
                     MaGiamKh trungGian = existingVoucher.get();
                     trungGian.setChecked(false);
@@ -86,9 +89,9 @@ public class GioHangRestCtrl {
             } else {
                 throw new RuntimeException("Voucher không hợp lệ.");
             }
-    
+
             mgkhDao.save(mgkh); // Lưu trạng thái mới vào DB
-    
+
             // Phản hồi trạng thái mới
             response.put("success", true);
             response.put("checked", mgkh.getChecked());
@@ -99,5 +102,5 @@ public class GioHangRestCtrl {
         }
         return response;
     }
-    
+
 }

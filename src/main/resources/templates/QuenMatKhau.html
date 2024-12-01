@@ -19,12 +19,12 @@
             </div>
             <!-- Form Khôi Phục Mật Khẩu -->
 
-            <form action="/quenMatKhau" method="POST"  th:object="${khachHang}">
+            <form action="/quenMatKhau" method="POST"  th:object="${khachHang}" th:style="'display: ' + (${otpVisible} ? 'none' : 'block')">
 	            <div id="password-recovery" class="password-recovery">
 	                <h2>Quên mật khẩu?</h2>
 	                <p>Vui lòng nhập tài khoản bạn muốn lấy lại mật khẩu.</p>
 	                <label for="email">Email của bạn</label>
-	                <input type="email" id="email" placeholder="Vui lòng nhập email của bạn" th:value="${khachHang.email}">
+	                <input type="email" id="email" placeholder="Vui lòng nhập email của bạn" th:field="${khachHang.email}">
 	                <p id="email-error" th:if="${error != null}" style="color: red;">Thử lại! Email không tồn tại.</p>
 	                <div class="buttons">
 	                    <button class="btn-cancel" onclick="goBackToHome()">Quay lại</button>
@@ -39,12 +39,12 @@
                 <p>Vui lòng nhập OTP đã gửi qua <span class="otp-email"></span></p>
                 <div class="otp-input-container">
                     <div class="otp-bx">
-                        <input type="text" id="otp-1" maxlength="1" oninput="moveToNextBox(1)">
-                        <input type="text" id="otp-2" maxlength="1" oninput="moveToNextBox(2)">
-                        <input type="text" id="otp-3" maxlength="1" oninput="moveToNextBox(3)">
-                        <input type="text" id="otp-4" maxlength="1" oninput="moveToNextBox(4)">
-                        <input type="text" id="otp-5" maxlength="1" oninput="moveToNextBox(5)">
-                        <input type="text" id="otp-6" maxlength="1" oninput="moveToNextBox(6)">
+                        <input name="otp"  type="text" id="otp-1" maxlength="1" oninput ="moveToNextBox(1)">
+                        <input name="otp"  type="text" id="otp-2" maxlength="1" oninput ="moveToNextBox(2)">
+                        <input name="otp"  type="text" id="otp-3" maxlength="1" oninput ="moveToNextBox(3)">
+                        <input name="otp"  type="text" id="otp-4" maxlength="1" oninput ="moveToNextBox(4)">
+                        <input name="otp"  type="text" id="otp-5" maxlength="1" oninput ="moveToNextBox(5)">
+                        <input name="otp"  type="text" id="otp-6" maxlength="1" oninput="moveToNextBox(6)">
                     </div>
                     <a href="#" class="resend-otp" onclick="resendOtp()">Gửi lại mã OTP</a>
                     <p id="otp-error" style="color: red; display: none;"></p>
@@ -62,7 +62,7 @@
 	            <h2>Đặt lại mật khẩu</h2>
 	                <p>Nhập mật khẩu mới bên dưới để tiếp tục.</p>
 	                <div class="form-group mb-3" style="max-width: 400px; position: relative;">
-	                    <input type="password" id="new-password-input" class="form-control" placeholder="Nhập mật khẩu mới" style="border-radius: 8px;">
+	                    <input type="password" id="new-password-input" class="form-control" placeholder="Nhập mật khẩu mới" style="border-radius: 8px;" name="newPassword">
 	                    <button id="toggle-password" onclick="toggleNewPasswordVisibility()" class="btn btn-link position-absolute" style="top: 50%; right: 10px; transform: translateY(-50%); padding: 0;">
 	                        <i class="fa-solid fa-eye-slash" id="eye-icon"></i>
 	                    </button>

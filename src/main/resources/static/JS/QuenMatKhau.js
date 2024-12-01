@@ -104,7 +104,7 @@ function confirmNewPassword() {
 	    } else if (newPassword.length >= 8 && newPassword.length <= 20 && /[a-zA-Z]/.test(newPassword) && /[0-9]/.test(newPassword) && allowedCharacters.test(newPassword)) {
 	        alert('Mật khẩu của bạn đã được thay đổi thành công.');
 	        // Redirect to login page or another appropriate action
-	        window.location.href = 'login.html';
+	        window.location.href = '/dangky';
 	    } else {
 	        alert('Vui lòng kiểm tra lại các yêu cầu về mật khẩu.');
 	    }

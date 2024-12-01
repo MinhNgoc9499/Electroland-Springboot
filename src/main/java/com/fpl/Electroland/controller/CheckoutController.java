@@ -118,7 +118,7 @@ public class CheckoutController {
 		if (rs.hasErrors()) {
 			return "checkout";
 		}
-		donhang.setMaGiamDh(maGiamKhDAO.getMGDHSelected(author.getUserKhachHang()));
+		donhang.setMaGiamDh(maGiamKhDAO.getMGDHChecked(author.getUserKhachHang()));
 		DonHang dh = donHangDAO.save(donhang);
 		List<GioHang> listGH = getList();
 		for (GioHang gioHang : listGH) {
@@ -129,16 +129,16 @@ public class CheckoutController {
 			CTDH.setSoLuong(gioHang.getSoLuong());
 			CTDH.setMoTa(gioHang.getMoTa());
 			CTDH.setSanPham(gioHang.getSanPham());
-			CTDH.setMaGiamSp(maGiamKhDAO.getMGSPSelected(author.getUserKhachHang(), gioHang.getSanPham()));
+			CTDH.setMaGiamSp(maGiamKhDAO.getMGSPChecked(author.getUserKhachHang(), gioHang.getSanPham()));
 			chiTietDhDAO.save(CTDH);
 		}
 		gioHangDAO.deleteByKhachHangAndCheckedTrue(author.getUserKhachHang());
-		maGiamKhDAO.deleteByKhachHangAndSelectedTrue(author.getUserKhachHang());
+		maGiamKhDAO.deleteByKhachHangAndCheckedTrue(author.getUserKhachHang());
 		return "redirect:/order_detail?id=" + donhang.getId();
 	}
 
 	public List<MaGiamKh> getListMaGiamKH() {
-		return maGiamKhDAO.findByKhachHangAndSelected(author.getUserKhachHang(), true);
+		return maGiamKhDAO.findByKhachHangAndChecked(author.getUserKhachHang(), true);
 	}
 
 	public Double getDiscountDH(MaGiamDh maGiamDh, Double totalMoney) {
