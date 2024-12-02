@@ -64,7 +64,7 @@ function removeactive() {
 }
 
 function countdownTimer() {
-    const countDownDate = new Date("Nov 18, 2024 18:00:00").getTime();
+    const countDownDate = new Date("December 18, 2024 18:00:00").getTime();
 
     const timer = setInterval(function () {
         const now = new Date().getTime();
@@ -83,10 +83,30 @@ function countdownTimer() {
             document.getElementById("hours").innerHTML = "00";
             document.getElementById("minutes").innerHTML = "00";
             document.getElementById("seconds").innerHTML = "00";
-            document.querySelector('.timer-title').innerHTML = "Sự kiện đã kết thúc!";
+            // Gọi hàm để thay đổi ngôn ngữ sau khi sự kiện kết thúc
+            updateLanguageText();
         }
     }, 1000);
 }
+
+function updateLanguageText() {
+    var lang = /*[[${#locale.language}]]*/ 'vi';  // Thay 'vi' bằng cách lấy ngôn ngữ của người dùng
+
+    var translations = {
+        'vi': 'Sự kiện đã kết thúc!',
+        'en': 'The event has ended!',
+        'zh': '活动已结束！',
+        'ja': 'イベントは終了しました！'
+    };
+
+    // Thay đổi nội dung của phần tử có class 'timer-title'
+    document.querySelector('.timer-title').innerHTML = translations[lang] || translations['vi'];  // Mặc định là Tiếng Việt
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Bắt đầu bộ đếm ngược khi trang tải xong
+    countdownTimer();
+});
 
 window.onload = countdownTimer;
 document.addEventListener("DOMContentLoaded", function () {

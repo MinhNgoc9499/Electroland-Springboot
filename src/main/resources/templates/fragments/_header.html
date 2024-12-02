@@ -8,8 +8,8 @@
         <!-- Search Box -->
         <div class="search-box me-auto">
             <form action="/sanpham" class="d-flex position-relative">
-                <input class="form-control me-2" id="search" name="search" type="search"
-                    placeholder="Tìm kiếm theo tên sản phẩm..." aria-label="Search">
+                <input class="form-control me-2" id="search" name="search" type="search" placeholder="#"
+                    th:placeholder="#{search.placeholder}" aria-label="Search">
                 <button type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -22,8 +22,10 @@
                 <a class="nav-link text-white d-flex align-items-center" href="">
                     <i class="fa-solid fa-phone-volume fa-2x me-2"></i>
                     <span>
-                        Hotline<br>0773699825
-                    </span>
+                    <span th:text="#{hotline}"></span>
+                    <br>  
+                    <span>0773699825</span>
+                </span>
                 </a>
             </li>
             <div th:if="${user != null and user.hoTen != ''}">
@@ -40,7 +42,7 @@
                     <button class="btn btn-light me-2">
                         <i class="fa-regular fa-user fa-2" style="color: black;"></i>
                     </button>
-                    <span>Đăng nhập</span>
+                    <span th:text="#{login}">Đăng nhập</span>
                 </a>
             </div>
             <li class="nav-item mx-2">
@@ -48,9 +50,30 @@
                     <button class="btn btn-light me-2">
                         <i class="fa-solid fa-cart-shopping fa-2" style="color: black;"></i>
                     </button>
-                    <span>Giỏ hàng</span>
+                    <span th:text="#{cart}">Giỏ hàng</span>
                 </a>
             </li>
+            <!-- Language Dropdown -->
+            <li class="nav-item mx-2">
+                <div class="dropdown">
+                    <a class="nav-link text-white d-flex align-items-center" href="#" id="languageDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn btn-light me-2">
+                            <i class="fa-solid fa-globe fa-2" style="color: black;"></i>
+                            <span style="color: black;" th:text="#{language.label}">Ngôn ngữ</span>
+                        </button>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" th:href="@{/index?lang=en}" style="color: black;">English</a></li>
+                        <li><a class="dropdown-item" th:href="@{/index?lang=vi}" style="color: black;">Tiếng Việt</a></li>
+                        <li><a class="dropdown-item" th:href="@{/index?lang=zh}" style="color: black;">中文</a></li>
+                        <li><a class="dropdown-item" th:href="@{/index?lang=ja}" style="color: black;">日本語</a></li>
+                    </ul>
+                    
+                </div>
+           
+
+
         </ul>
 
         <div class="d-lg-none">

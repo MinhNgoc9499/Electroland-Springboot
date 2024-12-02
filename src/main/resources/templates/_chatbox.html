@@ -177,29 +177,30 @@
 <!-- Chatbox -->
 <div class="chat-box" th:fragment="chatbox">
     <div class="chat-box-header">
-        <span>Kênh hỗ trợ và tư vấn</span>
+        <span th:text="#{chat.supportChannel}">Kênh hỗ trợ và tư vấn</span>
         <i class="fa fa-times"></i> <!-- Close button icon -->
     </div>
-    <div class="chat-box-body"> 
+    <div class="chat-box-body">
         <!-- <div class="chat-message message-receive">
             <div>
                 <p>Xin chào! Tôi có thể giúp gì cho bạn?</p>
                 <span class="time">12:00</span>
             </div>
         </div> -->
-    </div> 
+    </div>
     <div class="chat-box-footer">
-        <input type="text" placeholder="Nhập tin nhắn" />
+        <input type="text" th:placeholder="#{chat.enterMessage}" placeholder="Nhập tin nhắn" />
         <button class="send"><i class="fa fa-paper-plane"></i></button> <!-- Send button with paper plane icon -->
     </div>
-    <button class="exit-button">Thoát</button> <!-- Exit button -->
+    <button class="exit-button" th:text="#{chat.exit}">Thoát</button> <!-- Exit button -->
 </div>
 
 <!-- Circular Button to Open Chatbox -->
 <div class="chat-button">
     <i class="fa fa-comment"></i>
-    <span>Chat với chúng tôi</span>
+    <span th:text="#{chat.chatWithUs}">Chat với chúng tôi</span>
 </div>
+
 
 <script>
     // Mở hộp chat khi nhấn vào nút chat
