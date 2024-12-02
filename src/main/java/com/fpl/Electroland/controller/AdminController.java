@@ -1,26 +1,24 @@
 package com.fpl.Electroland.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fpl.Electroland.dao.DonHangDAO;
+
 import com.fpl.Electroland.helper.Author;
-import com.fpl.Electroland.model.DonHang;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
     @Autowired
+    Author author;
+
+
     DonHangDAO donHangDAO;
+
 
     @GetMapping("/adminIndex")
     public String getReport(
@@ -66,21 +64,13 @@ public class AdminController {
         return "OrderList";
     }
 
-    public List<DonHang> getDonHangByTT(int trangThai) {
-        List<DonHang> list = new ArrayList<>();
-        list = donHangDAO.findAll();
-        list = list.stream().filter(dh -> dh.getTrangThai() == trangThai).collect(Collectors.toList());
-        return list;
+    @GetMapping("/employess")
+    public String adminEmployes() {
+        return "employessADM";
     }
 
-    @GetMapping("/order-statistics")
-    public String adminOrderStatistics(Model model) {
-        List<DonHang> listDonHuyByMonth = donHangDAO.findByMonthYearAndTrangThai(1, 2020, 0);
-        for (int i = 1; i <= 12; i++) {
-            listDonHuyByMonth = donHangDAO.findByMonthYearAndTrangThai(i, 2020, 0);
-            System.out.println(listDonHuyByMonth.size() + " month: " + i);
-            // model.addAttribute("listDonHuyByMonth", listDonHuyByMonth);
-        }
-        return "OrderStatisticsADM";
+    @GetMapping("/EmployessDetail	")
+    public String adimEmployesDetail() {
+        return "EmployessDetailADM";
     }
 }
