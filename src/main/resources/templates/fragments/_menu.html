@@ -1,12 +1,11 @@
 <menu class="menu-bar" th:fragment="menu">
 	<ul class="menu-list">
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/phoneicon.png}"> Điện thoại, Tablet <span>&gt;</span>
+		<li class="menu-item" ><a href="#"> <img th:src ="@{/ICON/phoneicon.png}"> <span th:text="#{menu.phone_tablet}"></span><span>&gt;</span>
 			</a>
 			<ul class="submenu">
 				<div class="submenu-box">
 					<div class="submenu-row">
 						<h4>Hãng điện thoại</h4>
-						<li><a href="#">iPhone</a></li>
 						<li><a href="#">Samsung</a></li>
 						<li><a href="#">Xiaomi</a></li>
 						<li><a href="#">OPPO</a></li>
@@ -28,7 +27,7 @@
 				</div>
 			</ul>
 		</li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/laptopicon.png}"> Laptop <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/laptopicon.png}"> <span th:text="#{menu.laptop}"></span> <span>&gt;</span>
 			</a>
 			<ul class="submenu">
 				<div class="submenu-box">
@@ -66,19 +65,19 @@
 				</div>
 			</ul>
 		</li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/earbudsicon.png}"> Âm thanh <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/earbudsicon.png}"> <span th:text="#{menu.sound}"></span> <span>&gt;</span>
 			</a></li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/watchicon.png}"> Đồng hồ <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/watchicon.png}"> <span th:text="#{menu.watch}"></span> <span>&gt;</span>
 			</a></li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/keyboardicon.png}"> Phụ kiện <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/keyboardicon.png}"> <span th:text="#{menu.accessories}"></span> <span>&gt;</span>
 			</a></li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/pcicon.png}"> PC, Màn hình <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/pcicon.png}"> <span th:text="#{menu.pc_screen}"></span> <span>&gt;</span>
 			</a></li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/screenicon.png}"> Tivi <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/screenicon.png}"> <span th:text="#{menu.tv}"></span> <span>&gt;</span>
 			</a></li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/newicon.png}"> Tin tức <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/newicon.png}"> <span th:text="#{menu.news}"></span> <span>&gt;</span>
 			</a></li>
-		<li class="menu-item"><a href="#"> <img th:src ="@{/ICON/coupointicon.png}"> Khuyến mãi <span>&gt;</span>
+		<li class="menu-item"><a href="#" > <img th:src ="@{/ICON/coupointicon.png}"> <span th:text="#{menu.promotions}"></span> <span>&gt;</span>
 			</a></li>
 	</ul>
 </menu>

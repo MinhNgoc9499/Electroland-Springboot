@@ -5,15 +5,12 @@
 	<meta charset="UTF-8">
 	<title>Layout Test</title>
 </head>
-
 <body>
 	<div th:insert="~{/fragments/_flashsale::flashsale}" class="mt-5"></div>
-	<div th:insert="~{/fragments/_category::Category('Danh mục sản phẩm',${listCategory})}" ></div>
-	<div th:insert="~{/fragments/_topSanPham::topSanPham('Điện thoại bán chạy',${nav_topPhone},${List12})}"class="mt-4"></div>
+	<div th:insert="~{/fragments/_category::Category(#{'category.title'},${listCategory})}" ></div>
+	<div th:insert="~{/fragments/_topSanPham::topSanPham(#{'topPhone.title'},${nav_topPhone},${List12})}" class="mt-4"></div>
 	<div th:insert="~{/fragments/_advertisement::advertisement}" class="mt-3"></div>
-	<div th:insert="~{/fragments/_topSanPham::topSanPham('Laptop bán chạy',${nav_topLaptop},${List12})}"class="mt-4"></div>
-	<div th:insert="~{/fragments/_topSanPham::topSanPham('Laptop bán chạy',${nav_topLaptop},${List12})}"class="mt-4"></div>	
-	<div th:insert="~{_chatbox:: body}"></div>
+	<div th:insert="~{/fragments/_topSanPham::topSanPham(#{'topLaptop.title'},${nav_topLaptop},${List12})}" class="mt-4"></div>
+	<div th:insert="~{_chatbox::body}"></div>
 </body>
-
 </html>

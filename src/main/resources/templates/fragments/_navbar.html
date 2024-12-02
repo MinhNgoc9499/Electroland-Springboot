@@ -1,8 +1,17 @@
-<nav class="bottom-navbar" th:fragment="navbar">
+<!-- <nav class="bottom-navbar" th:fragment="navbar">
 	<div class="container">
 		<a href="#"><i class="fa fa-ticket"></i> Săn Voucher</a> <a href="#"><i class="fa fa-newspaper"></i> Tin công
 			nghệ</a> <a href="#"><i class="fa fa-credit-card"></i> Hướng dẫn thanh toán</a> <a href="#"><i
 				class="fa fa-info-circle"></i> Hướng dẫn trả góp</a> <a href="#"><i class="fa fa-wrench"></i> Tra cứu
 			bảo hành</a>
 	</div>
+</nav> -->
+<nav class="bottom-navbar" th:fragment="navbar">
+    <div class="container">
+        <a href="#"><i class="fa fa-ticket"></i> <span th:text="#{voucher}"></span></a>
+        <a href="#"><i class="fa fa-newspaper"></i> <span th:text="#{technology_news}"></span></a>
+        <a href="#"><i class="fa fa-credit-card"></i> <span th:text="#{payment_guide}"></span></a>
+        <a href="#"><i class="fa fa-info-circle"></i> <span th:text="#{installment_guide}"></span></a>
+        <a href="#"><i class="fa fa-wrench"></i> <span th:text="#{warranty_check}"></span></a>
+    </div>
 </nav>

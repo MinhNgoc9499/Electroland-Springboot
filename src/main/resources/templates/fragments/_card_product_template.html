@@ -1,6 +1,7 @@
 <div class="card product-template" th:fragment="card_product_template(product)" th:object="${product}" th:data-id="*{id}">
     <div class="badge">
-        <div class="discount-label" th:text="${'Giảm ' + ((product.giaBan - product.giaGiam) / product.giaBan )* 100} + '%'">Giảm 20%</div>
+        <div class="discount-label" th:text="#{discount.label} + ' ' + ${((product.giaBan - product.giaGiam) / product.giaBan) * 100} + '%'">Giảm 20%</div>
+
     </div>
     <div class="card-body">
         <img th:src="@{'/IMG/' + *{hinhDaiDien}}">
@@ -16,7 +17,7 @@
             <i class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
                 class="fa-solid fa-star checked"></i> <i class="fa-solid fa-star checked"></i> <i
                 class="fa-solid fa-star checked"></i>
-            <a th:href="@{'/detail?id=' + *{id}}" class="detail">Chi tiết</a>
+            <a th:href="@{'/detail?id=' + *{id}}" class="detail" th:text="#{product.detail}">Chi tiết</a>
         </div>
     </div>
 </div>

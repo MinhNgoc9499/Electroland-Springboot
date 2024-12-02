@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.dao.LoaiSanPhamDAO;
@@ -81,7 +82,8 @@ public class indexController {
 	}
 
 	@GetMapping("/index")
-	public String getIndexPage(Model model) {
+	public String getIndexPage(@RequestParam(value = "lang", defaultValue = "vi") String lang,Model model) {
+		model.addAttribute("lang", lang);
 		return "Index_Page";
 	}
 

@@ -1,23 +1,23 @@
 <div class="flashsale-container full-screen-div d-xl-block d-none" th:fragment="flashsale" th:object="${SPTEST}">
 	<div class="flashsale-title">
-		<h3>
-			<img th:src ="@{/ICON/thundericon.png}" alt="icon"> GIỜ VÀNG DEAL SỐC
+		<h3 th:text="#{flashsale.title}">
+			<img th:src ="@{/ICON/thundericon.png}" alt="icon" > GIỜ VÀNG DEAL SỐC
 		</h3>
 		<div class="timer">
 			<p class="timer-title">
-				<b>Nhanh lên nào!</b><br> sự kiện sắp kết thúc
+				<b th:text="#{flashsale.timerTitle}">Nhanh lên nào!</b><br> <span th:text="#{flashsale.timerSubtitle}">sự kiện sắp kết thúc</span>
 			</p>
 			<div class="time-box">
 				<span id="hours">00</span>
-				<p>Giờ</p>
+				<p th:text="#{hour}">Giờ</p>
 			</div>
 			<div class="time-box">
 				<span id="minutes">00</span>
-				<p>Phút</p>
+				<p th:text="#{minute}">Phút</p>
 			</div>
 			<div class="time-box">
 				<span id="seconds">00</span>
-				<p>Giây</p>
+				<p th:text="#{second}">Giây</p>
 			</div>
 		</div>
 	</div>

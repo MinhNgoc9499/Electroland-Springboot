@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Dropdown Test</title>
+</head>
+<body>
+    <ul class="navbar-nav">
+        <li class="nav-item mx-2">
+            <div class="dropdown">
+                <button class="btn btn-light me-2" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-globe fa-2" style="color: black;"></i>
+                    <span style="color: black;">Ngôn ngữ</span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                    <li><a class="dropdown-item" href="#" style="color: black;">English</a></li>
+                    <li><a class="dropdown-item" href="#" style="color: black;">Tiếng Việt</a></li>
+                    <li><a class="dropdown-item" href="#" style="color: black;">中文</a></li>
+                    <li><a class="dropdown-item" href="#" style="color: black;">日本語</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

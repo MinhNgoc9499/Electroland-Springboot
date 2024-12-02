@@ -1,33 +1,36 @@
 <footer class="p-3">
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-4  contact-info ">
+        <div class="col-4 contact-info">
             <div class="footer-logo">
                 <img th:src ="@{/IMG/logotrang.png}" alt="Tech Zone Logo">
             </div>
             <div class="footer-contact">
-                <p><img th:src ="@{/ICON/locationicon.png}" class="icon-contact"> Địa chỉ: <br>Số 3, Tân Hưng Thuận, Quận 12, Hồ Chí Minh</p>
+                <p><img th:src ="@{/ICON/locationicon.png}" class="icon-contact">
+                    <span th:text="#{footer.address}">Địa chỉ: Số 3, Tân Hưng Thuận, Quận 12, Hồ Chí Minh</span></p>
                 <div class="bottom-contact">
-                    <p><img th:src ="@{/ICON/callicon.png}" class="icon-contact"> Hotline: <br>0778877888</p>
-                    <p><img th:src ="@{/ICON/sms-edit.png}" class="icon-contact"> Email: <br>electroland.service@gmail.com</p>
+                    <p><img th:src ="@{/ICON/callicon.png}" class="icon-contact">
+                        <span th:text="#{footer.hotline}">Hotline: 0778877888</span></p>
+                    <p><img th:src ="@{/ICON/sms-edit.png}" class="icon-contact">
+                        <span th:text="#{footer.email}">Email: electroland.service@gmail.com</span></p>
                 </div>
             </div>
         </div>
         <div class="col-2 support-customer">
-            <h4>Hỗ trợ khách hàng</h4>
-            <p><a>Kiểm tra đơn hàng</a></p>
-            <p><a>Câu hỏi thường gặp</a></p>
-            <p><a>Liên hệ</a></p>
+            <h4 th:text="#{footer.customerSupport}">Hỗ trợ khách hàng</h4>
+            <p><a th:text="#{footer.trackOrder}">Kiểm tra đơn hàng</a></p>
+            <p><a th:text="#{footer.faq}">Câu hỏi thường gặp</a></p>
+            <p><a th:text="#{footer.contactUs}">Liên hệ</a></p>
         </div>
         <div class="col-2 support-customer">
-            <h4>Chính sách</h4>
-            <p><a>Chính sách đổi trả</a></p>
-            <p><a>Chính sách bảo mật</a></p>
-            <p><a>Điều khoản dịch vụ</a></p>
-            <p><a>Chính sách giao hàng</a></p>
+            <h4 th:text="#{footer.policies}">Chính sách</h4>
+            <p><a th:text="#{footer.returnPolicy}">Chính sách đổi trả</a></p>
+            <p><a th:text="#{footer.privacyPolicy}">Chính sách bảo mật</a></p>
+            <p><a th:text="#{footer.termsOfService}">Điều khoản dịch vụ</a></p>
+            <p><a th:text="#{footer.shippingPolicy}">Chính sách giao hàng</a></p>
         </div>
         <div class="col-2 support-customer">
-            <h4>Hỗ trợ khách hàng</h4>
+            <h4 th:text="#{footer.paymentSupport}">Hỗ trợ khách hàng</h4>
             <img th:src ="@{/ICON/payment.png}">
         </div>
     </div>
