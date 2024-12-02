@@ -172,6 +172,20 @@ body {
 .total-products {
     font-size: 16px;
 }
+.voucher-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 5px 10px;
+    background-color: #f9f9f9;
+}
+
+
+.voucher-item .d-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 .voucher-link {
     padding: 5px 10px;
@@ -199,12 +213,13 @@ body {
     
 }
 .totaltongcong span{
-    margin-top: 20px;
-    font-size: 19px;
+
+    font-size: 18px;
     color: #ffffff;
 }
 .totalall span{
-    font-size: 18px;
+    margin-top: 15px;
+    font-size: 16px;
     color: #ffffff;
 }
 .checkout-btn {
@@ -217,6 +232,11 @@ body {
     margin-top: 30px;
     border: 1px solid #ffffff;
 }
+.btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
 
 
 

@@ -18,8 +18,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-@DynamicUpdate
 @Table
 public class GioHang {
 
@@ -31,7 +29,7 @@ public class GioHang {
 	@Column(nullable = false)
 	int soLuong;
 
-	@Column(nullable = true, columnDefinition = "nvarchar(100)")
+	@Column(nullable = true, columnDefinition = "nvarchar(225)")
 	String moTa;
 
 	@Column(nullable = true)

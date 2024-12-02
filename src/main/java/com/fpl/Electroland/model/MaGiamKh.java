@@ -13,6 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Column;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,10 +38,6 @@ public class MaGiamKh {
 	@Column(nullable = true) // nullable = true
 	Boolean trangThai;
 
-	// Đảm bảo trạng thái có kiểu Boolean và nullable = true
-	@Column(nullable = true) // nullable = true
-	Boolean selected;
-
 	@ManyToOne
 	@JoinColumn(name = "idKH", nullable = false) // nullable = false
 	KhachHang khachHang;
@@ -52,4 +49,8 @@ public class MaGiamKh {
 	@ManyToOne
 	@JoinColumn(name = "idMGSP", nullable = true) // nullable = true
 	MaGiamSp maGiamSp;
+
+	@Column(nullable = true) // nullable = true
+	Boolean checked;
+
 }

@@ -42,7 +42,5 @@ public class NhanVien {
 
 	// Trạng thái của nhân viên, có thể là NULL
 	@Column(nullable = true)
-	Boolean trangthai;
-
-
+	Boolean trangthai = true;
 }
