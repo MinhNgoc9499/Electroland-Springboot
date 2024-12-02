@@ -12,17 +12,16 @@
     <div class="col-10 mt-2">
         <h1 class="mb-3">Báo cáo doanh thu</h1>
         <form action="/admin/revenue-statistics" method="get" class="d-flex align-items-center w-100">
-            <!-- <div class="col-2">
-                <input type="number" name="minOrder" th:value="${minOrder}" class="form-control" placeholder="Số đơn tối thiểu">
-            </div>
             <div class="col-2 ms-2">
-                <select name="sortTypeKH" class="form-select">
-                    <option value="">Chọn loại khách hàng</option>
-                    <option value="Khách hàng VIP" th:selected="${sortTypeKH == 'Khách hàng VIP'}">Khách hàng VIP</option>
-                    <option value="Khách hàng thân thiết" th:selected="${sortTypeKH == 'Khách hàng thân thiết'}">Khách hàng thân thiết</option>
-                    <option value="Khách hàng thường" th:selected="${sortTypeKH == 'Khách hàng thường'}">Khách hàng thường</option>
+                <select name="sortTypeSP" class="form-select">
+                    <option value="">Chọn</option>
+                    <option th:each="lsp : ${listLoaiSP}" 
+                            th:value="*{lsp.id}" 
+                            th:text="*{lsp.tenLoaiSP}" 
+                            th:selected="${sortTypeSP == lsp.id}">
+                    </option>
                 </select>
-            </div> -->
+            </div>            
             <div class="ms-2 col">
                 <button class="btn btn-success" type="submit">Xem</button>
             </div>
@@ -45,7 +44,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="i, stat : ${#numbers.sequence(0, spIDS.size()-1)}">
+                        <tr th:each="i: ${#numbers.sequence(0, spIDS.size()-1)}">
                             <td th:text="${spIDS[i]}"></td>
                             <td th:text="${productNames[i]}"></td>
                             <td th:text="${productType[i]}"></td>

@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fpl.Electroland.dao.DonHangDAO;
+import com.fpl.Electroland.dao.LoaiSanPhamDAO;
 import com.fpl.Electroland.model.DonHang;
 import com.fpl.Electroland.model.KhachHang;
+import com.fpl.Electroland.model.LoaiSanPham;
 import com.fpl.Electroland.model.SanPham;
 
 @Controller
@@ -26,10 +28,16 @@ public class AdminStatisticsController {
     @Autowired
     DonHangDAO donHangDAO;
 
+    @Autowired
+    LoaiSanPhamDAO loaiSPDAO;
+
     @GetMapping("/revenue-statistics")
     public String adminRevenueStatistics(Model model,
+    @RequestParam(value = "sortTypeSP", required = false) String sortTypeSP,
     @RequestParam(value = "page", required = false, defaultValue = "0") int page){
 
+        List<LoaiSanPham> listLoaiSP = loaiSPDAO.findAll();
+        model.addAttribute("listLoaiSP", listLoaiSP);
         int pageSize = 10;
         Pageable pageable = PageRequest.of(page, pageSize);
         Page<SanPham> listSP = donHangDAO.findRevenueByProduct(pageable);
@@ -37,7 +45,7 @@ public class AdminStatisticsController {
         List<Integer> spIDS = listSP.stream()
         .map(SanPham::getId)
         .collect(Collectors.toList());
-        // System.out.println("Mã SP: "+spIDS);
+        System.out.println("Mã SP: "+spIDS);
 
         List<String> productNames = listSP.stream()
             .map(SanPham::getTenSP)

@@ -35,7 +35,7 @@ public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
     @Query(value = "SELECT SUM(cth.soLuong * cth.giaBan) FROM DonHang dh JOIN ChiTietDH cth ON dh.id = cth.idDH WHERE dh.trangThai = 1 AND MONTH(dh.ngayDH) = :month AND YEAR(dh.ngayDH) = :year", nativeQuery = true)
     Double sumTotalSalesByYear(int month, @Param("year") int year);
 
-    @Query("SELECT kh FROM KhachHang kh WHERE (SELECT COUNT(d) FROM DonHang d WHERE d.khachHang.id = kh.id) > :minOrders AND (:sortTypeKH IS NULL OR kh.loaiKhachHang.tenLoai = :sortTypeKH)")
+    @Query("SELECT kh FROM KhachHang kh WHERE (SELECT COUNT(d) FROM DonHang d WHERE d.khachHang.id = kh.id) >= :minOrders AND (:sortTypeKH IS NULL OR kh.loaiKhachHang.tenLoai = :sortTypeKH)")
     Page<KhachHang> findCustomersWithMoreThanMinOrders(int minOrders, String sortTypeKH, Pageable pageable);
 
     @Query("SELECT COUNT(d) FROM DonHang d WHERE d.khachHang.id = :customerId")
@@ -44,12 +44,10 @@ public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
     @Query("SELECT SUM(ct.giaBan * ct.soLuong) FROM DonHang d INNER JOIN ChiTietDh ct ON ct.donHang.id = d.id WHERE d.khachHang.id = :customerId")
     Double sumTotalSalesByCustomer(int customerId);
 
-
-    //THống kê sp
+    //THống kê sp  WHERE sp.loaiSanPham.id = :sortTypeSP String sortTypeSP,
     @Query("SELECT sp FROM SanPham sp INNER JOIN ChiTietDh ct ON sp.id = ct.sanPham.id")
     Page<SanPham> findRevenueByProduct(Pageable pageable);
-
-    
+ 
     @Query("SELECT COUNT(d) FROM ChiTietDh d WHERE d.sanPham.id = :productID")
     Integer countOrderProdcut(int productID);
 
