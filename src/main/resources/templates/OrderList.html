@@ -12,25 +12,24 @@
 
 <div class="col-10">
     <h1 class="mb-4">Danh sách đơn hàng</h1>
+    <form class="row g-2" method="get" action="/admin/order">
     <div id="filterContainer" class="d-flex align-items-center col-sm-12">
         <!-- Search Input with Dropdown Icon -->
         <div class="input-group me-2 col-sm-3">
-            <input type="text" class="form-control" placeholder="Tìm bằng mã hóa đơn" id="searchInput">
+            <input type="text" class="form-control" placeholder="Tìm bằng mã hóa đơn" name="searchOrderId" th:value="${searchOrderId}">
             <span class="input-group-text" id="dropdownIcon" style="cursor: pointer;">
                 <i class="fa-solid fa-caret-down"></i>
             </span>
-            
-            <!-- Dropdown Filters -->
             <div id="dropdownFilters">
                 <form class="row g-2">
                     <div class="col-12">
-                        <input type="text" class="form-control" placeholder="Tên khách hàng">
+                        <input type="text" class="form-control" placeholder="Tên khách hàng" name="searchCustomerName" th:value="${searchCustomerName}">
                     </div>
                     <div class="col-12">
-                        <input type="text" class="form-control" placeholder="Số điện thoại khách hàng">
+                        <input type="text" class="form-control" placeholder="Số điện thoại khách hàng"  name="searchPhoneNumber" th:value="${searchPhoneNumber}">
                     </div>
                     <div class="col-12">
-                        <input type="text" class="form-control" placeholder="Địa chỉ">
+                        <input type="text" class="form-control" placeholder="Địa chỉ" name="searchAddress" th:value="${searchAddress}">
                     </div>
                     <div class="col-12 text-end">
                         <button type="submit" class="btn btn-primary btn-sm">Tìm kiếm</button>
@@ -38,34 +37,36 @@
                 </form>
             </div>
         </div>
-
         <div class="col-sm-2">
-            <select class="form-select">
+            <select class="form-select" name="paymentMethod">
                 <option value="">Phương thức thanh toán</option>
-                <option value="completed">Chuyển khoản</option>
-                <option value="cancelled">Momo</option>
-                <option value="cancelled">Tiền mặt</option>
-                <option value="cancelled">COD</option>
+                <option value="Chuyển khoản">Chuyển khoản</option>
+                <option value="momo" >Momo</option>
+                <option value="Tiền mặt" >Tiền mặt</option>
+                <option value="cod" >COD</option>
             </select>
         </div>
 
         <div class="col-sm-1">
-            <select class="form-select">
+            <select class="form-select" name="status">
                 <option value="">Trạng thái</option>
                 <option value="completed">Hoàn thành</option>
                 <option value="cancelled">Hủy</option>
+                <option value="Xử lý">Xử lý</option>
             </select>
         </div>
-        <button class="btn btn-primary btn-custom me-1 col-sm-1" id="addOrderButton">Thêm đơn</button>
+        <input type="hidden" name="page" th:value="${currentPage}">
+        <button class="btn btn-primary btn-custom me-1 col-sm-1" id="addOrderButton">Tìm Kiếm</button>
         <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
     </div>
-
     <div class="row mt-3">
         <!-- Table for Order Data -->
         <div class="col-sm-10">
             <table class="table table-bordered">
                 <thead class="table-light">
                     <tr>
+
+                        <th>STT</th>
                         <th>Mã đơn</th>
                         <th>Tên khách hàng</th>
                         <th>Số điện thoại</th>
@@ -78,142 +79,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH167</td>
-                        <td>Trần Tấn Lợi</td>
-                        <td>0918478123</td>
-                        <td>7a Tô Ký</td>
-                        <td>23/10/2024</td>
-                        <td>26/10/2024</td>
-                        <td>Cash</td>
-                        <td class="text-center"><span class="btn-nhd p-1">Hủy</span></td>
-                        <td class="action"><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH103</td>
-                        <td>Nguyễn Văn Mạnh</td>
-                        <td>0987654321</td>
-                        <td>292 Xô Viết Nghệ Tĩnh</td>
-                        <td>08/11/2024</td>
-                        <td>08/11/2024</td>
-                        <td>Chuyển khoản</td>
-                        <td class="text-center"><span class="btn-hd p-1">Hoàn thành</span></td>
-                        <td><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH167</td>
-                        <td>Trần Tấn Lợi</td>
-                        <td>0918478123</td>
-                        <td>7a Tô Ký</td>
-                        <td>23/10/2024</td>
-                        <td>26/10/2024</td>
-                        <td>Cash</td>
-                        <td class="text-center"><span class="btn-nhd p-1">Hủy</span></td>
-                        <td class="action"><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH167</td>
-                        <td>Trần Tấn Lợi</td>
-                        <td>0918478123</td>
-                        <td>7a Tô Ký</td>
-                        <td>23/10/2024</td>
-                        <td>26/10/2024</td>
-                        <td>Cash</td>
-                        <td class="text-center"><span class="btn-nhd p-1">Hủy</span></td>
-                        <td class="action"><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH167</td>
-                        <td>Trần Tấn Lợi</td>
-                        <td>0918478123</td>
-                        <td>7a Tô Ký</td>
-                        <td>23/10/2024</td>
-                        <td>26/10/2024</td>
-                        <td>Cash</td>
-                        <td class="text-center"><span class="btn-nhd p-1">Hủy</span></td>
-                        <td class="action"><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
-                    <tr>
-                        <td>DH167</td>
-                        <td>Trần Tấn Lợi</td>
-                        <td>0918478123</td>
-                        <td>7a Tô Ký</td>
-                        <td>23/10/2024</td>
-                        <td>26/10/2024</td>
-                        <td>Cash</td>
-                        <td class="text-center"><span class="btn-nhd p-1">Hủy</span></td>
-                        <td class="action"><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
-                    </tr>
+
+                <tr th:each="order, iterStat : ${orders}">
+                  <td th:text="${iterStat.index + 1}"></td>
+                  <td th:text="${order.id}"></td>
+                  <td th:text="${order.khachHang.hoTen}"></td>
+                  <td th:text="${order.sdt}"></td>
+                  <td th:text="${order.diaChi}"></td>
+                  <td th:text="${order.ngayDH}"></td>
+                  <td th:text="${order.ngayGH}"></td>
+                  <td th:text="${order.phuongThucTT}"></td>
+                  <td class="text-center">
+                    <span
+                        th:text="${order.trangThai == 0 ? 'Hủy' : (order.trangThai == 1 ? 'Hoàn Thành' : 'Đang Xử Lý')}"
+                        th:class="${order.trangThai == 0 ? 'btn-nhd p-1' : (order.trangThai == 1 ? 'btn-hd p-1' : 'btn-xl p-1')}">
+                    </span>
+                  </td>
+                  <td class="action"><i class="fa-solid fa-trash ms-3"></i><i class="fa-solid fa-pencil ms-2"></i></td>
+
+                </tr>
+
                 </tbody>
             </table>
         </div>
-        
+
         <!-- Chọn ngày đặt hàng (Card) -->
         <div class="col-sm-2">
             <div class="card p-2 col-sm-12">
@@ -228,19 +117,34 @@
                     <input type="date" id="orderDate" class="date-picker-input">
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
-    
+
     <!-- Pagination -->
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
-            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-arrow-left"></i></a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#"><i class="fa-solid fa-arrow-right"></i></a></li>
+            <!-- Previous Button -->
+            <li class="page-item" th:if="${currentPage > 0}">
+                <a class="page-link" th:href="@{/admin/order(page=${currentPage - 1}, size=${orders.size()})}">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </a>
+            </li>
+
+            <!-- Page Numbers -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${i == currentPage ? ' active' : ''}">
+                <a class="page-link" th:href="@{/admin/order(page=${i}, size=${orders.size()})}" th:text="${i + 1}"></a>
+            </li>
+
+            <!-- Next Button -->
+            <li class="page-item" th:if="${currentPage < totalPages - 1}">
+                <a class="page-link" th:href="@{/admin/order(page=${currentPage + 1}, size=${orders.size()})}">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </li>
         </ul>
     </nav>
+    </form>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>

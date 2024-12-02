@@ -2,6 +2,11 @@ package com.fpl.Electroland.controller;
 
 import com.fpl.Electroland.dao.DonHangDAO;
 import java.util.List;
+import com.fpl.Electroland.helper.Author;
+import com.fpl.Electroland.model.DonHang;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
+
+    @Autowired
+    Author author;
 
     @Autowired
     private DonHangDAO donHangDAO;
@@ -124,11 +132,6 @@ public class AdminController {
     @GetMapping("/product-detail")
     public String adminProductDetail() {
         return "productDetailADM";
-    }
-
-    @GetMapping("/order")
-    public String adminOrderList() {
-        return "OrderList";
     }
 
     @GetMapping("/employess")
