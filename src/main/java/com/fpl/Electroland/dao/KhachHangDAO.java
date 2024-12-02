@@ -18,13 +18,30 @@ public interface KhachHangDAO extends JpaRepository<KhachHang, Integer> {
                STRING_AGG(dc.chiTiet, ', ') AS diaChiList
         FROM KhachHang kh
         LEFT JOIN DiaChi dc ON kh.id = dc.idKH
+        WHERE (:hoTen IS NULL OR kh.hoTen LIKE %:hoTen%)
+          AND (:sdt IS NULL OR kh.sdt LIKE %:sdt%)
+          AND (:email IS NULL OR kh.email LIKE %:email%)
+          AND (:diaChi IS NULL OR dc.chiTiet LIKE %:diaChi%)
+          AND (:trangThai IS NULL OR kh.trangThai = :trangThai)
         GROUP BY kh.id, kh.hoTen, kh.email, kh.sdt, kh.ngaySinh, kh.gioiTinh, kh.trangThai
     """, 
     countQuery = """
         SELECT COUNT(DISTINCT kh.id)
         FROM KhachHang kh
         LEFT JOIN DiaChi dc ON kh.id = dc.idKH
-    """, 
+        WHERE (:hoTen IS NULL OR kh.hoTen LIKE %:hoTen%)
+          AND (:sdt IS NULL OR kh.sdt LIKE %:sdt%)
+          AND (:email IS NULL OR kh.email LIKE %:email%)
+          AND (:diaChi IS NULL OR dc.chiTiet LIKE %:diaChi%)
+          AND (:trangThai IS NULL OR kh.trangThai = :trangThai)
+    """,
     nativeQuery = true)
-    Page<Object[]> findCustomersWithAddresses(Pageable pageable);
+    Page<Object[]> findFilteredCustomers(
+        @org.springframework.data.repository.query.Param("hoTen") String hoTen,
+        @org.springframework.data.repository.query.Param("sdt") String sdt,
+        @org.springframework.data.repository.query.Param("email") String email,
+        @org.springframework.data.repository.query.Param("diaChi") String diaChi,
+        @org.springframework.data.repository.query.Param("trangThai") Boolean trangThai,
+        Pageable pageable);
+    
 }

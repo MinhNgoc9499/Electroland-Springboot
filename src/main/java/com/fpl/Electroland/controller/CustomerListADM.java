@@ -23,20 +23,23 @@ public class CustomerListADM {
     @GetMapping("/adminCustomerList")
     public String adminCustomerList(
             Model model,
-            Pageable pageable, // Sử dụng Pageable để nhận thông tin phân trang
-            @RequestParam(name = "search", required = false) String search, // Optional search parameter nếu cần
-            @RequestParam(name = "size", defaultValue = "10") int size
-
-    ) {
-        // Gọi phương thức phân trang từ DAO
-        Page<Object[]> results = khDao.findCustomersWithAddresses(pageable);
-
+            Pageable pageable,
+            @RequestParam(name = "hoTen", required = false) String hoTen,
+            @RequestParam(name = "sdt", required = false) String sdt,
+            @RequestParam(name = "email", required = false) String email,
+            @RequestParam(name = "diaChi", required = false) String diaChi,
+            @RequestParam(name = "trangThai", required = false) Boolean trangThai) {
+    
+        // Gọi phương thức lọc từ DAO
+        Page<Object[]> results = khDao.findFilteredCustomers(hoTen, sdt, email, diaChi, trangThai, pageable);
+    
         // Thêm dữ liệu vào model
-        model.addAttribute("customerList", results.getContent()); // Dữ liệu khách hàng
-        model.addAttribute("currentPage", pageable.getPageNumber()); // Trang hiện tại
-        model.addAttribute("totalPages", results.getTotalPages()); // Tổng số trang
-        model.addAttribute("totalItems", results.getTotalElements()); // Tổng số bản ghi
-
+        model.addAttribute("customerList", results.getContent());
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("totalPages", results.getTotalPages());
+        model.addAttribute("totalItems", results.getTotalElements());
+    
         return "CustomerList"; // Tên view hiển thị danh sách khách hàng
     }
+    
 }
