@@ -94,14 +94,12 @@ public class GioHangRestCtrl {
 
     @GetMapping("/rest/giohang/checkDiscount")
     public String checkDiscount() {
-        System.out.println("check");
         Double TotalMoney = getTotal();
         List<MaGiamKh> list = mgkhDao.findByKhachHangAndChecked(author.getUserKhachHang(), true);
 
-        System.out.println(list);
         for (MaGiamKh maGiamKh : list) {
             if (maGiamKh.getMaGiamDh() != null) {
-                if (TotalMoney < maGiamKh.getMaGiamDh().getMinDonGia()) {
+                if (TotalMoney < maGiamKh.getMaGiamDh().getMinDonGia() || TotalMoney == 0) {
                     MaGiamKh mg = maGiamKh;
                     mg.setChecked(false);
                     mgkhDao.save(mg);
@@ -149,9 +147,7 @@ public class GioHangRestCtrl {
     @GetMapping("/rest/giohang/updateVoucher/{id}")
     public void updateVoucherFromCart(@PathVariable("id") int id) {
         // Map<String, Object> response = new HashMap<>();
-        System.out.println(id);
         MaGiamKh mgkh = mgkhDao.findById(id).get();
-        System.out.println(id);
         mgkh.setChecked(!mgkh.getChecked());
         mgkhDao.save(mgkh);
         mgkhDao.flush(); // Lưu trạng thái mới vào DB
