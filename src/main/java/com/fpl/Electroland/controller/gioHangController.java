@@ -163,7 +163,7 @@ public class gioHangController {
 	public String updateProductSelection(@RequestParam("sanPham") SanPham sanPham,
 			@RequestParam("checked") boolean checked,
 			@RequestParam("khachhang") KhachHang khachhang) {
-		GioHang gioHang = gioHangDAO.findBySanPhamAndKhachHang(sanPham, khachhang); // Thay đổi phương thức DAO
+		GioHang gioHang = gioHangDAO.findBySanPhamAndKhachHang(sanPham, khachhang).get(); // Thay đổi phương thức DAO
 
 		if (gioHang != null) {
 			if (!checked) {

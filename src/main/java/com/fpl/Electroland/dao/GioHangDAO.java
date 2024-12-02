@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.fpl.Electroland.model.GioHang;
 import com.fpl.Electroland.model.KhachHang;
@@ -17,7 +18,7 @@ public interface GioHangDAO extends JpaRepository<GioHang, Integer> {
     @Transactional
     void deleteByKhachHangAndCheckedTrue(KhachHang khachHang);
 
-    GioHang findBySanPhamAndKhachHang(SanPham sanPham, KhachHang khachHang);
+    Optional<GioHang> findBySanPhamAndKhachHang(SanPham sanPham, KhachHang khachHang);
 
     // Lấy danh sách giỏ hàng của một khách hàng
     List<GioHang> findByKhachHang(KhachHang khachHang);

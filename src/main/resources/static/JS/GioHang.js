@@ -1,47 +1,34 @@
 
 
 // Cập nhật tổng số tiền dựa trên các sản phẩm đã chọn
-function updateTotalAmount() {
-    let totalAmount = 0;
-    const items = document.querySelectorAll(".cart-containerItem");
-
-    // Hiển thị thông báo giỏ hàng trống nếu không có sản phẩm nào trong giỏ hàng
-    document.querySelector(".empty-cart-message").style.display = items.length === 0 ? 'block' : 'none';
-
-    // Tính tổng số tiền cho các sản phẩm được chọn
-    items.forEach(item => {
-        const checkbox = item.querySelector(".select-item");
-        if (checkbox.checked) {
-            const totalPriceText = item.querySelector(".total-price").textContent;
-            const totalPrice = parseFloat(totalPriceText.replace(/[^0-9]/g, ''));
-            totalAmount += totalPrice;
-        }
-    });
-
-    // Cập nhật hiển thị tổng số tiền
-    document.querySelector(".amount").textContent = totalAmount.toLocaleString() + 'đ';
-}
-
-
 
 // Các hàm điều khiển số lượng sản phẩm
 function increaseQuantity(button) {
+    id = button.getAttribute("data-id")
     const quantityDisplay = button.previousElementSibling;
     let currentQuantity = parseInt(quantityDisplay.textContent);
     quantityDisplay.textContent = currentQuantity + 1;
-
     updateTotalPrice(button, currentQuantity + 1);
-    updateTotalAmount();
+    updateQuantity(id, 1)
+    update()
+
 }
 
 function decreaseQuantity(button) {
+    id = button.getAttribute("data-id")
     const quantityDisplay = button.nextElementSibling;
     let currentQuantity = parseInt(quantityDisplay.textContent);
     if (currentQuantity > 1) {
         quantityDisplay.textContent = currentQuantity - 1;
         updateTotalPrice(button, currentQuantity - 1);
-        updateTotalAmount();
+        updateQuantity(id, 0)
+        update()
     }
+
+}
+
+function updateQuantity(id, state) {
+    let a = fetch(`http://localhost:8080/rest/giohang/Quantity?id=${id}&state=${state}`)
 }
 
 
@@ -68,7 +55,7 @@ function toggleSelectAll() {
         item.checked = selectAll;
         // Lấy thông tin sản phẩm và khách hàng từ các thuộc tính
     });
-    updateTotalAmount();
+    update()
 }
 
 
@@ -85,6 +72,7 @@ function checkSelected() {
             console.error('Tham số sanPham hoặc khachhang không hợp lệ:', sanPham, khachhang);
         }
     });
+    update()
 }
 
 // Xóa tất cả sản phẩm được chọn
@@ -95,7 +83,7 @@ function deleteAllSelected() {
         removeItemFromDB(sanPham, khachhang); // Gửi yêu cầu xóa sản phẩm khỏi DB
         item.closest('.cart-containerItem').remove(); // Xóa sản phẩm khỏi UI
     });
-    updateTotalAmount();
+    update()
 }
 
 
@@ -103,7 +91,7 @@ function deleteAllSelected() {
 function deselectAll() {
     document.querySelectorAll(".select-item").forEach(item => item.checked = false);
     document.getElementById("select-all").checked = false;
-    updateTotalAmount();
+    update()
 }
 
 
@@ -113,65 +101,107 @@ function removeItem(link) {
     let id = link.getAttribute("data-id")
     console.log(id)
     let a = fetch("http://localhost:8080/rest/giohang/" + id)
-  }
-  // Xóa sản phẩm cá nhân
+}
+// Xóa sản phẩm cá nhân
 function addItem(link) {
-  let checked = link.getAttribute("data-id")
-  console.log(checked)
-  let a = fetch("http://localhost:8080/rest/giohang/update" + checked)
-}   
+    let checked = link.getAttribute("data-id")
+    console.log(checked)
+    let a = fetch("http://localhost:8080/rest/giohang/update" + checked)
+    update()
+}
 
-function addVoucher(link) {
-    let id = link.getAttribute("data-id");
-    let type = link.getAttribute("name"); // "MaGiamDh" hoặc "MaGiamSp"
-    console.log("Voucher ID:", id, "Type:", type);
+async function update() {
+    checkDiscount()
+}
 
-    // Nếu là maGiamDh, chỉ chọn được 1 voucher
-    if (type === "MaGiamDh") {
-        let maGiamDhButtons = document.querySelectorAll("[name = MaGiamDh]");
-        maGiamDhButtons.forEach(button => {
-            button.classList.add("btn-outline-primary");
-            button.classList.remove("btn-success");
-            button.innerText = "Chọn";
-        });
-    }
+loadData()
+function loadData() {
     
-
-    // Gửi yêu cầu tới API để cập nhật trạng thái
-    fetch(`http://localhost:8080/rest/giohang/updateVoucher/${id}`, { method: 'POST' })
+    console.log("loaddata")
+    return fetch(`http://localhost:8080/rest/giohang/Vouchers`)
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                // Nếu loại là maGiamDh, chỉ cập nhật nút tương ứng
-                if (type === "MaGiamDh") {
-                    if (data.checked) {
-                        link.innerText = "Đã chọn";
-                        link.classList.remove("btn-outline-primary");
-                        link.classList.add("btn-success");
-                    } else {
-                        link.innerText = "Chọn";
-                        link.classList.remove("btn-success");
-                        link.classList.add("btn-outline-primary");
-                    }
-                }
-                
-                // Nếu loại là maGiamSp, nhiều voucher có thể chọn cùng lúc
-                if (type === "MaGiamSp") {
-                    if (data.checked) {
-                        link.innerText = "Đã chọn";
-                        link.classList.remove("btn-outline-primary");
-                        link.classList.add("btn-success");
-                    } else {
-                        link.innerText = "Chọn";
-                        link.classList.remove("btn-success");
-                        link.classList.add("btn-outline-primary");
-                    }
-                }
-            } else {
-                alert("Lỗi: " + data.message);
-            }
+            let DHVC = document.getElementById("DHVC")
+            DHVC.innerHTML = "";
+            let SPVC = document.getElementById("SPVC")
+            SPVC.innerHTML = "";
+            data.forEach(item => {
+                console.log(item)
+                if (item.maGiamSp == null)
+                    DHVC.innerHTML += `<div class="col-12 voucher-item mb-3">
+                            <div class="d-flex align-items-center">
+                                <!-- Hình ảnh -->
+                                <img src="img/logoxanh.png" alt="Voucher" class="img-fluid me-3" style="width: 80px; height: 80px;">
+                                
+                                <!-- Mô tả -->
+                                <div class="text-center">
+                                    <div class="mb-2">${item.maGiamDh.moTa}</div>
+                                </div>
+                                <!-- Nút chọn -->
+                                <button type="button" class="btn ${item.checked ? 'btn-success' : 'btn-outline-primary'}"
+                                data-id="${item.id}"
+                                name="MaGiamDh"
+                                onclick="addVoucher(this)">
+                                ${item.checked ? 'Đã chọn' : 'Chọn'}
+                            </button>
+                            </div>
+                        </div>`
+                else SPVC.innerHTML += `<div class="col-12 voucher-item mb-3">
+                <div class="d-flex align-items-center">
+                    <!-- Hình ảnh -->
+                    <img src="img/logoxanh.png" alt="Voucher" class="img-fluid me-3" style="width: 80px; height: 80px;">
+                    
+                    <!-- Mô tả -->
+                    <div class="text-center">
+                        <div class="mb-2">${item.maGiamSp.moTa}</div>
+                    </div>
+                    <!-- Nút chọn -->
+                    <button type="button" class="btn ${item.checked ? 'btn-success' : 'btn-outline-primary'}"
+                    data-id="${item.id}"
+                    name="MaGiamDh"
+                    onclick="addVoucher(this)">
+                    ${item.checked ? 'Đã chọn' : 'Chọn'}
+                </button>
+                </div>
+            </div>`
+            })
+        });
+}
+update()
+function fetchDiscouns() {
+    return fetch("http://localhost:8080/rest/giohang/getDiscount")
+        .then(response => response.json())
+}
+
+
+function fetchTotal() {
+    return fetch("http://localhost:8080/rest/giohang/getTotal")
+        .then(response => response.json())
+}
+
+async function checkDiscount() {
+    console.log("check")
+    fetch(`http://localhost:8080/rest/giohang/checkDiscount?_=${Date.now()}`)
+    .then(()=>{
+        loadData().then(() => {
+            fetchDiscouns().then(giam => {
+                document.getElementById("totalGiam").innerHTML = giam.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                fetchTotal().then(total => {
+                    document.getElementById("totalMoney").innerHTML = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    document.getElementById("total").innerHTML = (total - giam).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                })
+            })
         })
-        .catch(error => console.error("Lỗi khi gửi yêu cầu:", error));
+    })
+    
+}
+
+
+// Sử dụng
+function addVoucher(link) {
+    let id = link.getAttribute("data-id");
+    fetch(`http://localhost:8080/rest/giohang/updateVoucher/${id}`)
+        .then(sys => update())
 }
 
 

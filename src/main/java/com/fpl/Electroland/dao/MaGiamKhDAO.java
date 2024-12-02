@@ -15,6 +15,7 @@ import com.fpl.Electroland.model.SanPham;
 
 import jakarta.transaction.Transactional;
 
+@Transactional
 public interface MaGiamKhDAO extends JpaRepository<MaGiamKh, Integer> {
   List<MaGiamKh> findByKhachHangAndChecked(KhachHang khachHang, boolean checked);
 
