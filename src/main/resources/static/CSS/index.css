@@ -4,6 +4,9 @@
     box-sizing: border-box;
     font-family: "Poppins" sans-serif;
 }
+body{
+    min-height: 100vh;
+}
 
 .body-index {
     background-color: #F0F3F7;
@@ -721,7 +724,8 @@ footer {
 }
 
 .product-template{
-    cursor:pointer
+    cursor:pointer;
+    height: 350px;
 }
 
 .product-template .badge {
@@ -743,11 +747,21 @@ footer {
 }
 .product-template img {
     width: -webkit-fill-available;
+    height: 190px;
+    object-fit: cover;
 }
 
 .product-template p {
     margin: 0;
     font-size: 16px;
+    width: 200px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    max-height: 3em;
 }
 
 .product-template .current-price {

@@ -1,5 +1,6 @@
 package com.fpl.Electroland.controller.adminController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,14 +23,27 @@ public class NhanVienController {
     NhanVienDAO nhanVienDAO;
 
     @ModelAttribute("ListNV")
-    public List<NhanVien> getListNV(@RequestParam(name = "id", required = false) String id) {
-        if (id != null) {
-            List<NhanVien> list = nhanVienDAO.findByIdLike(id);
-            if (!list.isEmpty() && list != null) {
-                return list;
-            }
+    public List<NhanVien> getListNV(@RequestParam(name = "id", required = false) String id,
+            @RequestParam(name = "cv", required = false) String cv,
+            @RequestParam(name = "tt", required = false) Boolean tt) {
+        List<NhanVien> list = nhanVienDAO.findAll();
+        if (id != "") {
+            list = nhanVienDAO.findByIdLike(id);
         }
-        return nhanVienDAO.findAll();
+        if (cv != "") {
+            list.retainAll(nhanVienDAO.findByChucVu(cv));
+            System.out.println(list);
+        }
+        if (tt != null) {
+            System.out.println(nhanVienDAO.findByTrangthai(tt));
+            list.retainAll(nhanVienDAO.findByTrangthai(tt));
+        }
+
+        if (list.size() == 0)
+            return nhanVienDAO.findAll();
+        else
+            return list;
+
     }
 
     @ModelAttribute("nhanVien")

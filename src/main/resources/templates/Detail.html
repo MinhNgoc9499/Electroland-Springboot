@@ -262,11 +262,11 @@
             <div class="row">
               <h4>Đánh giá sản phẩm</h4>
               <div class="star-outer">
-                <div class="star" data-value="1">&#9733;</div>
-                <div class="star" data-value="2">&#9733;</div>
-                <div class="star" data-value="3">&#9733;</div>
-                <div class="star" data-value="4">&#9733;</div>
-                <div class="star" data-value="5">&#9733;</div>
+                <div class="star seleted" data-value="1">&#9733;</div>
+                <div class="star seleted" data-value="2">&#9733;</div>
+                <div class="star seleted" data-value="3">&#9733;</div>
+                <div class="star seleted" data-value="4">&#9733;</div>
+                <div class="star seleted" data-value="5">&#9733;</div>
               </div>
               <form action="/detail/danhgia" th:object="${danhGia}" method="post" enctype="multipart/form-data">
                 <div class="row mb-4">
@@ -276,7 +276,7 @@
                     <label for="floatingTextarea">Bình luận sản phẩm</label>
                   </div>
                 </div>
-                <input type="text" th:field="*{diem}" id="point" required>
+                <input type="text" th:field="*{diem}" id="point" required hidden>
                 <input type="text" th:field="*{sanPham}" id="point" hidden>
                 <hr>
                 <div class="wrapper">

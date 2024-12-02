@@ -1,5 +1,6 @@
 package com.fpl.Electroland.restController;
 
+import java.lang.module.ModuleDescriptor.Builder;
 import java.net.http.HttpRequest;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fpl.Electroland.dao.GioHangDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
@@ -93,10 +96,11 @@ public class GioHangRestCtrl {
     }
 
     @GetMapping("/rest/giohang/checkDiscount")
-    public String checkDiscount() {
+    public ResponseEntity<String> checkDiscount() {
         Double TotalMoney = getTotal();
         List<MaGiamKh> list = mgkhDao.findByKhachHangAndChecked(author.getUserKhachHang(), true);
-
+        StringBuilder mess = new StringBuilder("");
+        System.out.println(TotalMoney == 0);
         for (MaGiamKh maGiamKh : list) {
             if (maGiamKh.getMaGiamDh() != null) {
                 if (TotalMoney < maGiamKh.getMaGiamDh().getMinDonGia() || TotalMoney == 0) {
@@ -104,28 +108,33 @@ public class GioHangRestCtrl {
                     mg.setChecked(false);
                     mgkhDao.save(mg);
                     mgkhDao.flush();
-
-                    System.out.println("----------" + TotalMoney + "---------" + maGiamKh.getMaGiamDh().getMinDonGia());
-                    System.out.println(mg);
+                    mess.append(
+                            "<p style='text-align: center;color: red;'>Đã xóa mã giảm đơn hàng do không đủ điều điện.</p>");
                 }
             } else {
-                Optional<GioHang> gh = gioHangDAO.findBySanPhamAndKhachHang(maGiamKh.getMaGiamSp().getSanPham(),
+                List<GioHang> gh = gioHangDAO.findBySanPhamAndKhachHangAndCheckedTrue(
+                        maGiamKh.getMaGiamSp().getSanPham(),
                         author.getUserKhachHang());
-                System.out.println(gh.isPresent());
-                if (!gh.isPresent() || !gh.get().getChecked()) {
+                if (gh.isEmpty()) {
                     MaGiamKh mg = maGiamKh;
                     mg.setChecked(false);
                     mgkhDao.save(mg);
                     mgkhDao.flush();
-
-                    System.out.println("----------" + TotalMoney + "---------" + maGiamKh.getMaGiamSp().getId());
-                    System.out.println(mg);
+                    mess.append(
+                            "<p style='text-align: center;color: red;'>Đã xóa mã giảm sản phẩm do không đủ điều điện.</p>");
+                } else if (mgkhDao.getMGSPChecked(author.getUserKhachHang(), maGiamKh.getMaGiamSp().getSanPham())
+                        .size() > 1) {
+                    MaGiamKh mg = maGiamKh;
+                    mg.setChecked(false);
+                    mgkhDao.save(mg);
+                    mgkhDao.flush();
+                    mess.append(
+                            "<p style='text-align: center;color: red;'>Đã xóa mã giảm sản phẩm do 1 sản phẩm chỉ được áp dụng 1 voucher.</p>");
                 }
             }
         }
         ;
-        System.out.println(mgkhDao.findByKhachHangAndChecked(author.getUserKhachHang(), true).size());
-        return "";
+        return ResponseEntity.ok(mess.toString());
     }
 
     @GetMapping("/rest/giohang/getDiscount")
@@ -146,8 +155,16 @@ public class GioHangRestCtrl {
 
     @GetMapping("/rest/giohang/updateVoucher/{id}")
     public void updateVoucherFromCart(@PathVariable("id") int id) {
-        // Map<String, Object> response = new HashMap<>();
         MaGiamKh mgkh = mgkhDao.findById(id).get();
+        if (mgkh.getMaGiamSp() == null) {
+            Optional<MaGiamKh> mg = mgkhDao.findByKhachHangAndMaGiamSpIsNullAndCheckedTrue(author.getUserKhachHang());
+            if (mg.isPresent()) {
+                MaGiamKh mg1 = mg.get();
+                mg1.setChecked(false);
+                mgkhDao.save(mg1);
+                mgkhDao.flush();
+            }
+        }
         mgkh.setChecked(!mgkh.getChecked());
         mgkhDao.save(mgkh);
         mgkhDao.flush(); // Lưu trạng thái mới vào DB

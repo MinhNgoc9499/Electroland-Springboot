@@ -16,108 +16,87 @@
     <div class="col-10">
         <h1 class="mb-3">Nhân viên</h1>
 
-        <div id="filterContainer" class="d-flex align-items-center col-sm-12">
-            <!-- Search Input with Dropdown Icon -->
-            <form action="">
+        <form action="#">
+            <div id="filterContainer" class="d-flex align-items-center col-sm-12">
+                <!-- Search Input with Dropdown Icon -->
                 <div class="input-group me-2 col-sm-3">
                     <input type="text" class=" form-control" placeholder="Tìm bằng mã nhân viên" id="searchInput"
                         name="id">
-                        
-                        <!-- Dropdown Filters -->
-                        <div id="dropdownFilters">
-                            <form class="row g-2">
-                                <div class="col-12">
-                                    <input type="text" class="form-control" placeholder="Tên nhân viên">
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" class="form-control" placeholder="Số điện thoại nhân viên">
-                                </div>
-                                <div class="col-12">
-                                    <input type="text" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="col-12 text-end">
-                                    <button type="submit" class="btn btn-primary btn-sm">Tìm kiếm</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    
-                    <div class="col-sm-1">
-                        <select class="form-select">
-                            <option value="">Chức vụ</option>
-                            <option value="completed">Admin</option>
-                            <option value="cancelled">Nhân viên</option>
-                        </select>
-                    </div>
-                    
-                </form>
+                </div>
+
                 <div class="col-sm-1">
-                    <select class="form-select">
+                    <select class="form-select" name="cv">
+                        <option value="">Chức vụ</option>
+                        <option value="Trưởng Phòng">Trưởng Phòng</option>
+                        <option value="Nhân viên">Nhân viên</option>
+                    </select>
+                </div>
+
+                <div class="col-sm-1">
+                    <select class="form-select" name="tt">
                         <option value="">Trạng thái</option>
-                        <option value="completed">Hoàn thành</option>
-                        <option value="cancelled">Hủy</option>
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Khóa</option>
                     </select>
                 </div>
                 <button class=" btn btn-primary">Tìm Kiếm</button>
-            <a href="Employes/Details" class="btn btn-primary col-sm-1" id="addOrderButton">Thêm</a>
-            <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
-        </div>
+        </form>
+        <a href="Employes/Details" class="btn btn-primary col-sm-1" id="addOrderButton">Thêm</a>
+        <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
+    </div>
 
 
 
-        <div class="row mt-3">
-            <div class="col-12">
-                <table class="table table-bordered table-list">
-                    <thead class="thead-list">
-                        <tr>
-                            <th scope="col" style="color: #667085;">Mã nhân viên</th>
-                            <th scope="col" style="color: #667085;">Họ tên</th>
-                            <th scope="col" style="color: #667085;">Số điện thoại</th>
-                            <th scope="col" style="color: #667085;">Chức vụ</th>
-                            <th scope="col" style="color: #667085;">Email</th>
-                            <th scope="col" style="color: #667085;">Mật khẩu</th>
-                            <th scope="col" style="color: #667085;">Trạng thái</th>
-                            <th scope="col" style="color: #667085;"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="tbody-list">
-                        <!-- Dữ liệu mẫu -->
-                        <tr th:each="nv : ${ListNV}" th:object="${nv}">
-                            <td th:text="*{id}"></td>
-                            <td th:text="*{hoTen}"></td>
-                            <td th:text="*{std}"></td>
-                            <td th:text="*{chucVu}"></td>
-                            <td th:text="*{email}"></td>
-                            <td th:text="*{matKhau}"></td>
-                            <td><button th:class="*{(trangthai ? 'btn-hd' : 'btn-nhd') + ' p-1'}"
-                                    th:text="*{trangthai ? 'Hoạt động' : 'Khóa'}">Hoạt động</button></td>
-                            <td style="text-align: center;">
-                                <a th:href="@{'/admin/Employes/Delete?id=' + *{id} }"><i
-                                        class="fa-solid fa-trash-can"></i></a>
-                                <span style="margin-left: 10px;"></span>
-                                <a th:href="@{'/admin/Employes/Details?id=' + *{id} }"><i
-                                        class="fa-solid fa-pen"></i></a>
-                            </td>
-                        </tr>
-                        <!-- Thêm nhiều hàng hơn -->
-                    </tbody>
-                </table>
-            </div>
-
-
-        </div>
-
+    <div class="row mt-3">
         <div class="col-12">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-                </ul>
-            </nav>
+            <table class="table table-bordered table-list">
+                <thead class="thead-list">
+                    <tr>
+                        <th scope="col" style="color: #667085;">Mã nhân viên</th>
+                        <th scope="col" style="color: #667085;">Họ tên</th>
+                        <th scope="col" style="color: #667085;">Số điện thoại</th>
+                        <th scope="col" style="color: #667085;">Chức vụ</th>
+                        <th scope="col" style="color: #667085;">Email</th>
+                        <th scope="col" style="color: #667085;">Trạng thái</th>
+                        <th scope="col" style="color: #667085;"></th>
+                    </tr>
+                </thead>
+                <tbody class="tbody-list">
+                    <!-- Dữ liệu mẫu -->
+                    <tr th:each="nv : ${ListNV}" th:object="${nv}">
+                        <td th:text="*{id}"></td>
+                        <td th:text="*{hoTen}"></td>
+                        <td th:text="*{std}"></td>
+                        <td th:text="*{chucVu}"></td>
+                        <td th:text="*{email}"></td>
+                        <td><button th:class="*{(trangthai ? 'btn-hd' : 'btn-nhd') + ' p-1'}"
+                                th:text="*{trangthai ? 'Hoạt động' : 'Khóa'}">Hoạt động</button></td>
+                        <td style="text-align: center;">
+                            <a th:href="@{'/admin/Employes/Delete?id=' + *{id} }"><i
+                                    class="fa-solid fa-trash-can"></i></a>
+                            <span style="margin-left: 10px;"></span>
+                            <a th:href="@{'/admin/Employes/Details?id=' + *{id} }"><i class="fa-solid fa-pen"></i></a>
+                        </td>
+                    </tr>
+                    <!-- Thêm nhiều hàng hơn -->
+                </tbody>
+            </table>
         </div>
+
+
+    </div>
+
+    <div class="col-12">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#">Trước</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Sau</a></li>
+            </ul>
+        </nav>
+    </div>
 
     </div>
 </body>

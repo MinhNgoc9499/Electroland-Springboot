@@ -43,7 +43,6 @@
                             </div>
                             <div class="col-sm-10 input-form">
                                 <input type="text" class="form-control mb-1" id="maNhanVien" placeholder="001" th:field="*{id}">
-                                <span id="maNhanVienError" class="text-danger error">Vui lòng nhập mã nhân viên.</span>
                             </div>
                         
                         </div>
@@ -53,7 +52,6 @@
                             </div>
                             <div class="col-sm-10 input-form">
                                 <input type="text" class="form-control mb-1" id="tenNhanVien" placeholder="Trần Văn Long" th:field="*{hoTen}">
-                                <span id="tenNhanVienError" class="text-danger error" >Tên nhân viên không được để trống.</spans>
                             </div>
                         </div>
                         <div class="row mb-3 mb-4 align-items-center">
@@ -62,7 +60,6 @@
                             </div>
                             <div class="col-sm-4 input-form">
                                 <input type="number" class="form-control mb-1" id="soDT" placeholder="0397326338" th:field="*{std}">
-                                <span id="soDTError" class="text-danger error" >Vui lòng nhập số điện thoại.</span>
                             </div>
                         </div>
                         <div class="row mb-3 mb-4 align-items-center">
@@ -71,7 +68,6 @@
                             </div>
                             <div class="col-sm-10 input-form">
                                 <input type="text" class="form-control mb-1" id="email" placeholder="longtran.01102004@gmail.com" th:field="*{email}">
-                                <span id="emailError" class="text-danger error" >Email không được để trống</span>
                             </div>
                         </div>
                         <div class="row mb-3 mb-4 ">
@@ -83,7 +79,6 @@
                                     </div>
                                     <div class="col-sm-8 input-form">
                                         <input type="password" class="form-control mb-1" id="matKhau" placeholder="********" name="matKhau" th:value="*{matKhau}">
-                                        <span id="matKhauError" class="text-danger error">Vui lòng nhập mật khẩu</span>
                                     </div>
                                 </div>
                             </div>                            
@@ -102,7 +97,6 @@
                                             <input type="radio" id="nhanVien" name="chucVu" value="Nhân viên" th:checked="*{chucVu == 'Nhân viên' ? 'true' : 'false'}">
                                             <label for="nhanVien">Nhân viên</label>
                                         </div>
-                                        <span id="nhanVienError" class="text-danger error">Vui lòng chọn chức vụ</span>
                                     </div>
                                     
                                 </div>
@@ -119,7 +113,6 @@
                                     <option value="true" th:selected="${nhanVien.trangthai ? 'true' : 'false'}">Hoạt động </option>
                                     <option value="false" th:selected="${nhanVien.trangthai ? 'false' : 'true'}">Khóa</option>
                                 </select>
-                                <span id="trangThaiError" class="text-danger error" >Vui lòng chọn trạng thái</span>
                             </div>
                         </div>
                         <div class="text-end mt-5">
