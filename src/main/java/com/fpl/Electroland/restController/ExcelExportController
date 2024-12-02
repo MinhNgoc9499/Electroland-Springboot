@@ -1,0 +1,118 @@
+package com.fpl.Electroland.controller;
+
+import java.io.ByteArrayOutputStream;
+
+import org.apache.poi.ss.usermodel.BorderStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+
+
+@RestController
+@RequestMapping("/admin")
+public class ExcelExportController {
+
+    @Autowired
+    private DonHangDAO donHangDAO;
+
+    private static XSSFCellStyle getHeaderStyle(XSSFWorkbook workbook, boolean isFirstColumn) {
+        XSSFCellStyle style = workbook.createCellStyle();
+
+        // Font
+        XSSFFont font = workbook.createFont();
+        font.setBold(true);
+        font.setFontHeightInPoints((short) 12);
+        if (isFirstColumn) { // If it's the first column
+            font.setColor(IndexedColors.RED.getIndex()); // Set text color to red
+        }
+        style.setFont(font);
+
+        // Alignment
+        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
+
+        // Border
+        style.setBorderTop(BorderStyle.THIN);
+        style.setBorderBottom(BorderStyle.THIN);
+        style.setBorderLeft(BorderStyle.THIN);
+        style.setBorderRight(BorderStyle.THIN);
+
+        return style;
+    }
+
+    @GetMapping("/index/export")
+    public ResponseEntity<byte[]> exportReportToExcel(
+            @RequestParam(value = "month", defaultValue = "#{T(java.time.LocalDate).now().getMonthValue()}") int month,
+            @RequestParam(value = "year", defaultValue = "#{T(java.time.LocalDate).now().getYear()}") int year) {
+
+        try (XSSFWorkbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+
+            XSSFSheet sheet = workbook.createSheet("Monthly Report");
+
+            // Add header
+            XSSFRow headerRow = sheet.createRow(0);
+            String[] headers = {"Metric", "Value"};
+            for (int i = 0; i < headers.length; i++) {
+                XSSFCell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                cell.setCellStyle(getHeaderStyle(workbook, false));
+            }
+
+            // Fetch data from service
+            Long totalOrders = donHangDAO.tinhTongDonHangTheoNamvaThang(year, month);
+            Long successfulTransactions = donHangDAO.tinhDonHangthanhcongTheoNamvaThang(year, month);
+            Long canceledOrders = donHangDAO.tinhDonHangBiHuyTheoNamvaThang(year, month);
+            Long totalRevenue = donHangDAO.getRevenueByMonthAndYear(year, month);
+
+            // Add data to Excel
+            Object[][] data = {
+                    {"Total Orders", totalOrders != null ? totalOrders : 0},
+                    {"Successful Transactions", successfulTransactions != null ? successfulTransactions : 0},
+                    {"Canceled Orders", canceledOrders != null ? canceledOrders : 0},
+                    {"Total Revenue", totalRevenue != null ? totalRevenue : 0.0}
+            };
+
+            for (int i = 0; i < data.length; i++) {
+                XSSFRow row = sheet.createRow(i + 1);
+                row.createCell(0).setCellValue(data[i][0].toString());
+                if (data[i][1] != null) {
+                    row.createCell(1).setCellValue(data[i][1].toString());
+                } else {
+                    row.createCell(1).setCellValue("0");
+                }
+            }
+
+            sheet.setColumnWidth(0, 20 * 256); // Set column A width
+            sheet.setColumnWidth(1, 15 * 256); // Set column B width
+
+            // Write workbook to ByteArrayOutputStream
+            workbook.write(outputStream);
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+            httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=MonthlyReport.xlsx");
+
+            return ResponseEntity.ok()
+                    .headers(httpHeaders)
+                    .body(outputStream.toByteArray());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(("{\"error\":\"Error generating report: " + e.getMessage() + "\"}").getBytes());
+        }
+    }
+}

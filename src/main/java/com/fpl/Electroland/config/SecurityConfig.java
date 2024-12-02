@@ -35,7 +35,7 @@ public class SecurityConfig {
 
         http.csrf().disable();
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/admin/product-detail").hasAuthority("ROLE_ADMIN")
+            auth.requestMatchers("/admin/product-detail","/admin/index/export").hasAuthority("ROLE_ADMIN")
                     .requestMatchers("/admin/**").hasAnyRole("ADMIN", "USER")
                     .requestMatchers("/admin-login").permitAll()
                     .anyRequest().permitAll();
@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/admin/index")
                 .permitAll())
-                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer.logoutUrl("/log-out")
+                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer.logoutUrl("/admin/log-out")
                         .logoutSuccessUrl("/admin-login")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)

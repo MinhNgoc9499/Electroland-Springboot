@@ -54,15 +54,13 @@
                         </div>
                         <!-- Các nội dung khác -->
                         <div class="col-md-6 text-end" style="width:90%">
-                            <a class="btn btn-success">
-                                <i class="fas fa-file-excel" style="font-size: 18px;"></i> Xuất báo cáo
+                            <a  th:href="@{/admin/index/export(year=${currentYear},month=${currentMonth})}" class="btn btn-success">
+                                <i class="fas fa-file-excel"></i> Xuất báo cáo
                             </a>
                         </div>
-                        
-                        
                         </form>
                     </div>
-                </div>
+                </div> 
                 
             </div>
     
@@ -92,7 +90,7 @@
                 <div class="col-md-3 card">
                     <div class="icon1">📊</div>
                     <div class="info">
-                        <div class="number" th:text="${totalRevenue}">$128</div>
+                        <div class="number" th:text="${#numbers.formatDecimal(totalRevenue, 0, 'POINT', 0, 'COMMA') + 'đ'}">$128</div>
                         <div class="description">Tổng doanh thu</div>
                     </div>
                 </div>
