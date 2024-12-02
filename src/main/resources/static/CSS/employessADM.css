@@ -52,3 +52,10 @@ body {
     font-size: 13px;
     border: none;
 }
+.btn-xl{
+    background-color: #310cb4;
+    color: white;
+    border-radius: 5px;
+    font-size: 13px;
+    border: none;
+}

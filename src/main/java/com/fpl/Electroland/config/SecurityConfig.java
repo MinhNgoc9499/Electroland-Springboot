@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .passwordParameter("password")
                 .defaultSuccessUrl("/admin/index")
                 .permitAll())
-                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer.logoutUrl("/log-out")
+                .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer.logoutUrl("/admin/log-out")
                         .logoutSuccessUrl("/admin-login")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
