@@ -124,15 +124,6 @@ public class AdminController {
         }
     }
 
-    @GetMapping("/product")
-    public String adminProduct() {
-        return "productADM";
-    }
-
-    @GetMapping("/product-detail")
-    public String adminProductDetail() {
-        return "productDetailADM";
-    }
 
     @GetMapping("/employess")
     public String adminEmployes() {
