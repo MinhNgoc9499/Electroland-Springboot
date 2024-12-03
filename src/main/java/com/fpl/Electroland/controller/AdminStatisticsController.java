@@ -1,6 +1,9 @@
 package com.fpl.Electroland.controller;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,14 +36,30 @@ public class AdminStatisticsController {
 
     @GetMapping("/revenue-statistics")
     public String adminRevenueStatistics(Model model,
-    @RequestParam(value = "sortTypeSP", required = false) String sortTypeSP,
+    @RequestParam(value = "sortTypeSP", required = false) Integer sortTypeSP,
+    @RequestParam(value = "search", required = false) String search,
+    // @RequestParam(value = "startDate", required = false) Date startDate,
     @RequestParam(value = "page", required = false, defaultValue = "0") int page){
 
         List<LoaiSanPham> listLoaiSP = loaiSPDAO.findAll();
         model.addAttribute("listLoaiSP", listLoaiSP);
-        int pageSize = 10;
+        
+        int pageSize = 20;
         Pageable pageable = PageRequest.of(page, pageSize);
-        Page<SanPham> listSP = donHangDAO.findRevenueByProduct(pageable);
+        // if (startDate == null) {
+        //     LocalDate localStartDate = LocalDate.now();
+        //     startDate = Date.from(localStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        // }
+
+        // System.out.println("Start Date: " + startDate);
+
+        if (sortTypeSP == null) {
+        }
+        if (search == null) {
+            search = ""; 
+        }
+
+        Page<SanPham> listSP = donHangDAO.findRevenueByProductType(search, sortTypeSP, pageable);
 
         List<Integer> spIDS = listSP.stream()
         .map(SanPham::getId)

@@ -12,6 +12,9 @@
     <div class="col-10 mt-2">
         <h1 class="mb-3">Báo cáo doanh thu</h1>
         <form action="/admin/revenue-statistics" method="get" class="d-flex align-items-center w-100">
+            <div class="col-2">
+                <input class="form-control" type="text" th:value="${search}" name="search" placeholder="Tìm kiếm">
+            </div>
             <div class="col-2 ms-2">
                 <select name="sortTypeSP" class="form-select">
                     <option value="">Chọn</option>
@@ -21,7 +24,7 @@
                             th:selected="${sortTypeSP == lsp.id}">
                     </option>
                 </select>
-            </div>            
+            </div>       
             <div class="ms-2 col">
                 <button class="btn btn-success" type="submit">Xem</button>
             </div>
@@ -54,6 +57,18 @@
                     </tbody>                    
                 </table>
             </div>
+            <!-- <div class="col-2">
+                <div class="col-12">
+                    Chọn ngày bắt đầu:
+                    <input type="date" id="startDate" name="startDate" class="form-control" 
+                           value="${startDate != '' ? startDate : ''}">
+                </div>
+                <div class="col-12 mt-2">
+                    Ngày kết thúc:
+                    <input type="date" id="endDate" name="endDate" class="form-control" 
+                           value="${endDate != '' ? endDate : ''}">
+                </div>
+            </div>             -->
         </div>
 
         <div class="d-flex justify-content-between">

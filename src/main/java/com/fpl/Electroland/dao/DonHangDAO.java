@@ -1,16 +1,17 @@
 package com.fpl.Electroland.dao;
 
+import java.util.Date;
 import java.util.List;
-
-import com.fpl.Electroland.model.DonHang;
-import com.fpl.Electroland.model.KhachHang;
-import com.fpl.Electroland.model.SanPham;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import com.fpl.Electroland.model.DonHang;
+import com.fpl.Electroland.model.KhachHang;
+import com.fpl.Electroland.model.SanPham;
 
 public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
 
@@ -86,8 +87,9 @@ public interface DonHangDAO extends JpaRepository<DonHang, Integer> {
         Double sumTotalSalesByCustomer(int customerId);
 
         // THống kê sp WHERE sp.loaiSanPham.id = :sortTypeSP String sortTypeSP,
-        @Query("SELECT sp FROM SanPham sp INNER JOIN ChiTietDh ct ON sp.id = ct.sanPham.id")
-        Page<SanPham> findRevenueByProduct(Pageable pageable);
+        @Query("SELECT DISTINCT sp FROM SanPham sp INNER JOIN ChiTietDh ct ON sp.id = ct.sanPham.id INNER JOIN DonHang dh ON ct.donHang.id = dh.id WHERE (:sortTypeSP IS NULL OR sp.loaiSanPham.id = :sortTypeSP) AND (:search IS NULL OR sp.tenSP LIKE %:search%)")
+        Page<SanPham> findRevenueByProductType(String search, Integer sortTypeSP, Pageable pageable);
+ 
 
         @Query("SELECT COUNT(d) FROM ChiTietDh d WHERE d.sanPham.id = :productID")
         Integer countOrderProdcut(int productID);
