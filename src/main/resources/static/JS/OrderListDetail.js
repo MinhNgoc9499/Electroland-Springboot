@@ -2,7 +2,7 @@ function updateTotal(row) {
   const quantity = parseInt(row.querySelector('.quantity').value);
   const price = parseFloat(row.querySelector('.price').textContent.replace('đ', '').replace(',', '').trim());
   const total = quantity * price;
-  row.querySelector('.total').textContent = new Intl.NumberFormat().format(total) +'đ';
+  row.querySelector('.total').textContent = total;
 }
 
 function updateOrder() {
@@ -29,15 +29,12 @@ function updateOrder() {
     let productId = input.id.split('-')[1];  // Lấy ID sản phẩm từ id của input (ví dụ 'quantity-1')
     let quantity = input.value;
 
-    console.log(quantities);
-
     orderData.chiTietDhs.push({
       id: productId,
       soLuong: quantity
     });
   });
 
-  console.log(orderData);
   // Gửi dữ liệu lên server qua AJAX
   fetch(`/admin/order/detail/${orderData.id}/update`, {
     method: 'POST',
@@ -46,13 +43,16 @@ function updateOrder() {
     },
     body: JSON.stringify(orderData)
   })
-  .then(response => response.json())
+  .then(response => {
+    response.json();
+    location.reload();
+  })
   .then(data => {
-    alert("Cập nhật đơn hàng thành công!");
-    window.location.href = data;
-    // Xử lý dữ liệu trả về từ server nếu cần
+    location.reload();
+    console.log('Error: 1');
   })
   .catch(error => {
-
+    console.log('Error: 2');
+    location.reload();
   });
 }
