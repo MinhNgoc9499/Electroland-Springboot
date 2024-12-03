@@ -41,5 +41,9 @@ public class CustomerListADM {
     
         return "CustomerList"; // Tên view hiển thị danh sách khách hàng
     }
-    
+    @GetMapping("/adminCustomerDetail")
+	public String adminCustomerDetail() {
+		return "CustomerDetailADM";
+	}    
 }
+
