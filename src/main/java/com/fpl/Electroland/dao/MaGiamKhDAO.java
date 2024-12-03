@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.fpl.Electroland.model.KhachHang;
 import com.fpl.Electroland.model.MaGiamKh;
-import com.fpl.Electroland.model.MaGiamSp;
-
 import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.SanPham;
 
@@ -22,8 +20,8 @@ public interface MaGiamKhDAO extends JpaRepository<MaGiamKh, Integer> {
   @Query("Select mgkh.maGiamDh from MaGiamKh mgkh where mgkh.khachHang = :khachHang and mgkh.checked = true and maGiamSp is null")
   MaGiamDh getMGDHChecked(KhachHang khachHang);
 
-  @Query("Select mgkh.maGiamSp from MaGiamKh mgkh where mgkh.khachHang = :khachHang and mgkh.checked = true and maGiamSp.sanPham = :sanPham")
-  MaGiamSp getMGSPChecked(KhachHang khachHang, SanPham sanPham);
+  @Query("Select mgkh from MaGiamKh mgkh where mgkh.khachHang = :khachHang and mgkh.checked = true and mgkh.maGiamSp.sanPham = :sanPham")
+  List<MaGiamKh> getMGSPChecked(KhachHang khachHang, SanPham sanPham);
 
   @Transactional
   void deleteByKhachHangAndCheckedTrue(KhachHang khachHang);

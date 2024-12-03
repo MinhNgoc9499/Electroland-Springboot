@@ -158,28 +158,6 @@ public class gioHangController {
 		return new MaGiamDh(1, 100000.0, 0.0, 100000.0, 500000.0, "Giảm 100.000 đơn trên 500.000");
 	}
 
-	@PostMapping("/update-product-selection")
-	@ResponseBody
-	public String updateProductSelection(@RequestParam("sanPham") SanPham sanPham,
-			@RequestParam("checked") boolean checked,
-			@RequestParam("khachhang") KhachHang khachhang) {
-		GioHang gioHang = gioHangDAO.findBySanPhamAndKhachHang(sanPham, khachhang).get(); // Thay đổi phương thức DAO
-
-		if (gioHang != null) {
-			if (!checked) {
-				// Nếu bỏ chọn (selected = false), xóa sản phẩm khỏi giỏ
-				gioHangDAO.delete(gioHang);
-				return "Sản phẩm đã được xóa khỏi giỏ hàng.";
-			} else {
-				// Nếu chọn lại (selected = true), chỉ cần cập nhật trạng thái checked
-				gioHang.setChecked(true);
-				gioHangDAO.save(gioHang); // Lưu lại thay đổi trạng thái
-				return "Cập nhật thành công trạng thái chọn sản phẩm.";
-			}
-		}
-		return "Sản phẩm không tìm thấy trong giỏ.";
-	}
-
 	@GetMapping("/giohang")
 	public String getIndexPage(Model model) {
 		return "GioHang";

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
-import com.fpl.Electroland.dto.DeleteRequest;
 import com.fpl.Electroland.dto.DiaChiDto;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.ChiTietDh;
@@ -87,7 +85,7 @@ public class inforController {
 	}
 
 	@PostMapping("/user_address/update")
-	public ResponseEntity<DiaChi> updateAddress(@ModelAttribute("user") KhachHang user,
+	public ResponseEntity<DiaChi> updateAddress(
 			@RequestBody DiaChiDto diaChiDto) {
 		if (diaChiDto.getId() == 0) {
 			// Tạo mới đối tượng DiaChi từ DTO
@@ -99,11 +97,11 @@ public class inforController {
 			diaChi.setHoTenNN(diaChiDto.getHoTen());
 			diaChi.setSdtNN(diaChiDto.getSdt());
 			// Thêm các thuộc tính khác của KhachHang nếu cần
-			diaChi.setKhachHang(user);
+			diaChi.setKhachHang(author.getUserKhachHang());
 			// Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của
 			// khách hàng thành false
 			if (diaChiDto.isMacDinh()) {
-				List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
+				List<DiaChi> allAddresses = diachiDAO.findByKhachHang(author.getUserKhachHang());
 				for (DiaChi address : allAddresses) {
 					address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
 					diachiDAO.save(address); // Lưu các thay đổi
@@ -127,7 +125,7 @@ public class inforController {
 			// Nếu địa chỉ này được đánh dấu là mặc định, cập nhật tất cả các địa chỉ của
 			// khách hàng thành false
 			if (diaChiDto.isMacDinh()) {
-				List<DiaChi> allAddresses = diachiDAO.findByKhachHang(user);
+				List<DiaChi> allAddresses = diachiDAO.findByKhachHang(author.getUserKhachHang());
 				for (DiaChi address : allAddresses) {
 					address.setMacDinh(false); // Đánh dấu tất cả các địa chỉ của khách hàng là không mặc định
 					diachiDAO.save(address); // Lưu các thay đổi
@@ -163,7 +161,7 @@ public class inforController {
 	}
 
 	@GetMapping("/order_detail")
-	public String getOrderDetail( @RequestParam("id") int orderId, Model model) {
+	public String getOrderDetail(@RequestParam("id") int orderId, Model model) {
 		KhachHang UserInfor = author.getUserKhachHang();
 		// Lấy thông tin đơn hàng
 		DonHang donHang = donhangDAO.findById(orderId);

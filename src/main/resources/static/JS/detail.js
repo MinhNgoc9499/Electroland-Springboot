@@ -128,10 +128,12 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 var point = document.getElementById('point');
 //Nhấn vô sao là nó sáng lên
+console.log(stars)
 stars.forEach((star, index) => {
     star.addEventListener('click', () => {
+        console.log(index);
         const value = index + 1;
-        point.value = index;
+        point.value = star.getAttribute("data-value");
         stars.forEach(s => {
             s.classList.remove('selected');
         });

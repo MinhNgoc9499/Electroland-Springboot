@@ -10,11 +10,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
-    <link rel="stylesheet" href="CSS/order-history-detail.css">
-    <link rel="stylesheet" href="CSS/order-history.css">
-    <link rel="stylesheet" href="CSS/user-infor.css">
-    <link rel="stylesheet" href="CSS/user-address.css">
-    <link rel="stylesheet" href="css/checkout.css" />
+    <link rel="stylesheet" href="/CSS/checkout.css"/>
+    <link rel="stylesheet" href="/CSS/index.css"/>    
     <link rel="shortcut icon" type="image/png" th:href="@{/IMG/logoxanh.png}">
     <style>
         /* Toast notification style */
@@ -266,6 +263,7 @@
         </form>
     </div>
     </div>
+	<div th:insert="~{/fragments/_footer::footer}"></div>
     <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"

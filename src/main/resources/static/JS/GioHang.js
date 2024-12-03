@@ -105,9 +105,8 @@ function removeItem(link) {
 // Xóa sản phẩm cá nhân
 function addItem(link) {
     let checked = link.getAttribute("data-id")
-    console.log(checked)
     let a = fetch("http://localhost:8080/rest/giohang/update" + checked)
-    update()
+    .then(() =>update())
 }
 
 async function update() {
@@ -116,8 +115,6 @@ async function update() {
 
 loadData()
 function loadData() {
-    
-    console.log("loaddata")
     return fetch(`http://localhost:8080/rest/giohang/Vouchers`)
         .then(response => response.json())
         .then(data => {
@@ -165,6 +162,8 @@ function loadData() {
                 </div>
             </div>`
             })
+            if (DHVC.innerHTML == "") DHVC.innerHTML = `<p style="text-align: center;color: red;">Mã giảm trống</p>`
+            if (SPVC.innerHTML == "") DHVC.innerHTML = `<p style="text-align: center;color: red;">Mã giảm trống</p>`
         });
 }
 update()
@@ -180,20 +179,23 @@ function fetchTotal() {
 }
 
 async function checkDiscount() {
-    console.log("check")
+
     fetch(`http://localhost:8080/rest/giohang/checkDiscount?_=${Date.now()}`)
-    .then(()=>{
-        loadData().then(() => {
-            fetchDiscouns().then(giam => {
-                document.getElementById("totalGiam").innerHTML = giam.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                fetchTotal().then(total => {
-                    document.getElementById("totalMoney").innerHTML = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                    document.getElementById("total").innerHTML = (total - giam).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        .then(response => response.text())
+        .then(data => {
+            if (data != "")
+                ThongBao("Thông báo", data, 'error')
+            loadData().then(() => {
+                fetchDiscouns().then(giam => {
+                    document.getElementById("totalGiam").innerHTML = giam.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    fetchTotal().then(total => {
+                        document.getElementById("totalMoney").innerHTML = total.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                        document.getElementById("total").innerHTML = (total - giam).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    })
                 })
             })
         })
-    })
-    
+
 }
 
 
@@ -203,6 +205,18 @@ function addVoucher(link) {
     fetch(`http://localhost:8080/rest/giohang/updateVoucher/${id}`)
         .then(sys => update())
 }
+
+
+function ThongBao(title, html, icon) {
+    Swal.fire({
+        title: title,
+        html: html,
+        icon: icon,
+        confirmButtonText: 'OK'
+    });
+}
+
+
 
 
 

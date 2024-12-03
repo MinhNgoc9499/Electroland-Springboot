@@ -48,9 +48,10 @@ public class QuenMatKhauController {
     }
 
     // Xử lý yêu cầu quên mật khẩu (gửi email OTP)
-    @PostMapping("/quenMatKhau")
+    @PostMapping("/sendOTP")
     public String processForgotPassword(@RequestParam("email") String email, Model model) {
         Optional<KhachHang> khachHang = khachHangDAO.findByEmail(email);
+
         if (khachHang.isPresent()) {
             String otp = otpService.generateOtp(); // *
             otpService.sendOtpEmail(email, otp); // *
@@ -69,11 +70,13 @@ public class QuenMatKhauController {
     // Xử lý cập nhật mật khẩu mới
     @PostMapping("/capNhatMatKhau")
     public String updatePassword(@RequestParam("email") String email, @RequestParam("newPassword") String newPassword,
-            @RequestParam("otp") String[] otp, Model model) {
+            @RequestParam("otp") String otp[], Model model) {
         String sessionOtp = (String) session.getAttribute("otp");
         String sessionEmail = (String) session.getAttribute("email");
         String otpString = otp[0] + otp[1] + otp[2] + otp[3] + otp[4] + otp[5];
         Long otpTimestamp = (Long) session.getAttribute("otpTimestamp");// **
+        System.out.println(email);
+        System.out.println(otpString);
         // Kiểm tra OTP và thời gian hết hạn **
         if (sessionOtp != null && sessionEmail != null && sessionOtp.equals(otpString) && sessionEmail.equals(email)) {
             // Kiểm tra xem OTP có hết hạn không (5 phút)**
@@ -82,10 +85,12 @@ public class QuenMatKhauController {
                 return "QuenMatKhau";
             }
             Optional<KhachHang> khachHang = khachHangDAO.findByEmail(email);
+            System.out.println(khachHang);
             if (khachHang.isPresent()) {
                 // Mã hóa mật khẩu mới
                 KhachHang updatedKhachHang = khachHang.get();
-                updatedKhachHang.setMatKhau(passwordEncoder.encode(newPassword));
+                updatedKhachHang.setMatKhau(newPassword);
+                // System.out.println(updatedKhachHang);
                 khachHangDAO.save(updatedKhachHang);
 
                 // Xóa OTP trong session sau khi cập nhật mật khẩu thành công
@@ -101,7 +106,7 @@ public class QuenMatKhauController {
             model.addAttribute("error", "Mã OTP không chính xác hoặc hết hạn.");
         }
 
-        return "QuenMatKhau";
+        return "redirect:/dangky";
     }
 
     // // Hàm sinh OTP ngẫu nhiên
