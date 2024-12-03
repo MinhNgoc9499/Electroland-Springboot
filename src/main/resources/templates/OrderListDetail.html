@@ -5,155 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ElectroLand</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/OrderList.css">
     <link rel="shortcut icon" type="image/png" href="IMG/logoden.png">
 </head>
 <body>
 
 <div class="col-10">
-    <h1 class="mb-4">Danh sách đơn hàng</h1>
-    <form class="row g-2" method="get" action="/admin/order">
-    <div id="filterContainer" class="d-flex align-items-center col-sm-12">
-        <!-- Search Input with Dropdown Icon -->
-        <div class="input-group me-2 col-sm-3">
-            <input type="text" class="form-control" placeholder="Tìm bằng mã hóa đơn" name="searchOrderId" th:value="${searchOrderId}">
-            <span class="input-group-text" id="dropdownIcon" style="cursor: pointer;">
-                <i class="fa-solid fa-caret-down"></i>
-            </span>
-            <div id="dropdownFilters">
-                <form class="row g-2">
-                    <div class="col-12">
-                        <input type="text" class="form-control" placeholder="Tên khách hàng" name="searchCustomerName" th:value="${searchCustomerName}">
-                    </div>
-                    <div class="col-12">
-                        <input type="text" class="form-control" placeholder="Số điện thoại khách hàng"  name="searchPhoneNumber" th:value="${searchPhoneNumber}">
-                    </div>
-                    <div class="col-12">
-                        <input type="text" class="form-control" placeholder="Địa chỉ" name="searchAddress" th:value="${searchAddress}">
-                    </div>
-                    <div class="col-12 text-end">
-                        <button type="submit" class="btn btn-primary btn-sm">Tìm kiếm</button>
-                    </div>
-                </form>
+    <div class="card p-5">
+        <hr>
+
+        <form id="orderForm">
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="card-title"><strong>Thông Tin Hóa Đơn</strong></h5>
+                </div>
+                <div class="col-6">
+                    <label for="address">Mã Đơn</label>
+                    <input type="text" class="form-control" th:value="${order.id}" id="id" readonly>
+                </div>
+                <div class="col-6">
+                    <label for="name">Tên Khách Hàng</label>
+                    <input type="text" class="form-control" th:value="${order.khachHang.hoTen}" id="hotenKhachHang">
+                </div>
+                <div class="col-6">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" class="form-control" th:value="${order.sdt}" id="phone">
+                </div>
+                <div class="col-6">
+                    <label for="address">Địa chỉ giao hàng </label>
+                    <input type="text" class="form-control" th:value="${order.diaChi}" id="address">
+                </div>
+                <div class="col-6">
+                    <label for="payment-method">Phương thức thanh toán</label>
+                    <input type="text" class="form-control" th:value="${order.phuongThucTT}" id="phuongThucTT">
+
+                </div>
+                <div class="col-6">
+                    <label for="address">Ngày Đặt</label>
+                    <input type="text" class="form-control" th:value="${order.ngayDH}" id="ngayDH">
+                </div>
+                <div class="col-6">
+                    <label for="address">Ngày Nhận</label>
+                    <input type="text" class="form-control" th:value="${order.ngayGH}" id="ngayGH">
+                </div>
+                <div class="col-6">
+                    <label for="status">Trạng Thái</label>
+                    <select class="form-control" id="status" th:value="${order.trangThai}">
+                        <option value="0" th:selected="${order.trangThai == 0}">Hủy</option>
+                        <option value="1" th:selected="${order.trangThai == 1}">Hoàn Thành</option>
+                        <option value="2" th:selected="${order.trangThai == 2}">Đang Xử Lý</option>
+                    </select>
+                </div>
+
             </div>
-        </div>
-        <div class="col-sm-2">
-            <select class="form-select" name="paymentMethod">
-                <option value="">Phương thức thanh toán</option>
-                <option value="Chuyển khoản">Chuyển khoản</option>
-                <option value="momo" >Momo</option>
-                <option value="Tiền mặt" >Tiền mặt</option>
-                <option value="cod" >COD</option>
-            </select>
-        </div>
 
-        <div class="col-sm-1">
-            <select class="form-select" name="status">
-                <option value="">Trạng thái</option>
-                <option value="completed">Hoàn thành</option>
-                <option value="cancelled">Hủy</option>
-                <option value="Xử lý">Xử lý</option>
-            </select>
-        </div>
-        <input type="hidden" name="page" th:value="${currentPage}">
-        <button class="btn btn-primary btn-custom me-1 col-sm-1" id="addOrderButton">Tìm Kiếm</button>
-        <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
-    </div>
-    <div class="row mt-3">
-        <!-- Table for Order Data -->
-        <div class="col-sm-10">
+            <h4 class="card-title"><strong>Danh Sách Sản Phẩm</strong></h4>
+            <hr>
             <table class="table table-bordered">
-                <thead class="table-light">
-                    <tr>
-
-                        <th>STT</th>
-                        <th>Mã đơn</th>
-                        <th>Tên khách hàng</th>
-                        <th>Số điện thoại</th>
-                        <th>Địa chỉ</th>
-                        <th>Ngày đặt</th>
-                        <th>Ngày nhận</th>
-                        <th>Phương thức</th>
-                        <th>Trạng thái</th>
-                        <th>Thao tác</th>
-                    </tr>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sản phẩm</th>
+                    <th>Hình Ảnh</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng</th>
+                </tr>
                 </thead>
                 <tbody>
-
-                <tr th:each="order, iterStat : ${orders}">
-                  <td th:text="${iterStat.index + 1}"></td>
-                  <td th:text="${order.id}"></td>
-                  <td th:text="${order.khachHang.hoTen}"></td>
-                  <td th:text="${order.sdt}"></td>
-                  <td th:text="${order.diaChi}"></td>
-                  <td th:text="${order.ngayDH}"></td>
-                  <td th:text="${order.ngayGH}"></td>
-                  <td th:text="${order.phuongThucTT}"></td>
-                  <td class="text-center">
-                    <span
-                        th:text="${order.trangThai == 0 ? 'Hủy' : (order.trangThai == 1 ? 'Hoàn Thành' : 'Đang Xử Lý')}"
-                        th:class="${order.trangThai == 0 ? 'btn-nhd p-1' : (order.trangThai == 1 ? 'btn-hd p-1' : 'btn-xl p-1')}">
-                    </span>
-                  </td>
-                  <td style="text-align: center;">
-                    <a th:href="@{'/admin/order?id=' + ${order.id}}" class="fa-solid fa-trash-can"></a>
-                    <span style="margin-left: 10px;"></span>
-                    <a th:href="@{'/admin/order?id=' + ${order.id}}" class="fa-solid fa-pen"></a>
-                </td>
-
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.sanPham.id}"></td>
+                    <td><img th:src="@{{image}(image=${order.sanPham.hinhDaiDien})}"
+                             alt="Hình sản phẩm"
+                             class="img-thumbnail m-3" style="width: 60px;"></td>
+                    <td th:text="${order.sanPham.tenSP}"></td>
+                    <td class="price" th:text="${order.giaBan}"></td>
+                    <td><input type="number" class="form-control quantity" th:id="'quantity-' + ${order.sanPham.id}" th:value="${order.soLuong}" onchange="updateTotal(this.closest('tr'))"></td>
+                    <td class="total" th:text="${order.soLuong} * ${order.giaBan}"></td>
                 </tr>
-
                 </tbody>
             </table>
-        </div>
-
-        <!-- Chọn ngày đặt hàng (Card) -->
-        <div class="col-sm-2">
-            <div class="card p-2 col-sm-12">
-                <div class="date-picker-container">
-                    <label for="orderDate" class="date-picker-label">Chọn ngày đặt hàng</label>
-                    <input type="date" id="orderDate" class="date-picker-input">
-                </div>
-            </div>
-            <div class="card p-2 col-sm-12 mt-2">
-                <div class="date-picker-container">
-                    <label for="orderDate" class="date-picker-label">Chọn ngày nhận hàng</label>
-                    <input type="date" id="orderDate" class="date-picker-input">
-                </div>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary mt-4" onclick="updateOrder()">Cập nhật đơn hàng</button>
+        </form>
     </div>
-
-    <!-- Pagination -->
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-            <!-- Previous Button -->
-            <li class="page-item" th:if="${currentPage > 0}">
-                <a class="page-link" th:href="@{/admin/order(page=${currentPage - 1}, size=${orders.size()})}">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </a>
-            </li>
-
-            <!-- Page Numbers -->
-            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                th:classappend="${i == currentPage ? ' active' : ''}">
-                <a class="page-link" th:href="@{/admin/order(page=${i}, size=${orders.size()})}" th:text="${i + 1}"></a>
-            </li>
-
-            <!-- Next Button -->
-            <li class="page-item" th:if="${currentPage < totalPages - 1}">
-                <a class="page-link" th:href="@{/admin/order(page=${currentPage + 1}, size=${orders.size()})}">
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    </form>
 </div>
-  </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
-<script th:src="@{/JS/OrderList.js}"></script>
+<script th:src="@{/JS/OrderListDetail.js}"></script>
 </body>
 </html>
