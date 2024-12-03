@@ -57,7 +57,6 @@
                 <option value="cancelled">Nguyễn Thị Minh Ngọc</option>
             </select>
         </div>
-        <a href="/adminCustomerDetail" class="btn btn-primary btn-custom me-1 col-sm-1" id="addOrderButton">Thêm mới</a>
         <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
     </div>
 
@@ -70,7 +69,6 @@
                         <th>Mã KH</th>
                         <th>Họ tên khách hàng</th>
                         <th>Số điện thoại</th>
-                        <th>Địa chỉ</th>
                         <th>Ngày sinh</th>
                         <th>Giới tính</th>
                         <th>Email</th>
@@ -83,13 +81,25 @@
                         <td th:text="${list.id}"></td>
                         <td th:text="${list.hoTen}"></td>
                         <td th:text="${list.sdt}"></td>
-                        <td th:each="diaChi : ${list.diaChiList}" th:text="${diaChi.chiTiet}"></td>
                         <td th:text="${list.ngaySinh}"></td>
-                        <td th:text="${list.gioiTinh}"></td>
+                        <td>
+                            <span th:switch="${list.gioiTinh}">
+                                <span th:case="true">Nam</span>
+                                <span th:case="false">Nữ</span>
+                            </span>
+                        </td>
+                        
                         <td th:text="${list.email}"></td>
-                        <td  th:text="${list.trangThai}"><span class="badge bg-success">Hoạt động</span></td>
-                        <td><a><i class="fa-solid fa-trash ms-3"></i></a>
-                            <a><i class="fa-solid fa-pencil ms-2"></i></a>
+                        <td>
+                            <span th:switch="${list.trangThai}">
+                                <span th:case="true" class="badge bg-success">Hoạt động</span>
+                                <span th:case="false" class="badge bg-danger">Hủy</span>
+                            </span>
+                        </td>
+                        
+                        
+                        <td><a th:href="@{'/adminCustomerList/Delete/' + ${list.id}}"><i class="fa-solid fa-trash ms-3"></i></a>
+                            <a th:href="@{'/adminCustomerList/Edit/' + ${list.id}}"><i class="fa-solid fa-pencil ms-2"></i></a>
                             </td>
                     </tr>
                    
