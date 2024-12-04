@@ -15,7 +15,7 @@
     <div class="col-10">
         <div class="col-12">
             <div class="invoice-details p-3 border rounded mt-4" style="background-color: #ffffff;">
-                <form th:object="${product}">
+                <form th:object="${product}" action="#" enctype="multipart/form-data" >
                     <div class="text-center mb-5">
                         <h3>Chi tiết sản phẩm</h3>
                     </div>
@@ -138,7 +138,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="mb-3 mb-4 align-items-center row" >
+                    <div class="mb-3 mb-4 align-items-center row">
                         <div class="col-sm-2">
                             <label class="form-label">Thuộc tính sản phẩm</label>
                         </div>
@@ -163,11 +163,22 @@
                     </div>
                     <div class="row mb-3 mb-4 align-items-center">
                         <div class="col-sm-2">
-                            <label for="fileUpload" class="form-label mb-1">Hình sản phẩm</label>
+                            <label for="fileUpload" class="form-label mb-1">Hình đại diện sản phẩm</label>
                         </div>
                         <div class="col-sm-10 input-form">
                             <input type="file" class="form-control" id="fileUpload" name="fileUpload"
                                 accept="image/png, image/jpeg, image/gif">
+                            <span th:if="${errormess}" id="fileUploadError" th:text="errormess"
+                                class="text-danger error">Vui lòng chọn một file hợp lệ.</span>
+                        </div>
+                    </div>
+                    <div class="row mb-3 mb-4 align-items-center">
+                        <div class="col-sm-2">
+                            <label for="fileUpload" class="form-label mb-1">Hình ảnh khác</label>
+                        </div>
+                        <div class="col-sm-10 input-form">
+                            <input type="file" class="form-control" id="fileUpload" name="fileHinhSP"
+                                accept="image/png, image/jpeg, image/gif" multiple="true">
                             <span th:if="${errormess}" id="fileUploadError" th:text="errormess"
                                 class="text-danger error">Vui lòng chọn một file hợp lệ.</span>
                         </div>
@@ -199,13 +210,13 @@
                         </div>
                     </div>
 
+                    <div class="text-end mt-5">
+                        <button id="saveBtn" formmethod="post" class="btn custom1-btn">Lưu</button>
+                        <button id="deleteBtn" class="btn custom1-btn">Xóa</button>
+                        <button id="editBtn" class="btn custom1-btn">Sửa</button>
+                        <button id="newBtn" class="btn custom1-btn">Mới</button>
+                    </div>
                 </form>
-                <div class="text-end mt-5">
-                    <button id="saveBtn" class="btn custom1-btn">Lưu</button>
-                    <button id="deleteBtn" class="btn custom1-btn">Xóa</button>
-                    <button id="editBtn" class="btn custom1-btn">Sửa</button>
-                    <button id="newBtn" class="btn custom1-btn">Mới</button>
-                </div>
             </div>
         </div>
     </div>

@@ -14,138 +14,111 @@
 <body>
     <div class="col-10 mt-3">
         <h1 class="mb-3">Sản phẩm</h1>
-        <div id="filterContainer" class="d-flex align-items-center col-sm-12">
-            <!-- Search Input with Dropdown Icon -->
-            <div class="input-group me-2 col-sm-3">
-                <input type="text" class="form-control" placeholder="Tìm bằng mã sản phẩm" id="searchInput">
+        <form action="">
+            <div id="filterContainer" class="d-flex align-items-center col-sm-12">
+            
 
-                <!-- Dropdown Filters -->
-                <div id="dropdownFilters">
-                    <form class="row g-2">
-                        <div class="col-12">
-                            <input type="text" class="form-control" placeholder="Tên sản phẩm">
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control" placeholder="Mã loại sản phẩm">
-                        </div>
-                        <div class="col-12">
-                            <input type="text" class="form-control" placeholder="Giá">
-                        </div>
-                        <div class="col-12 text-end">
-                            <button type="submit" class="btn btn-primary btn-sm">Tìm kiếm</button>
-                        </div>
-                    </form>
+                <!-- Search Input with Dropdown Icon -->
+                <div class="input-group me-2 col-sm-3">
+                    <input type="text" class="form-control" placeholder="Tìm bằng mã sanPham" name="id">
+                    <span class="input-group-text" id="dropdownIcon" style="cursor: pointer;">
+                        <i class="fa-solid fa-caret-down"></i>
+                    </span>
+                    <div id="dropdownFilters">
+                        <form class="row g-2">
+                            <div class="col-12">
+                                <input type="text" class="form-control" placeholder="Tên sản phẩm" name="name">
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
-
-            <form action="/admin/product" method="get" id="statusForm">
-           
+                <div id="statusForm">
                     <select class="form-select" name="trangThai" onchange="this.form.submit()">
-                        <option>Trạng thái</option>
-                        <option th:value="true">Hoạt động</option>
-                        <option th:value="false">Ngưng hoạt động</option>
+                        <option value="">Trạng thái</option>
+                        <option value="true">Hoạt động</option>
+                        <option value="false">Ngưng hoạt động</option>
                     </select>
-             
-            </form>
-
-            <a href="/admin/product-detail" class="btn btn-primary btn-custom me-1 col-sm-1"
-                id="addOrderButton">Thêm</a>
-            <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
-        </div>
-
-
-        <div class="row mt-3">
-            <div class="col-10">
-                <table class="table table-bordered table-list">
-                    <thead class="thead-list">
-                        <tr>
-                            <th scope="col" style="color: #667085;">Mã sản phẩm</th>
-                            <th scope="col" style="color: #667085;">Mã loại sản phẩm</th>
-                            <th scope="col" style="color: #667085;">Tên sản phẩm</th>
-                            <th scope="col" style="color: #667085;">Giá niêm yết</th>
-                            <th scope="col" style="color: #667085;">Mô tả</th>
-                            <th scope="col" style="color: #667085;">Trạng thái</th>
-                            <th></th>
-
-                        </tr>
-                    </thead>
-                    <tbody class="tbody-list">
-                        <!-- Dữ liệu mẫu -->
-                        <!-- Sử dụng Thymeleaf để lặp qua danh sách sản phẩm -->
-                        <tr th:each="sp : ${listSP}">
-                            <td th:text="${sp.id}">1006004</td>
-                            <td th:text="${sp.loaiSanPham.tenLoaiSP}">Loa</td>
-                            <td th:text="${sp.tenSP}">Marshall Acton 3</td>
-                            <td th:text="${#numbers.formatDecimal(sp.giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}">7,990,000
-                                vnđ</td>
-                            <td th:text="${sp.moTa}">Màu xanh</td>
-                            <td> <button th:classappend="${sp.trangThai} ? 'btn-hd p-1' : 'btn-nhd p1'"
-                                    th:text="${sp.trangThai} ? 'Hoạt động' : 'Hủy'">
-                                </button>
-                            </td>
-                            <td style="text-align: center;">
-                                <a th:href="@{'/admin/product-detail?id=' + ${sp.id}}" class="fa-solid fa-trash-can"></a>
-                                <span style="margin-left: 10px;"></span>
-                                <a th:href="@{'/admin/product-detail?id=' + ${sp.id}}" class="fa-solid fa-pen"></a>
-                            </td>
-                        </tr>
-
-
-
-                        <!-- Thêm nhiều hàng hơn -->
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-2">
-                <div class="d-flex flex-column mb-3">
-                    <form action="/admin/product" method="get" id="categoryForm">
-                        <div class="dropdown mb-2"> <!-- Thêm lớp margin-bottom -->
-                            <label for="loai-hang">Loại hàng</label>
-                            <select id="loai-hang" name="categoryId" onchange="this.form.submit()">
-                                <option value="">Chọn loại hàng</option>
-                                <option th:each="loai : ${listLoaiSP}" th:value="${loai.id}"
-                                    th:text="${loai.tenLoaiSP}"></option>
-                            </select>
-                        </div>
-                    </form>
-                    <form action="/admin/product" method="get" id="sortByPrice">
-                        <div class="dropdown">
-                            <label for="loc-gia">Lọc theo giá</label>
-                            <select id="loc-gia" name="sortByPrice" onchange="this.form.submit()">
-                                <option value=""></option>
-                                <option th:value="desc">Giảm dần</option>
-                                <option th:value="asc">Tăng dần</option>
-                                <!-- Thêm các tùy chọn khác -->
-                            </select>
-                        </div>
-                    </form>
                 </div>
-            </div>
-
-
-
-        </div>
-
-        <!-- <div class="col-12">
-            <nav aria-label="Page navigation">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item"><a class="page-link" href="#">Trước</a></li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">Sau</a></li>
-                </ul>
-            </nav>
-        </div> -->
-
+                <button type="submit" class="btn btn-primary btn-custom  col-sm-1">Tìm kiếm</button>
+        </form>
+        <a href="/admin/product-detail" class="btn btn-primary btn-custom me-1 col-sm-1" id="addOrderButton">Thêm</a>
+        <button class="btn btn-success btn-custom col-sm-1" id="exportExcelButton">Xuất file Excel</button>
     </div>
+    </form>
+
+    <div class="row mt-3">
+        <div class="col-10">
+            <table class="table table-bordered table-list">
+                <thead class="thead-list">
+                    <tr>
+                        <th scope="col" style="color: #667085;">Mã sản phẩm</th>
+                        <th scope="col" style="color: #667085;">Mã loại sản phẩm</th>
+                        <th scope="col" style="color: #667085;">Tên sản phẩm</th>
+                        <th scope="col" style="color: #667085;">Giá niêm yết</th>
+                        <th scope="col" style="color: #667085;">Mô tả</th>
+                        <th scope="col" style="color: #667085;">Trạng thái</th>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody class="tbody-list">
+                    <!-- Dữ liệu mẫu -->
+                    <!-- Sử dụng Thymeleaf để lặp qua danh sách sản phẩm -->
+                    <tr th:each="sp : ${listSP}">
+                        <td th:text="${sp.id}">1006004</td>
+                        <td th:text="${sp.loaiSanPham.tenLoaiSP}">Loa</td>
+                        <td th:text="${sp.tenSP}">Marshall Acton 3</td>
+                        <td th:text="${#numbers.formatDecimal(sp.giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}">7,990,000
+                            vnđ</td>
+                        <td th:text="${sp.moTa}">Màu xanh</td>
+                        <td> <button th:classappend="${sp.trangThai} ? 'btn-hd p-1' : 'btn-nhd p1'"
+                                th:text="${sp.trangThai} ? 'Hoạt động' : 'Hủy'">
+                            </button>
+                        </td>
+                        <td style="text-align: center;">
+                            <a th:href="@{'/admin/product-detail?id=' + ${sp.id}}" class="fa-solid fa-trash-can"></a>
+                            <span style="margin-left: 10px;"></span>
+                            <a th:href="@{'/admin/product-detail?id=' + ${sp.id}}" class="fa-solid fa-pen"></a>
+                        </td>
+                    </tr>
+
+
+
+                    <!-- Thêm nhiều hàng hơn -->
+                </tbody>
+            </table>
+        </div>
+        <div class="col-2">
+            <div class="d-flex flex-column mb-3">
+                <form action="/admin/product" method="get" id="categoryForm">
+                    <div class="dropdown mb-2"> <!-- Thêm lớp margin-bottom -->
+                        <label for="loai-hang">Loại hàng</label>
+                        <select id="loai-hang" name="categoryId" onchange="this.form.submit()">
+                            <option value="">Chọn loại hàng</option>
+                            <option th:each="loai : ${listLoaiSP}" th:value="${loai.id}" th:text="${loai.tenLoaiSP}">
+                            </option>
+                        </select>
+                    </div>
+                </form>
+                <form action="/admin/product" method="get" id="sortByPrice">
+                    <div class="dropdown">
+                        <label for="loc-gia">Lọc theo giá</label>
+                        <select id="loc-gia" name="sortByPrice" onchange="this.form.submit()">
+                            <option value=""></option>
+                            <option th:value="desc">Giảm dần</option>
+                            <option th:value="asc">Tăng dần</option>
+                            <!-- Thêm các tùy chọn khác -->
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/6d391eb7f8.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script th:src="@{/JS/productADM.js}"></script>
 </body>
-<script src="https://kit.fontawesome.com/6d391eb7f8.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
-<script th:src="@{/JS/productADM.js}"></script>
-
-
 
 </html>
