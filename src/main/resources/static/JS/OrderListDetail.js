@@ -4,7 +4,9 @@ function updateTotal(row) {
   const total = quantity * price;
   row.querySelector('.total').textContent = total;
 }
-
+function reloadPage() {
+  location.reload();  // Tải lại trang hiện tại
+}
 function updateOrder() {
   // Lấy tất cả các input có class 'quantity'
   let quantities = document.querySelectorAll('.quantity');
@@ -35,24 +37,30 @@ function updateOrder() {
     });
   });
 
-  // Gửi dữ liệu lên server qua AJAX
   fetch(`/admin/order/detail/${orderData.id}/update`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(orderData)
+    body: JSON.stringify(orderData),
   })
-  .then(response => {
-    response.json();
-    location.reload();
-  })
-  .then(data => {
-    location.reload();
-    console.log('Error: 1');
-  })
-  .catch(error => {
-    console.log('Error: 2');
-    location.reload();
-  });
+    .then((response) => {
+      console.log('Response:', response);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      location.reload(true);
+      return response.json();
+    })
+    .then((data) => {
+      console.log('Data received:', data);
+      alert('Cập nhật đơn hàng thành công!');
+    })
+    .catch((error) => {
+      console.error('Caught error:', error);
+      console.error('Error Message:', error.message);
+      console.error('Error Stack:', error.stack);
+      reloadPage();
+      // alert('Có lỗi xảy ra khi cập nhật đơn hàng!');
+    }); 
 }

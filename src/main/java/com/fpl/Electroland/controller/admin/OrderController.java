@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
-@RequestMapping("/admin/order")
 public class OrderController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class OrderController {
     @Autowired
     private ChiTietDhDAO chiTietDhDAO;
 
-    @GetMapping()
+    @GetMapping("/admin/order")
     public String orderDashboard(
         Model model,
         @RequestParam(defaultValue = "0") int page,
@@ -58,7 +57,7 @@ public class OrderController {
         return "OrderList";
     }
 
-    @GetMapping("/detail/{id}")
+    @GetMapping("/admin/order/detail/{id}")
     public String oderDetail(Model model, @PathVariable int id) {
         DonHang donHang = donhangDAO.findById(id);
         List<ChiTietDh> orders = chiTietDhDAO.findByDonHangId(donHang.getId());
@@ -67,9 +66,10 @@ public class OrderController {
         return "OrderListDetail";
     }
 
-    @PostMapping("/detail/{id}/update")
+    @PostMapping("/admin/order/detail/{id}/update")
     public String updateOrder(@RequestBody OrderDtoRequest orderDtoRequest, @PathVariable String id) {
         donHangService.updateDonHang(orderDtoRequest);
         return "/admin/order/detail/" + id;
     }
+    
 }
