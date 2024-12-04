@@ -14,7 +14,7 @@
         <h1 class="mb-3">Khách hàng</h1>
         
         <div class="row">
-            <div class="col-10">
+            <div class="col-10"> 
                 <div class="input-group mb-3">
                     <!-- Biểu tượng tìm kiếm -->
                     <span class="input-group-text" style="background-color: #ffffff;">
@@ -34,7 +34,8 @@
         </div>
         <div class="col-12">
                 <div class="invoice-details p-3 border rounded mt-4" style="background-color: #ffffff;">
-                    <form>
+                    <form th:action="@{/adminCustomerList/Edit/{id}(id=${customer.id})}" th:object="${customer}" method="post">
+
                         <div class="text-center mb-5">
                             <h3>Khách hàng chi tiết</h3>
                         </div>
@@ -43,18 +44,16 @@
                                 <label for="maKhachhang" class="form-label">Mã khách hàng</label>
                             </div>
                             <div class="col-sm-10 input-form">
-                                <input type="text" class="form-control mb-1" id="maKhachhang" placeholder="1006004">
-                                <span id="maKhachhangError" class="text-danger error">Vui lòng nhập mã khách hàng.</span>
+                                <input type="text" class="form-control mb-1" id="maKhachhang" th:field="*{id}" placeholder="1006004" readonly>
                             </div>
-                        
                         </div>
                         <div class="row mb-3 mb-4 align-items-center">
                             <div class="col-sm-2">
                                 <label for="tenKhachhang" class="form-label">Họ tên khách hàng</label>
                             </div>
                             <div class="col-sm-10 input-form">
-                                <input type="text" class="form-control mb-1" id="tenKhachhang" placeholder="Trần Văn Long">
-                                <span id="tenKhachhangError" class="text-danger error" >Tên khách hàng không được để trống.</spans>
+                                <input type="text" class="form-control mb-1" id="tenKhachhang" th:field="*{hoTen}" placeholder="Trần Văn Long" readonly>
+
                             </div>
                         </div>
                         <div class="row mb-3 mb-4 align-items-center">
@@ -62,33 +61,22 @@
                                 <label for="soDT" class="form-label">Số điện thoại</label>
                             </div>
                             <div class="col-sm-4 input-form">
-                                <input type="number" class="form-control mb-1" id="soDT" placeholder="0397326338">
-                                <span id="soDTError" class="text-danger error" >Vui lòng nhập số điện thoại.</span>
+                                <input type="number" class="form-control mb-1" id="soDT" th:field="*{sdt}" placeholder="0397326338" readonly>
+
                             </div>
                         </div>
-                        <div class="row mb-3 mb-4 align-items-center">
-                            <div class="col-sm-2">
-                                <label for="diaChi" class="form-label">Địa chỉ</label>
-                            </div>
-                            <div class="col-sm-10 input-form">
-                                <input type="text" class="form-control mb-1" id="diaChi" placeholder="315 Nguyễn Huệ Đak Đoa">
-                                <span id="diaChiError" class="text-danger error" >Địa chỉ không được để trống</span>
-                            </div>
-                        </div>
-                        <div class="row mb-3 mb-4 ">
-                            <!-- Cặp 1 -->
+                        <div class="row mb-3 mb-4">
                             <div class="col-sm-6">
                                 <div class="row align-items-center">
                                     <div class="col-sm-4">
                                         <label for="ngaySinh" class="form-label">Ngày sinh</label>
                                     </div>
                                     <div class="col-sm-8 input-form">
-                                        <input type="date" class="form-control mb-1" id="ngaySinh" placeholder="01/10/2004">
-                                        <span id="ngaySinhError" class="text-danger error">Vui lòng chọn ngày sinh</span>
+                                        <input type="date" class="form-control mb-1" id="ngaySinh" th:field="*{ngaySinh}" placeholder="01/10/2004" readonly>
+                                     
                                     </div>
                                 </div>
                             </div>                            
-                            <!-- Cặp 2 -->
                             <div class="col-sm-6">
                                 <div class="row align-items-center">
                                     <div class="col-sm-4" style="margin-top:10px;">
@@ -96,14 +84,14 @@
                                     </div>
                                     <div class="col-sm-8">
                                         <div class="radio-inline">
-                                            <input type="radio" id="nam" name="gioiTinh" value="nam">
+                                            <input type="radio" id="nam" name="gioiTinh" th:field="*{gioiTinh}" value="true">
                                             <label for="nam">Nam</label>
                                         </div>
                                         <div class="radio-inline">
-                                            <input type="radio" id="nu" name="gioiTinh" value="nu">
+                                            <input type="radio" id="nu" name="gioiTinh" th:field="*{gioiTinh}" value="false">
                                             <label for="nu">Nữ</label>
                                         </div>
-                                        <span id="gioiTinhError" class="text-danger error">Vui lòng chọn giới tính</span>
+                            
                                     </div>
                                     
                                 </div>
@@ -114,8 +102,8 @@
                                 <label for="email" class="form-label">Email</label>
                             </div>
                             <div class="col-sm-10 input-form">
-                                <input type="text" class="form-control mb-1" id="email" placeholder="longtran.01102004@gmail.com">
-                                <span id="emailError" class="text-danger error" >Email không được để trống</span>
+                                <input type="text" class="form-control mb-1" id="email" th:field="*{email}" placeholder="longtran.01102004@gmail.com" readonly>
+          
                             </div>
                         </div>
                         <div class="row mb-3 mb-4 align-items-center">
@@ -123,21 +111,22 @@
                                 <label for="trangThai" class="form-label">Trạng thái</label>
                             </div>
                             <div class="col-sm-10 input-form">
-                                <select class="form-select" id="vaiTro">
-                                    <option selected disabled>Chọn vai trò</option>
-                                    <option value="hoanThanh">Hoàn thành</option>
-                                    <option value="chuaHoanThanh">Chưa hoàn thành</option>
+                                <select class="form-select" th:field="*{trangThai}">
+                                    <option value="" selected disabled>Chọn trạng thái</option>
+                                    <option value="true" th:text="'Hoàn thành'" th:selected="${customer.trangThai == true}"></option>
+                                    <option value="false" th:text="'Hủy'" th:selected="${customer.trangThai == false}"></option>
                                 </select>
-                                <span id="trangThaiError" class="text-danger error" >Vui lòng chọn trạng thái</span>
+                             
                             </div>
                         </div>
-                    </form>
+                        
+                        
+
+                
                     <div class="text-end mt-5">
-                        <button id="saveBtn" class="btn custom1-btn">Lưu</button>
-                        <button id="deleteBtn" class="btn custom1-btn">Xóa</button>
-                        <button id="editBtn" class="btn custom1-btn">Sửa</button>
-                        <button id="newBtn" class="btn custom1-btn">Mới</button>
+                        <button id="editBtn" class="btn custom1-btn" th:formaction="@{/adminCustomerList/Edit/{id}(id=${customer.id})}">Sửa</button>
                     </div>
+                </form>
                 </div>
         </div>
     </div>
