@@ -92,7 +92,7 @@
                 <div class="col-md-3 card">
                     <div class="icon1">📊</div>
                     <div class="info">
-                        <div class="number" th:text="${totalRevenue}">$128</div>
+                        <div class="number"th:text="${#numbers.formatDecimal(totalRevenue, 0, 'POINT', 0, 'COMMA') + 'đ'}">$128</div>
                         <div class="description">Tổng doanh thu</div>
                     </div>
                 </div>

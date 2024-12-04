@@ -27,7 +27,7 @@ import com.fpl.Electroland.model.SanPham;
 @Controller
 @RequestMapping("/admin")
 public class AdminStatisticsController {
-    
+
     @Autowired
     DonHangDAO donHangDAO;
 
@@ -36,19 +36,20 @@ public class AdminStatisticsController {
 
     @GetMapping("/revenue-statistics")
     public String adminRevenueStatistics(Model model,
-    @RequestParam(value = "sortTypeSP", required = false) Integer sortTypeSP,
-    @RequestParam(value = "search", required = false) String search,
-    // @RequestParam(value = "startDate", required = false) Date startDate,
-    @RequestParam(value = "page", required = false, defaultValue = "0") int page){
+            @RequestParam(value = "sortTypeSP", required = false) Integer sortTypeSP,
+            @RequestParam(value = "search", required = false) String search,
+            // @RequestParam(value = "startDate", required = false) Date startDate,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
 
         List<LoaiSanPham> listLoaiSP = loaiSPDAO.findAll();
         model.addAttribute("listLoaiSP", listLoaiSP);
-        
+
         int pageSize = 20;
         Pageable pageable = PageRequest.of(page, pageSize);
         // if (startDate == null) {
-        //     LocalDate localStartDate = LocalDate.now();
-        //     startDate = Date.from(localStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        // LocalDate localStartDate = LocalDate.now();
+        // startDate =
+        // Date.from(localStartDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         // }
 
         // System.out.println("Start Date: " + startDate);
@@ -56,39 +57,39 @@ public class AdminStatisticsController {
         if (sortTypeSP == null) {
         }
         if (search == null) {
-            search = ""; 
+            search = "";
         }
 
         Page<SanPham> listSP = donHangDAO.findRevenueByProductType(search, sortTypeSP, pageable);
 
         List<Integer> spIDS = listSP.stream()
-        .map(SanPham::getId)
-        .collect(Collectors.toList());
-        System.out.println("Mã SP: "+spIDS);
+                .map(SanPham::getId)
+                .collect(Collectors.toList());
+        System.out.println("Mã SP: " + spIDS);
 
         List<String> productNames = listSP.stream()
-            .map(SanPham::getTenSP)
-            .collect(Collectors.toList());
+                .map(SanPham::getTenSP)
+                .collect(Collectors.toList());
         // System.out.println("Tên SP: " + productNames);
 
         List<String> productType = listSP.stream()
-            .map(sp -> {
-                return sp.getLoaiSanPham() != null ? sp.getLoaiSanPham().getTenLoaiSP() : "Chưa phân loại";
-            })
-            .collect(Collectors.toList());
+                .map(sp -> {
+                    return sp.getLoaiSanPham() != null ? sp.getLoaiSanPham().getTenLoaiSP() : "Chưa phân loại";
+                })
+                .collect(Collectors.toList());
         // System.out.println("Product Types: " + productType);
-        
+
         List<Integer> orderCounts = listSP.stream()
-            .map(sp -> donHangDAO.countOrderProdcut(sp.getId())) 
-            .collect(Collectors.toList());
+                .map(sp -> donHangDAO.countOrderProdcut(sp.getId()))
+                .collect(Collectors.toList());
         // System.out.println("Order Counts: " + orderCounts);
 
         List<Double> totalAmounts = listSP.stream()
-            .map(sp -> {
-                Double total = donHangDAO.sumTotalByProduct(sp.getId());
-                return total != null ? total : 0.0;
-            })
-            .collect(Collectors.toList());
+                .map(sp -> {
+                    Double total = donHangDAO.sumTotalByProduct(sp.getId());
+                    return total != null ? total : 0.0;
+                })
+                .collect(Collectors.toList());
         // System.out.println("Total Amounts: " + totalAmounts);
 
         model.addAttribute("spIDS", spIDS);
@@ -103,55 +104,55 @@ public class AdminStatisticsController {
 
         return "revenueStatistics";
     }
-    
+
     @GetMapping("/customer-statistics")
-    public String adminCustomerStatistics(Model model, 
-    @RequestParam(value = "minOrder", required = false, defaultValue="0") Integer minOrder,
-    @RequestParam(value = "sortTypeKH", required = false, defaultValue="Khách hàng thường") String sortTypeKH,
-    @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
+    public String adminCustomerStatistics(Model model,
+            @RequestParam(value = "minOrder", required = false, defaultValue = "0") Integer minOrder,
+            @RequestParam(value = "sortTypeKH", required = false, defaultValue = "Khách hàng thường") String sortTypeKH,
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page) {
 
         int pageSize = 10;
         Pageable pageable = PageRequest.of(page, pageSize);
 
         System.out.println("Min Order: " + minOrder);
-        Page<KhachHang> countOrderCustomerPage = donHangDAO.findCustomersWithMoreThanMinOrders(minOrder, sortTypeKH, pageable);
+        Page<KhachHang> countOrderCustomerPage = donHangDAO.findCustomersWithMoreThanMinOrders(minOrder, sortTypeKH,
+                pageable);
 
         System.out.println(countOrderCustomerPage);
-        
+
         List<Integer> customerIds = countOrderCustomerPage.stream()
-        .map(KhachHang::getId)
-        .collect(Collectors.toList());
+                .map(KhachHang::getId)
+                .collect(Collectors.toList());
 
         System.out.println("Customer IDs: " + customerIds);
 
         List<String> customerNames = countOrderCustomerPage.stream()
-            .map(KhachHang::getHoTen)
-            .collect(Collectors.toList());
+                .map(KhachHang::getHoTen)
+                .collect(Collectors.toList());
 
         System.out.println("Customer Names: " + customerNames);
 
         List<Integer> orderCounts = countOrderCustomerPage.stream()
-            .map(kh -> donHangDAO.countOrdersByCustomer(kh.getId())) 
-            .collect(Collectors.toList());
+                .map(kh -> donHangDAO.countOrdersByCustomer(kh.getId()))
+                .collect(Collectors.toList());
 
         System.out.println("Order Counts: " + orderCounts);
 
         List<Double> totalAmounts = countOrderCustomerPage.stream()
-            .map(kh -> {
-                Double total = donHangDAO.sumTotalSalesByCustomer(kh.getId());
-                return total != null ? total : 0.0;
-            })
-            .collect(Collectors.toList());
+                .map(kh -> {
+                    Double total = donHangDAO.sumTotalSalesByCustomer(kh.getId());
+                    return total != null ? total : 0.0;
+                })
+                .collect(Collectors.toList());
         System.out.println("Total Amounts: " + totalAmounts);
 
         List<String> customerType = countOrderCustomerPage.stream()
-            .map(kh -> {
-                return kh.getLoaiKhachHang() != null ? kh.getLoaiKhachHang().getTenLoai() : "Chưa phân loại";
-            })
-            .collect(Collectors.toList());
+                .map(kh -> {
+                    return kh.getLoaiKhachHang() != null ? kh.getLoaiKhachHang().getTenLoai() : "Chưa phân loại";
+                })
+                .collect(Collectors.toList());
 
         System.out.println("Customer Types: " + customerType);
-
 
         model.addAttribute("customerType", customerType);
         model.addAttribute("customerIds", customerIds);
@@ -168,7 +169,8 @@ public class AdminStatisticsController {
     }
 
     @GetMapping("/order-statistics")
-    public String adminOrderStatistics(Model model, @RequestParam(value="sortYear", required = false, defaultValue = "2020") int year) {
+    public String adminOrderStatistics(Model model,
+            @RequestParam(value = "sortYear", required = false, defaultValue = "2024") int year) {
         List<Integer> successOrdersByMonth = new ArrayList<>();
         List<Integer> failedOrdersByMonth = new ArrayList<>();
         List<Integer> totalOrderByMonth = new ArrayList<>();
@@ -182,14 +184,13 @@ public class AdminStatisticsController {
             }
             List<DonHang> listDonByMonth = donHangDAO.findByMonthYear(i, year);
             long successCount = listDonByMonth.stream()
-                .filter(dh -> dh.getTrangThai() == 1)
-                .count();
-            
-            
+                    .filter(dh -> dh.getTrangThai() == 1)
+                    .count();
+
             long failedCount = listDonByMonth.stream()
-                .filter(dh -> dh.getTrangThai() == 0)
-                .count();
-            
+                    .filter(dh -> dh.getTrangThai() == 0)
+                    .count();
+
             failedOrdersByMonth.add((int) failedCount);
             successOrdersByMonth.add((int) successCount);
             totalOrderByMonth.add(listDonByMonth.size());
