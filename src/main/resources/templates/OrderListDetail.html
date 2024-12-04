@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org" th:replace="~{/fragments/Layout_Admin::dynamic(~{::body},~{::title})}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ElectroLand</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="IMG/logoden.png">
+</head>
+<body>
+
+<div class="col-10">
+    <div class="card p-5">
+        <hr>
+
+        <form id="orderForm">
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="card-title"><strong>Thông Tin Hóa Đơn</strong></h5>
+                </div>
+                <div class="col-6">
+                    <label for="address">Mã Đơn</label>
+                    <input type="text" class="form-control" th:value="${order.id}" id="id" readonly>
+                </div>
+                <div class="col-6">
+                    <label for="name">Tên Khách Hàng</label>
+                    <input type="text" class="form-control" th:value="${order.khachHang.hoTen}" id="hotenKhachHang">
+                </div>
+                <div class="col-6">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" class="form-control" th:value="${order.sdt}" id="phone">
+                </div>
+                <div class="col-6">
+                    <label for="address">Địa chỉ giao hàng </label>
+                    <input type="text" class="form-control" th:value="${order.diaChi}" id="address">
+                </div>
+                <div class="col-6">
+                    <label for="payment-method">Phương thức thanh toán</label>
+                    <input type="text" class="form-control" th:value="${order.phuongThucTT}" id="phuongThucTT">
+
+                </div>
+                <div class="col-6">
+                    <label for="address">Ngày Đặt</label>
+                    <input type="text" class="form-control" th:value="${order.ngayDH}" id="ngayDH">
+                </div>
+                <div class="col-6">
+                    <label for="address">Ngày Nhận</label>
+                    <input type="text" class="form-control" th:value="${order.ngayGH}" id="ngayGH">
+                </div>
+                <div class="col-6">
+                    <label for="status">Trạng Thái</label>
+                    <select class="form-control" id="status" th:value="${order.trangThai}">
+                        <option value="0" th:selected="${order.trangThai == 0}">Hủy</option>
+                        <option value="1" th:selected="${order.trangThai == 1}">Hoàn Thành</option>
+                        <option value="2" th:selected="${order.trangThai == 2}">Đang Xử Lý</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <h4 class="card-title"><strong>Danh Sách Sản Phẩm</strong></h4>
+            <hr>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sản phẩm</th>
+                    <th>Hình Ảnh</th>
+                    <th>Giá</th>
+                    <th>Số lượng</th>
+                    <th>Tổng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${orders}">
+                    <td th:text="${order.sanPham.id}"></td>
+                    <td><img th:src="@{{image}(image=${order.sanPham.hinhDaiDien})}"
+                             alt="Hình sản phẩm"
+                             class="img-thumbnail m-3" style="width: 60px;"></td>
+                    <td th:text="${order.sanPham.tenSP}"></td>
+                    <td class="price" th:text="${order.giaBan}"></td>
+                    <td><input type="number" class="form-control quantity" th:id="'quantity-' + ${order.sanPham.id}" th:value="${order.soLuong}" onchange="updateTotal(this.closest('tr'))"></td>
+                    <td class="total" th:text="${order.soLuong} * ${order.giaBan}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <button type="submit" class="btn btn-primary mt-4" onclick="updateOrder()">Cập nhật đơn hàng</button>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+<script src="https://kit.fontawesome.com/b6b15d6477.js" crossorigin="anonymous"></script>
+<script th:src="@{/JS/OrderListDetail.js}"></script>
+</body>
+</html>

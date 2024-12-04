@@ -168,10 +168,10 @@ public class inforController {
 		if (donHang == null) {
 			throw new RuntimeException("Đơn hàng không tồn tại");
 		}
-		if (donHang.getMaGiamDh() == null) {
+		if (donHang.getTongGiam() == null) {
 			model.addAttribute("discount", "Không có giảm giá");
 		} else {
-			model.addAttribute("discount", donHang.getMaGiamDh().getGiamGiaVND());
+			model.addAttribute("discount", donHang.getTongGiam());
 		}
 
 		// Lấy danh sách chi tiết đơn hàng

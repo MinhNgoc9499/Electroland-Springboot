@@ -1,7 +1,13 @@
 package com.fpl.Electroland.service;
 
+import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.DonHangDAO;
+import com.fpl.Electroland.dto.OrderDtoRequest;
+import com.fpl.Electroland.model.ChiTietDh;
 import com.fpl.Electroland.model.DonHang;
+import jakarta.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,6 +20,9 @@ public class DonHangService {
 
     @Autowired
     private DonHangDAO donHangDAO;
+
+    @Autowired
+    private ChiTietDhDAO chiTietDhDAO;
 
     public Page<DonHang> pageDonHang(String searchOrderId, String searchCustomerName, String searchPhoneNumber,
         String searchAddress, String paymentMethod, String status, int page, int size) {
@@ -33,5 +42,21 @@ public class DonHangService {
             return donHangDAO.findAll(pageable);
         }
 
+    }
+
+    @Transactional
+    public void updateDonHang(OrderDtoRequest orderDtoRequest) {
+
+        DonHang donHang = donHangDAO.findById(orderDtoRequest.getId());
+        donHang.setTrangThai(orderDtoRequest.getTrangThai());
+
+        List<ChiTietDh> chiTietDhList = new ArrayList<>();
+        for (OrderDtoRequest.ProductDTO productDTO : orderDtoRequest.getChiTietDhs()) {
+            ChiTietDh chiTietDh = chiTietDhDAO.findChiTietDhByDonHangIdAndSanPhamId(donHang.getId(), productDTO.getId());
+            chiTietDh.setSoLuong(productDTO.getSoLuong());
+            chiTietDhList.add(chiTietDh);
+        }
+        chiTietDhDAO.saveAll(chiTietDhList);
+        donHangDAO.save(donHang);
     }
 }

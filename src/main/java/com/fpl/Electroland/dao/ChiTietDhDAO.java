@@ -26,4 +26,6 @@ public interface ChiTietDhDAO extends JpaRepository<ChiTietDh, Integer> {
     // Tìm người dùng qa chi tiết đơn hàng
     @Query("SELECT c FROM ChiTietDh c WHERE c.donHang.khachHang = :khachHang AND c.sanPham = :sanPham")
     List<ChiTietDh> findSanPhamDaMuaByKhachHang(KhachHang khachHang, SanPham sanPham);
+
+    ChiTietDh findChiTietDhByDonHangIdAndSanPhamId(int donHangId, int sanPhamId);
 }
