@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-
 import com.fpl.Electroland.model.LoaiSanPham;
 import com.fpl.Electroland.model.SanPham;
 
@@ -20,4 +18,6 @@ public interface SanPhamDAO extends JpaRepository<SanPham, Integer>, JpaSpecific
     List<SanPham> findBySortByPrice(String sortByPrice);
 
     List<SanPham> findByTrangThai(Boolean trangThai);
+
+    List<SanPham> findByTenSPContaining(String tenSP);
 }

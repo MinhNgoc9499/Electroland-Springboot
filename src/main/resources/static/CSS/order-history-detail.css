@@ -74,7 +74,6 @@ body{
 }
 
 .navbar ul {
-    display: flex;
     gap: 20px;
     list-style-type: none;
     padding-left: 0;
