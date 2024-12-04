@@ -129,8 +129,10 @@ public class CheckoutController {
 			CTDH.setSoLuong(gioHang.getSoLuong());
 			CTDH.setMoTa(gioHang.getMoTa());
 			CTDH.setSanPham(gioHang.getSanPham());
-			CTDH.setMaGiamSp(
-					maGiamKhDAO.getMGSPChecked(author.getUserKhachHang(), gioHang.getSanPham()).get(0).getMaGiamSp());
+			if (maGiamKhDAO.getMGSPChecked(author.getUserKhachHang(), gioHang.getSanPham()).size() > 0)
+				CTDH.setMaGiamSp(
+						maGiamKhDAO.getMGSPChecked(author.getUserKhachHang(), gioHang.getSanPham()).get(0)
+								.getMaGiamSp());
 			chiTietDhDAO.save(CTDH);
 		}
 		gioHangDAO.deleteByKhachHangAndCheckedTrue(author.getUserKhachHang());

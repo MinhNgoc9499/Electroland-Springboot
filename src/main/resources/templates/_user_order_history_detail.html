@@ -23,7 +23,7 @@
                     <td>
                         <div class="d-flex align-items-center">
                             <!-- Hiển thị hình ảnh sản phẩm -->
-                            <img th:src="@{{image}(image=${chiTiet.sanPham.hinhDaiDien})}" 
+                            <img th:src="@{'/IMG/' + ${chiTiet.sanPham.hinhDaiDien}}" 
                                  alt="Hình sản phẩm" 
                                  class="img-thumbnail m-3" style="width: 60px;">
                             <div>
