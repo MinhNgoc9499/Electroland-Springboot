@@ -21,6 +21,8 @@ public class ThuocTinh {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 
+	Double giaTri = 0.0;
+
 	// Trường tên thuộc tính, nullable = false và columnDefinition là nvarchar(225)
 	@Column(nullable = false, columnDefinition = "nvarchar(225)")
 	String tenTT;

@@ -24,6 +24,7 @@ import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.CloudinaryService;
 import com.fpl.Electroland.dao.DanhGiaDAO;
 import com.fpl.Electroland.dao.GioHangDAO;
+import com.fpl.Electroland.dao.GioHangThuocTinhDAO;
 import com.fpl.Electroland.dao.HinhSpDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.dao.MauSpDAO;
@@ -34,7 +35,9 @@ import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.ChiTietDh;
 import com.fpl.Electroland.model.DanhGia;
 import com.fpl.Electroland.model.GioHang;
+import com.fpl.Electroland.model.GioHangThuocTinh;
 import com.fpl.Electroland.model.HinhSp;
+import com.fpl.Electroland.model.MauSp;
 import com.fpl.Electroland.model.SanPham;
 
 import com.fpl.Electroland.model.ThuocTinh;
@@ -80,6 +83,9 @@ public class detailController {
 	@Autowired
 	ChiTietDhDAO ctdhDAO;
 
+	@Autowired
+	GioHangThuocTinhDAO ghttDAO;
+
 	@GetMapping("/detail")
 	public String getTrangCNCHU(@RequestParam("id") int id,
 			@RequestParam(value = "filter", required = false) String filter, Model model) {
@@ -120,7 +126,7 @@ public class detailController {
 		danhGia.setSanPham(sp.get());
 		if (sp.isPresent()) {
 			List<HinhSp> listHinh = hinhDAO.findBySanPham(sp.get());
-			List<String> listColor = mauDAO.findTenMauBySanPham(sp.get());
+			List<MauSp> listColor = mauDAO.findBySanPham(sp.get());
 			List<ThuocTinhSp> listTTSP = ttSPDAO.findBySanPham(sp.get());
 			List<DanhGia> listDG = dgDAO.findBySanPhamId(id);
 			List<SanPham> listSPREC = spDAO.findByLoaiSanPham(sp.get().getLoaiSanPham());
@@ -130,7 +136,6 @@ public class detailController {
 			Map<String, List<ThuocTinh>> tableTT = new HashMap<>();
 			listTTSP.forEach(ttsp -> {
 				List<ThuocTinh> listTT = ttDAO.findByThuocTinhSp(ttsp);
-				System.out.println(listTT.size() + "size");
 				if (listTT.size() > 1) {
 					mapTT.put(ttsp.getTen(), listTT); // mapTT dùng để chứa các thuộc tính có trên 2 giá trị
 				}
@@ -193,16 +198,37 @@ public class detailController {
 		// xử lý khi đã đăng nhập
 		allAtt.remove("id");// xóa key id để không truyển id vào moTa
 		Optional<SanPham> product = spDAO.findById(id);
+		String mota = "";
+		for (String tt : allAtt.keySet()) {
+			if (tt.equals("color")) {
+				mota += "Màu: " + mauDAO.findById(Integer.parseInt(allAtt.get(tt))).get().getMau().getTenMau();
+			} else {
+				mota += ", " + tt + ": " + ttDAO.findById(Integer.parseInt(allAtt.get(tt))).get().getTenTT();
+			}
+			System.out.println(mota);
+		}
 		if (product.isPresent()) {
-			Optional<GioHang> cart = ghDAO.findBySanPhamAndMoTaAndKhachHang(product.get(), allAtt.toString(),
+			Optional<GioHang> cart = ghDAO.findBySanPhamAndMoTaAndKhachHang(product.get(), mota,
 					author.getUserKhachHang());
 			if (cart.isPresent()) {
 				cart.get().setSoLuong(cart.get().getSoLuong() + 1);
 				ghDAO.save(cart.get());
 			} else {
-				GioHang newCart = new GioHang(0, 1, allAtt.toString(), true, product.get(), author.getUserKhachHang());
-
-				ghDAO.save(newCart);
+				GioHang newCart = new GioHang(0, 1, mota, true, product.get(), author.getUserKhachHang());
+				newCart = ghDAO.save(newCart);
+				for (String att : allAtt.keySet()) {
+					if (att.equals("color")) {
+						GioHangThuocTinh ghtt = new GioHangThuocTinh();
+						ghtt.setGioHang(newCart);
+						ghtt.setMauSp(mauDAO.findById(Integer.parseInt(allAtt.get(att))).get());
+						ghttDAO.save(ghtt);
+					} else {
+						GioHangThuocTinh ghtt = new GioHangThuocTinh();
+						ghtt.setGioHang(newCart);
+						ghtt.setThuocTinh(ttDAO.findById(Integer.parseInt(allAtt.get(att))).get());
+						ghttDAO.save(ghtt);
+					}
+				}
 				System.out.println(ghDAO.toString());
 			}
 		}

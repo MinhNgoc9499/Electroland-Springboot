@@ -1,5 +1,6 @@
 package com.fpl.Electroland.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,6 +24,8 @@ public class MauSp {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
+
+	Double giaTri = 0.0;
 
 	// Quan hệ Many-to-One với SanPham, mỗi sản phẩm có thể có nhiều màu
 	@ManyToOne

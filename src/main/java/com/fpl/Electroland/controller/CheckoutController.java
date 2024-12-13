@@ -1,6 +1,9 @@
 package com.fpl.Electroland.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import com.fpl.Electroland.dao.ChiTietDhDAO;
 import com.fpl.Electroland.dao.DiaChiDAO;
 import com.fpl.Electroland.dao.DonHangDAO;
 import com.fpl.Electroland.dao.GioHangDAO;
+import com.fpl.Electroland.dao.GioHangThuocTinhDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.MaGiamKhDAO;
 import com.fpl.Electroland.helper.Author;
@@ -22,6 +26,7 @@ import com.fpl.Electroland.model.ChiTietDh;
 import com.fpl.Electroland.model.DiaChi;
 import com.fpl.Electroland.model.DonHang;
 import com.fpl.Electroland.model.GioHang;
+import com.fpl.Electroland.model.GioHangThuocTinh;
 import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.MaGiamKh;
 
@@ -50,6 +55,8 @@ public class CheckoutController {
 
 	@Autowired
 	DiaChiDAO diaChiDAO;
+	@Autowired
+	GioHangThuocTinhDAO gioHangThuocTinhDAO;
 
 	@ModelAttribute("donHang")
 	public DonHang getDonHang() {
@@ -61,7 +68,7 @@ public class CheckoutController {
 		dh.setDiaChi(diaChi.getChiTiet());
 		dh.setNguoiNhan(diaChi.getHoTenNN());
 		dh.setSdt(diaChi.getSdtNN());
-		dh.setTongTien(gettotal());
+		dh.setTongTien(getTotal());
 		dh.setTongGiam(getTotalDiscount());
 		return dh;
 	};
@@ -72,22 +79,39 @@ public class CheckoutController {
 	}
 
 	@ModelAttribute("ListSelected")
-	public List<GioHang> getList() {
-		return gioHangDAO.findAllByKhachHangAndChecked(author.getUserKhachHang(), true);
+	public Map<GioHang, Double> getList() {
+		Map<GioHang, Double> map = new HashMap<>();
+		List<GioHang> list = new ArrayList<>();
+		list = gioHangDAO.findByKhachHang(author.getUserKhachHang());
+		list.forEach(e -> {
+			Double total = e.getSanPham().getGiaGiam();
+			List<GioHangThuocTinh> ghttlist = gioHangThuocTinhDAO.findByGioHang(e);
+			for (GioHangThuocTinh ghtt : ghttlist) {
+				if (ghtt.getMauSp() != null) {
+					total += ghtt.getMauSp().getGiaTri();
+				} else
+					total += ghtt.getThuocTinh().getGiaTri();
+			}
+			;
+			map.put(e, total);
+		});
+		return map;
 	}
 
 	@ModelAttribute("TotalMoney")
-	public Double gettotal() {
+	public Double getTotal() {
+		Map<GioHang, Double> list = getList();
 		Double total = 0.0;
-		for (GioHang gh : getList()) {
-			total += gh.getSanPham().getGiaGiam() * gh.getSoLuong();
+		for (GioHang gh : list.keySet()) {
+			total += list.get(gh) * gh.getSoLuong();
+			System.out.println(total);
 		}
 		return total;
 	}
 
 	@ModelAttribute("TotalDiscount")
 	public Double getTotalDiscount() {
-		Double TotalMoney = gettotal();
+		Double TotalMoney = getTotal();
 		Double TotalDiscount = 0.0;
 		List<MaGiamKh> list = getListMaGiamKH();
 		for (MaGiamKh maGiamKh : list) {
@@ -104,7 +128,6 @@ public class CheckoutController {
 	public String showRegistrationForm(Model model) {
 		UUID uuid = UUID.randomUUID();
 		model.addAttribute("key", uuid.toString().replaceAll("-", ""));
-
 		return "checkout";
 	}
 
@@ -120,8 +143,7 @@ public class CheckoutController {
 		}
 		donhang.setMaGiamDh(maGiamKhDAO.getMGDHChecked(author.getUserKhachHang()));
 		DonHang dh = donHangDAO.save(donhang);
-		List<GioHang> listGH = getList();
-		for (GioHang gioHang : listGH) {
+		for (GioHang gioHang : getList().keySet()) {
 			ChiTietDh CTDH = new ChiTietDh();
 			CTDH.setDonHang(dh);
 			CTDH.setGiaBan(gioHang.getSanPham().getGiaGiam() != null ? gioHang.getSanPham().getGiaGiam()

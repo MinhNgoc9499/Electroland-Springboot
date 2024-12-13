@@ -1,8 +1,10 @@
 package com.fpl.Electroland.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fpl.Electroland.dao.GioHangDAO;
+import com.fpl.Electroland.dao.GioHangThuocTinhDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.dao.MaGiamDhDAO;
@@ -24,6 +27,7 @@ import com.fpl.Electroland.dao.MaGiamSpDAO;
 import com.fpl.Electroland.dao.SanPhamDAO;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.GioHang;
+import com.fpl.Electroland.model.GioHangThuocTinh;
 import com.fpl.Electroland.model.KhachHang;
 import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.MaGiamKh;
@@ -40,6 +44,9 @@ public class gioHangController {
 
 	@Autowired
 	GioHangDAO gioHangDAO; // DAO để thao tác với giỏ hàng
+
+	@Autowired
+	GioHangThuocTinhDAO gioHangThuocTinhDAO;
 
 	@Autowired
 	Author author;
@@ -60,10 +67,23 @@ public class gioHangController {
 	MaGiamSpDAO mgspDao;
 
 	@ModelAttribute("List")
-	public List<GioHang> getList() {
+	public Map<GioHang, Double> getList() {
+		Map<GioHang, Double> map = new HashMap<>();
 		List<GioHang> list = new ArrayList<>();
 		list = gioHangDAO.findByKhachHang(author.getUserKhachHang());
-		return list;
+		list.forEach(e -> {
+			Double total = e.getSanPham().getGiaGiam();
+			List<GioHangThuocTinh> ghttlist = gioHangThuocTinhDAO.findByGioHang(e);
+			for (GioHangThuocTinh ghtt : ghttlist) {
+				if (ghtt.getMauSp() != null) {
+					total += ghtt.getMauSp().getGiaTri();
+				} else
+					total += ghtt.getThuocTinh().getGiaTri();
+			}
+			;
+			map.put(e, total);
+		});
+		return map;
 	}
 
 	@ModelAttribute("Voucher")
@@ -123,9 +143,11 @@ public class gioHangController {
 
 	@ModelAttribute("TotalMoney")
 	public Double gettotal() {
+		Map<GioHang, Double> list = getList();
 		Double total = 0.0;
-		for (GioHang gh : getList()) {
-			total += gh.getSanPham().getGiaGiam() * gh.getSoLuong();
+		for (GioHang gh : list.keySet()) {
+			total += list.get(gh) * gh.getSoLuong();
+			System.out.println(total);
 		}
 		return total;
 	}

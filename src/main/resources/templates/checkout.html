@@ -119,11 +119,11 @@
                 <div class="col-lg-5">
                     <div class="checkout-summary">
                         <h4>Sản phẩm trong đơn</h4>
-                        <div class="cart-item" th:each="item : ${ListSelected}">
+                        <div class="cart-item" th:each="item : ${ListSelected.keySet()}">
                             <div class="product-name"><span th:text="${item.sanPham.tenSP}"></span></div>
                             <div><span th:text="${item.soLuong}"></span></div>
                             <div><span
-                                    th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
+                                    th:text="${#numbers.formatDecimal(ListSelected.get(item) * item.soLuong, 0, 'POINT', 0, 'COMMA')}+' vnđ'"></span>
                             </div>
                         </div>
 

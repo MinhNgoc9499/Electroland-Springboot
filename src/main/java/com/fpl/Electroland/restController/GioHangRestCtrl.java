@@ -2,6 +2,7 @@ package com.fpl.Electroland.restController;
 
 import java.lang.module.ModuleDescriptor.Builder;
 import java.net.http.HttpRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fpl.Electroland.dao.GioHangDAO;
+import com.fpl.Electroland.dao.GioHangThuocTinhDAO;
 import com.fpl.Electroland.dao.KhachHangDAO;
 import com.fpl.Electroland.dao.LoaiKhachHangDAO;
 import com.fpl.Electroland.dao.MaGiamDhDAO;
@@ -26,6 +28,7 @@ import com.fpl.Electroland.dao.MaGiamSpDAO;
 import com.fpl.Electroland.dao.SanPhamDAO;
 import com.fpl.Electroland.helper.Author;
 import com.fpl.Electroland.model.GioHang;
+import com.fpl.Electroland.model.GioHangThuocTinh;
 import com.fpl.Electroland.model.MaGiamDh;
 import com.fpl.Electroland.model.MaGiamKh;
 
@@ -57,9 +60,13 @@ public class GioHangRestCtrl {
     @Autowired
     MaGiamSpDAO mgspDao;
 
+    @Autowired
+    GioHangThuocTinhDAO gioHangThuocTinhDAO;
+
     // Xóa sản phẩm khỏi giỏ hàng (Delete Product from Cart)
     @GetMapping("/rest/giohang/{id}")
     public void deleteProductFromCart(@PathVariable("id") int id) {
+        gioHangThuocTinhDAO.deleteAllByGioHang(gioHangDAO.findById(id).get());
         gioHangDAO.deleteById(id);
     }
 
@@ -83,12 +90,32 @@ public class GioHangRestCtrl {
 
     @GetMapping("/rest/giohang/getTotal")
     public Double getTotal() {
+        Map<GioHang, Double> list = getList();
         Double total = 0.0;
-        List<GioHang> list = gioHangDAO.findAllByKhachHangAndChecked(author.getUserKhachHang(), true);
-        for (GioHang gh : list) {
-            total += gh.getSanPham().getGiaGiam() * gh.getSoLuong();
+        for (GioHang gh : list.keySet()) {
+            total += list.get(gh) * gh.getSoLuong();
+            System.out.println(total);
         }
         return total;
+    }
+
+    public Map<GioHang, Double> getList() {
+        Map<GioHang, Double> map = new HashMap<>();
+        List<GioHang> list = new ArrayList<>();
+        list = gioHangDAO.findByKhachHang(author.getUserKhachHang());
+        list.forEach(e -> {
+            Double total = e.getSanPham().getGiaGiam();
+            List<GioHangThuocTinh> ghttlist = gioHangThuocTinhDAO.findByGioHang(e);
+            for (GioHangThuocTinh ghtt : ghttlist) {
+                if (ghtt.getMauSp() != null) {
+                    total += ghtt.getMauSp().getGiaTri();
+                } else
+                    total += ghtt.getThuocTinh().getGiaTri();
+            }
+            ;
+            map.put(e, total);
+        });
+        return map;
     }
 
     public List<GioHang> listSelected() {

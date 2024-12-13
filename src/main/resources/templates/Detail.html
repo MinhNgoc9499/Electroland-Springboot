@@ -46,10 +46,10 @@
           </div>
           <div class="col-md-6 product-info">
             <h2 name="name" class="mb-0" th:text="${product.tenSP}"></h2>
-            <input type="text" th:field="${product.id}" name="id" hidden>
+            <input type="number" th:field="${product.id}" name="id" hidden>
             <p name="id" class="text-muted" th:text="'Mã sản phẩm: ' + ${product.id}"></p>
-            <span name="price" class="text-danger price"
-              th:text="${#numbers.formatDecimal(product.giaGiam, 0, 'POINT', 0, 'COMMA') + 'đ'}"></span>
+            <span name="price" class="text-danger price" id="price"
+              th:data-gia="${product.giaGiam}"></span>
             <p class="mb-3">
               <del th:text="${#numbers.formatDecimal(product.giaBan, 0, 'POINT', 0, 'COMMA') + 'đ'}"></del>
               (<span name="discount" class="discount"
@@ -60,8 +60,8 @@
               <div class="colors">
                 <!-- Sử dụng th:each để lặp qua danh sách colors -->
                 <label class="color-option" th:each="color : ${colors}">
-                  <input type="radio" name="color" th:value="${color}" onchange="selectColor(this)" required />
-                  <span class="color-circle" th:style="'background-color:' + ${color}"></span>
+                  <input type="radio" name="color" th:value="${color.id}" th:data-giaTri="${color.giaTri}" onchange="selectColor(this)" required />
+                  <span class="color-circle" th:style="'background-color:' + ${color.mau.tenMau}"></span>
                 </label>
               </div>
             </div>
@@ -71,7 +71,7 @@
                 <div class="row">
                   <label th:each="att : ${entry.value}" th:data-name="${entry.key}" class="col-sm-2 product-capacity"
                     onclick="selectCapacity(this)">
-                    <input type="radio" th:name="${entry.key}" th:value="${att.tenTT}" hidden required>
+                    <input type="radio" th:name="${entry.key}" th:value="${att.id}" th:data-giaTri="${att.giaTri}" hidden required>
                     <span th:text="${att.tenTT}"></span>
                   </label>
                 </div>

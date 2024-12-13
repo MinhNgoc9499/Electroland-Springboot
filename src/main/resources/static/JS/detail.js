@@ -260,11 +260,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 function selectColor(element) {
-    const selectedColor = element.value;
-    console.log('Màu sản phẩm đã chọn:', selectedColor);
+    updatePrice()
 }
 
+updatePrice()
 
+function updatePrice() {
+    let selected = document.querySelectorAll('input[type="radio"]:checked');
+
+    let price = document.getElementById("price")
+
+    total = Number.parseFloat(price.getAttribute("data-gia"))
+    selected.forEach( e => {
+        total += Number.parseFloat(e.getAttribute("data-giatri"))
+    })
+    console.log(total)
+
+    price.innerHTML=formatCurrency(total)
+}
+
+function formatCurrency(number) {
+    return number.toLocaleString('en-US', {
+        minimumFractionDigits: 0, // Số chữ số thập phân tối thiểu
+        maximumFractionDigits: 0, // Số chữ số thập phân tối đa
+    }).replaceAll(',', '.') + 'đ'; // Thay dấu `.` bằng dấu `,` và thêm `đ`
+}
 
 function selectCapacity(element) {
     let name = element.getAttribute('data-name');
@@ -274,5 +294,7 @@ function selectCapacity(element) {
 
 
     element.classList.add('selected')
+
+    updatePrice()
 
 }

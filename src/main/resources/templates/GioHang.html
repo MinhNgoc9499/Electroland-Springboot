@@ -34,7 +34,7 @@
     <!--end cart-container -->
     <!-- cart-containerItem -->
     <!-- Product 1 -->
-    <div class="cart-containerItem" th:each="item : ${List}">
+    <div class="cart-containerItem" th:each="item : ${List.keySet()}">
         <!-- Duyệt qua danh sách giỏ hàng -->
         <div class="cart-item">
             <!-- Checkbox cho từng sản phẩm -->
@@ -46,11 +46,11 @@
             <!-- Thông tin sản phẩm -->
             <div class="product-info">
                 <p class="product-title"><span th:text="${item.sanPham.tenSP}"></span></p>
-                <p class="product-title"><span th:text="${item.moTa.substring(1, item.moTa.length() - 1)}"></span></p>
+                <p class="product-title"><span th:text="${item.moTa}"></span></p>
             </div>
 
             <!-- Giá sản phẩm -->
-            <p class="price" th:text="${#numbers.formatDecimal(item.sanPham.giaGiam, 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
+            <p class="price" th:text="${#numbers.formatDecimal(List.get(item), 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
 
 
             <!-- Số lượng sản phẩm -->
@@ -62,7 +62,7 @@
 
             <!-- Giá giảm -->
             <p class="total-price"
-                th:text="${#numbers.formatDecimal(item.sanPham.giaGiam * item.soLuong , 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
+                th:text="${#numbers.formatDecimal(List.get(item) * item.soLuong , 0, 'POINT', 0, 'COMMA') + 'đ'}"></p>
 
             <!-- Xóa sản phẩm -->
             <p class="remove">

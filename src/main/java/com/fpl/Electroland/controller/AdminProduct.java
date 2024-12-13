@@ -134,7 +134,7 @@ public class AdminProduct {
             listTTSP.add(new ThuocTinhSp());
 
             Map<String, List<ThuocTinh>> tableTT = new HashMap<>();
-            tableTT.put("Tên thuộc tính mẫu", Collections.singletonList(new ThuocTinh(0, "Giá trị mẫu", null)));
+            tableTT.put("Tên thuộc tính mẫu", Collections.singletonList(new ThuocTinh(0, null, "Giá trị mẫu", null)));
             model.addAttribute("listTT", tableTT);
             model.addAttribute("listMauSP", listMau);
             model.addAttribute("product", new SanPham());
