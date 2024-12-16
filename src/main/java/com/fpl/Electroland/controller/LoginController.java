@@ -71,7 +71,10 @@ public class LoginController {
 	@PostMapping("/dangky")
 	public String dangKy(@Valid @ModelAttribute("khachHang") KhachHang khachHangDK, BindingResult result, Model model,
 			@RequestParam("ngaySinh") String ns, @RequestParam("xacNhanMK") String xacNhanMK) {
-		if (result.hasErrors()) {
+		if (result.hasErrors()) 
+		{
+			System.out.println(khachHangDK.toString());
+			System.err.println(result.toString());
             return "login"; 
         }
 		// Kiểm tra nếu mật khẩu và xác nhận mật khẩu không trùng nhau

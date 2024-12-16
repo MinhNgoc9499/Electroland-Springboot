@@ -60,16 +60,16 @@ const loginContainer = document.getElementsByClassName("login-container")[0]; //
 	
 
 // Xử lý chuyển đổi giữa form đăng nhập và đăng ký **
-registerButton.addEventListener('click', () => {
-		    container.classList.add("right-panel-active");
-		    loginContainer.style.opacity = "0"; // Set opacity to 0 to make it invisible
+// registerButton.addEventListener('click', () => {
+// 		    container.classList.add("right-panel-active");
+// 		    loginContainer.style.opacity = "0"; // Set opacity to 0 to make it invisible
 	
-});
+// });
 
-loginButton.addEventListener('click', () => {
-    container.classList.remove("right-panel-active");
-    loginContainer.style.opacity = "1"; // Reset opacity to 1 to make it visible again
-});
+// loginButton.addEventListener('click', () => {
+//     container.classList.remove("right-panel-active");
+//     loginContainer.style.opacity = "1"; // Reset opacity to 1 to make it visible again
+// });
 
 document.getElementById("chk1").addEventListener("change", function() {
     if (this.checked) {
